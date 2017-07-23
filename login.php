@@ -7,7 +7,7 @@ $_SESSION['loggedIn'] = false;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="../css/style.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
 <style>
     img {
         display: block; !important;
@@ -30,22 +30,9 @@ $_SESSION['loggedIn'] = false;
     }
 </script>
 <?php
-require_once '../database/Database.php';
+require_once 'Database.php';
 $database = new Database('localhost', 'root', '');
 
-
-if(isset($_POST['login'])){
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    if($database->login($username, $password)){
-        $_SESSION['loggedIn'] = true;
-        $_SESSION['id'] = $database->getId($username);
-        header("location: ../dashboard/dashboard.php");
-    }
-    else{
-        echo "You've failed to login";
-    }
-}
 if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==true){
     header("location: ../dashboard/dashboard.php");
 }
@@ -67,19 +54,35 @@ else{
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <img src="../assets/logo.png">
+                    <img src="assets/logo.png">
                 </div>
                 <div class="panel-body">
                     <form accept-charset="UTF-8" role="form" method="post">
                         <fieldset>
                             <div class="form-group">
                                 <?php
+                                if(isset($_POST['login'])){
+                                    $username = $_POST['username'];
+                                    $password = $_POST['password'];
+                                    if($database->login($username, $password)){
+                                        $_SESSION['loggedIn'] = true;
+                                        $_SESSION['id'] = $database->getId($username);
+                                        header("location: dashboard.php");
+                                    }
+                                    else{
+                                        echo "<div class='alerts'>
+                                                <div class='alert alert-danger' role='alert'>
+                                                    Your username or password is incorrect.  
+                                                </div>
+                                          </div>";
+                                    }
+                                }
                                 if(!empty($_GET['status'])){
                                     echo "<div class='alerts'>
-                                <div class='alert alert-danger' role='alert'>
-                                    You have been logged out. 
-                                </div>
-                         </div>";
+                                                <div class='alert alert-danger' role='alert'>
+                                                    You have been logged out. 
+                                                </div>
+                                          </div>";
                                 }
                                 ?>
                             </div>

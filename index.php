@@ -9,11 +9,11 @@
     <h2>Welcome to SPortal <button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
     <img class="mainPageLogo" src="assets/logo.png" alt="SB">
     <div class="buttons">
-        <a href="login/login.php" role="button" class="btn btn-info"><i class="fa fa-sign-in"></i> Login</a>
-        <a href="login/register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
+        <a href="login.php" role="button" class="btn btn-info"><i class="fa fa-sign-in"></i> Login</a>
+        <a href="register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
     </div>
 <?php
-require 'database/Database.php';
+require 'Database.php';
 $database = new Database("localhost", "root", "");
 //Creates a database called portal if this doesn't exists
 $database->createDatabase("portal");

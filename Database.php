@@ -92,7 +92,7 @@ class Database
     }
     public function getUserById($id){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $userData = mysqli_fetch_all(mysqli_query($this->connection, "SELECTE * FROM users WHERE id='$id'"));
+        $userData = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM users WHERE id='$id'"));
         return $userData;
     }
 
