@@ -12,3 +12,24 @@
         <a href="login/login.php" role="button" class="btn btn-info"><i class="fa fa-sign-in"></i> Login</a>
         <a href="login/register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
     </div>
+<?php
+require 'database/Database.php';
+$database = new Database("localhost", "root", "");
+//Creates a database called portal if this doesn't exists
+$database->createDatabase("portal");
+//Create table in database
+$database->createTable("CREATE TABLE Users (
+                                  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+                                  firstname VARCHAR(30) NOT NULL,
+                                  lastname VARCHAR(30) NOT NULL,
+                                  password VARCHAR(30) NOT NULL, 
+                                  username VARCHAR(30) NOT NULL, 
+                                  email VARCHAR(50) NOT NULL,
+                                  role VARCHAR(50) NOT NULL,
+                                  address VARCHAR(50) NOT NULL, 
+                                  zipcode VARCHAR (50) NOT NULL,
+                                  city VARCHAR (50) NOT NULL, 
+                                  approved BOOLEAN NOT NULL, 
+                                  reg_date TIMESTAMP
+                                  )", "portal");
+?>

@@ -21,7 +21,7 @@
     document.getElementsByClassName(".information");
     }
 </script>
-<h2><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
+<h2><!--<a href="../index.php" role="button" class="btn btn-info btn-circle"><i class="fa fa-home"></i></a>--><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
@@ -55,8 +55,4 @@
         <div class="col-md-4"></div>
     </div>
 </div>
-<?php
-    require '../database/Database.php';
 
-
-?>
