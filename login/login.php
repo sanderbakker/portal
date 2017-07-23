@@ -19,6 +19,10 @@ $_SESSION['loggedIn'] = false;
     .information {
         display: none;
     }
+    .alerts{
+        margin-top: -40px;
+        text-align: center;
+    }
 </style>
 <script>
 
@@ -48,9 +52,6 @@ if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==true){
 else{
     $_SESSION['loggedIn'] = false;
 }
-if($_GET['status'] =="loggedOut"){
-    echo '<div>You have been logged out!</div>';
-}
 ?>
 <h2><!--<a href="../index.php" role="button" class="btn btn-info btn-circle"><i class="fa fa-home"></i></a>--><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
 <div class="container">
@@ -72,9 +73,20 @@ if($_GET['status'] =="loggedOut"){
                     <form accept-charset="UTF-8" role="form" method="post">
                         <fieldset>
                             <div class="form-group">
+                                <?php
+                                if(!empty($_GET['status'])){
+                                    echo "<div class='alerts'>
+                                <div class='alert alert-danger' role='alert'>
+                                    You have been logged out. 
+                                </div>
+                         </div>";
+                                }
+                                ?>
+                            </div>
+                            <div class="form-group ">
                                 <input class="form-control" placeholder="Username" name="username" type="text">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <input class="form-control" placeholder="Password" name="password" type="password">
                             </div>
                             <input class="btn btn-info btn-block" type="submit" name ="login" value="Login">
