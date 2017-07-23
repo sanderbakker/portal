@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['loggedIn'] = false;
+?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -21,6 +25,33 @@
     document.getElementsByClassName(".information");
     }
 </script>
+<?php
+require_once '../database/Database.php';
+$database = new Database('localhost', 'root', '');
+
+
+if(isset($_POST['login'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    if($database->login($username, $password)){
+        $_SESSION['loggedIn'] = true;
+        $_SESSION['id'] = $database->getId($username);
+        header("location: ../dashboard/dashboard.php");
+    }
+    else{
+        echo "You've failed to login";
+    }
+}
+if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==true){
+    header("location: ../dashboard/dashboard.php");
+}
+else{
+    $_SESSION['loggedIn'] = false;
+}
+if($_GET['status'] =="loggedOut"){
+    echo '<div>You have been logged out!</div>';
+}
+?>
 <h2><!--<a href="../index.php" role="button" class="btn btn-info btn-circle"><i class="fa fa-home"></i></a>--><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
 <div class="container">
     <div class="row">
@@ -38,15 +69,15 @@
                     <img src="../assets/logo.png">
                 </div>
                 <div class="panel-body">
-                    <form accept-charset="UTF-8" role="form">
+                    <form accept-charset="UTF-8" role="form" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Username or Email" name="username" type="text">
+                                <input class="form-control" placeholder="Username" name="username" type="text">
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Password" name="password" type="password">
                             </div>
-                            <input class="btn btn-info btn-block" type="submit" value="Login">
+                            <input class="btn btn-info btn-block" type="submit" name ="login" value="Login">
                         </fieldset>
                     </form>
                 </div>

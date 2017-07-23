@@ -72,4 +72,28 @@ class Database
             return false;
         }
     }
+    public function login($username, $password){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $query = mysqli_query($this->connection, "SELECT * FROM users WHERE password='$password' AND username='$username'");
+        if(mysqli_num_rows($query) != 0){
+            $this->connection->close();
+            return true;
+        }
+        else{
+            $this->connection->close();
+            return false;
+        }
+    }
+    public function getId($username){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $id = mysqli_fetch_all(mysqli_query($this->connection, "SELECT id FROM users WHERE username='$username'"));
+        $this->connection->close();
+        return $id[0][0];
+    }
+    public function getUserById($id){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $userData = mysqli_fetch_all(mysqli_query($this->connection, "SELECTE * FROM users WHERE id='$id'"));
+        return $userData;
+    }
+
 }
