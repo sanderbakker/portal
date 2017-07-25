@@ -266,7 +266,7 @@ switch ($edit){
                         <form action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="" name="name" type="text" readonly value=<?php echo $_SESSION['address']?>>
+                                    <input class="form-control" placeholder="" name="name" type="text" readonly value="<?php echo $_SESSION['address']?>">
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="New Address" name="newAddress" type="text">
@@ -292,12 +292,12 @@ switch ($edit){
                         <form action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="" name="name" type="text" readonly value=<?php echo $_SESSION['zipcode']?>>
+                                    <input class="form-control" placeholder="" name="name" value="<?php echo $_SESSION['zipcode']?>">
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="New Zipcode" name="newZipcode" type="text">
                                 </div>
-                                <input class="btn btn-info btn-block" name="ediZipcode" type="submit" value="Edit">
+                                <input class="btn btn-info btn-block" name="editZipcode" type="submit" value="Edit">
                             </fieldset>
                         </form>
                     </div>
