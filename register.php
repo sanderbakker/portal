@@ -36,7 +36,7 @@
  * Time: 11:46
  */
 
-require "Database.php";
+include 'Database.php';
 if(isset($_POST['registerMe'])) {
     $username = $_POST['username'];
     $password = $_POST["password"];

@@ -9,5 +9,4 @@ include "navbar.php";
     $_SESSION['address'] = $userData['address'];
     $_SESSION['zipcode'] = $userData['zipcode'];
     $_SESSION['city'] = $userData['city'];
-    var_dump($_SESSION['name']);
 ?>

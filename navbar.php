@@ -21,12 +21,8 @@
  * Time: 14:07
  */
 
-session_start();
-require_once 'Database.php';
+include 'includes.php';
 $database = new Database('localhost', 'root', '');
-if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==false){
-    header("location: ../login/login.php");
-}
 
 ?>
 <nav class="navbar navbar-toggleable-md navbar-light" style="background-color: #5bc0de;">

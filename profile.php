@@ -18,6 +18,10 @@ include 'navbar.php';
     .table > tbody > tr:first-child > th {
         border: none;
     }
+    .btn{
+        color: black;
+    }
+
 </style>
 <div class="container">
     <div class="row">
@@ -32,37 +36,37 @@ include 'navbar.php';
                         <tr>
                             <th scope="row">Name:</th>
                             <td><?php echo $_SESSION['name']?> </td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm " href="edit.php?edit=name" ><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">Surname:</th>
                             <td><?php echo $_SESSION['surname']?></td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=surname"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">Username:</th>
                             <td><?php echo $_SESSION['username']?></td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=username"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">Email:</th>
                             <td><?php echo $_SESSION['email']?></td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=email"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">Address:</th>
                             <td><?php echo $_SESSION['address']?></td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm"href="edit.php?edit=address"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">Zipcode:</th>
                             <td><?php echo $_SESSION['zipcode']?></td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=zipcode"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">City:</th>
                             <td><?php echo $_SESSION['city']?></td>
-                            <td><a class="btn btn-info btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=city"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">Role:</th>

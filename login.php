@@ -30,11 +30,12 @@ $_SESSION['loggedIn'] = false;
     }
 </script>
 <?php
-require_once 'Database.php';
+include 'Database.php';
+
 $database = new Database('localhost', 'root', '');
 
 if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==true){
-    header("location: ../dashboard/dashboard.php");
+    header("location: dashboard.php");
 }
 else{
     $_SESSION['loggedIn'] = false;

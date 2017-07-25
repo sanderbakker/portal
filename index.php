@@ -13,7 +13,7 @@
         <a href="register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
     </div>
 <?php
-require 'Database.php';
+include 'Database.php';
 $database = new Database("localhost", "root", "");
 //Creates a database called portal if this doesn't exists
 $database->createDatabase("portal");
