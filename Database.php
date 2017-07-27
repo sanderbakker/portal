@@ -21,11 +21,12 @@ class Database
     }
     public function createDatabase($dbName){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword);
+        $query = "CREATE DATABASE IF NOT EXISTS $dbName";
         if(!$this->connection){
             var_dump("Connection failed");
         }
         else {
-            mysqli_query($this->connection, "CREATE DATABASE IF NOT EXISTS " . $dbName);
+            $this->connection->prepare($query)->execute();
         }
         $this->connection->close();
     }
@@ -35,7 +36,7 @@ class Database
             var_dump("Connection failed");
         }
         else {
-            $this->connection->query($query);
+            $this->connection->prepare($query)->execute();
         }
         $this->connection->close();
     }
@@ -43,6 +44,7 @@ class Database
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword);
         return $this->connection;
     }
+
     public function insertInTable($dbname, $query){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, $dbname);
         if(!$this->connection){
@@ -50,36 +52,24 @@ class Database
             return false;
         }
         else{
-            $this->connection->query($query);
+            $this->connection->prepare($query)->execute();
             $this->connection->close();
             return true;
         }
 
     }
-    public function checkUsername($username){
+    public function check($query){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, "portal");;
-        $query = mysqli_query($this->connection, "SELECT username FROM Users WHERE username='$username'");
-
-        if (mysqli_num_rows($query) != 0)
-        {
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+        $statement->store_result();
+        if($statement->num_rows != 0){
             $this->connection->close();
-           return true;
+            return true;
         }
 
         else
         {
-            $this->connection->close();
-            return false;
-        }
-    }
-    public function login($username, $password){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $query = mysqli_query($this->connection, "SELECT * FROM users WHERE password='$password' AND username='$username'");
-        if(mysqli_num_rows($query) != 0){
-            $this->connection->close();
-            return true;
-        }
-        else{
             $this->connection->close();
             return false;
         }
@@ -94,6 +84,11 @@ class Database
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $userData = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM users WHERE id='$id'"));
         return $userData;
+    }
+    public function getUserInfoById($id){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $userInfo = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM user_info WHERE userId='$id'"));
+        return $userInfo;
     }
 
 }

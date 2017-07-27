@@ -83,7 +83,50 @@ include 'navbar.php';
                     Additional information
                 </div>
                 <div class="card-block">
-
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Availability:</th>
+                            <td><?php if(!empty($_SESSION['availability'])){
+                                                echo $_SESSION['availability'] . " hours a week";
+                                }
+                                else {
+                                    echo 'No Record';
+                                }?></td>
+                            <td><a class="btn btn-info btn-sm " href="edit.php?edit=availability" ><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Skills:</th>
+                            <td><?php if(!empty($_SESSION['skills'])){
+                                    echo $_SESSION['skills'];
+                                }
+                                else {
+                                    echo 'No Record';
+                                }?></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=skills"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Region:</th>
+                            <td><?php if(!empty($_SESSION['region'])){
+                                    echo $_SESSION['region'];
+                                }
+                                else {
+                                    echo 'No Record';
+                                }?></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=region"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Other:</th>
+                            <td><?php if(!empty($_SESSION['other'])){
+                                    echo $_SESSION['other'];
+                                }
+                                else {
+                                    echo 'No Record';
+                                }?></td>
+                            <td><a class="btn btn-info btn-sm" href="edit.php?edit=other"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

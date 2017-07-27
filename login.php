@@ -65,7 +65,7 @@ else{
                                 if(isset($_POST['login'])){
                                     $username = $_POST['username'];
                                     $password = $_POST['password'];
-                                    if($database->login($username, $password)){
+                                    if($database->check("SELECT * FROM users WHERE password='$password' AND username='$username'")){
                                         $_SESSION['loggedIn'] = true;
                                         $_SESSION['id'] = $database->getId($username);
                                         header("location: dashboard.php");

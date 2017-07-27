@@ -51,7 +51,7 @@ if(isset($_POST['registerMe'])) {
 
     if(!empty($username) && !empty($password) && !empty($rpassword) && !empty($zipcode) && !empty($email) && !empty($name) && !empty($street) && !empty($surname) && !empty($city)) {
         if (($rpassword == $password)) {
-            if (!$database->checkUsername($username)) {
+            if (!$database->check("SELECT username FROM Users WHERE username='$username'")) {
                 $query = "INSERT INTO users (username, password, firstname, lastname, email, address, role, zipcode, city, approved)
               VALUES ('$username', '$password', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";
                 //$database->insertInTable("portal", $query);

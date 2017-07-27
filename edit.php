@@ -32,15 +32,20 @@ $id = $_SESSION['id'];
 $database = new Database('localhost', 'root', '');
 $formBuilder = new FormBuilder();
 
-$formBuilder->submitEditForm('editName', 'newName');
-$formBuilder->submitEditForm('editSurname', 'newSurname');
-$formBuilder->submitEditForm('editEmail', 'newEmail');
+$formBuilder->submitEditForm('editName', 'newName', "name");
+$formBuilder->submitEditForm('editSurname', 'newSurname', "surname");
+$formBuilder->submitEditForm('editEmail', 'newEmail', "email");
 
-$formBuilder->submitEditForm('editUsername', 'newUsername');
+$formBuilder->submitUsername('editUsername', 'newUsername');
 
-$formBuilder->submitEditForm('editAddress', 'newAddress');
-$formBuilder->submitEditForm('editZipcode', 'newZipcode');
-$formBuilder->submitEditForm('editCity', 'newCity');
+$formBuilder->submitEditForm('editAddress', 'newAddress', "address");
+$formBuilder->submitEditForm('editZipcode', 'newZipcode', "zipcode");
+$formBuilder->submitEditForm('editCity', 'newCity', "city");
+
+$formBuilder->submitUserInfo('editSkills', 'newSkills', 'skills');
+$formBuilder->submitUserInfo('editOther', 'newOther', 'other');
+$formBuilder->submitUserInfo('editAvailability', 'newAvailability', 'availability');
+$formBuilder->submitUserInfo('editRegion', 'newRegion', 'region');
 
 switch ($edit){
     case 'name':
@@ -64,8 +69,22 @@ switch ($edit){
     case 'city':
         echo $formBuilder->buildEditForm("city", $_SESSION['city'], "New City", "newCity", "editCity");
         break;
+    case 'availability':
+        echo $formBuilder->buildEditForm("availability", $_SESSION['availability'], 'New Availability', "newAvailability", 'editAvailability');
+        break;
+    case 'skills':
+        echo $formBuilder->buildCommentForm("skills", $_SESSION['skills'], "Write down some of your computer skills", "newSkills", "editSkills");
+        break;
+    case 'other':
+        echo $formBuilder->buildCommentForm("other", $_SESSION['other'], "Write down some other things like your hobby or things we need to know", "newOther", "editOther");
+        break;
+    case 'region':
+        echo $formBuilder->buildEditForm("region", $_SESSION['region'], "Enter one main region", "newRegion", "editRegion");
+        break;
     default: {
         echo "404";
     }
+
+    // QUERY SOON "SELECT * FROM user_info WHERE userId='$userId'"
 }
 ?>

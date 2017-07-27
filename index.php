@@ -19,11 +19,12 @@ $database = new Database("localhost", "root", "");
 $database->createDatabase("portal");
 //Create table in database
 $database->createTable("CREATE TABLE Users (
-                                  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-                                  firstname VARCHAR(30) NOT NULL,
-                                  lastname VARCHAR(30) NOT NULL,
+                                  id INT(6) AUTO_INCREMENT PRIMARY KEY, 
+                                  name VARCHAR(30) NOT NULL,
+                                  surname VARCHAR(30) NOT NULL,
                                   password VARCHAR(30) NOT NULL, 
                                   username VARCHAR(30) NOT NULL, 
+                                  phonenumber INT(10) NOT NULL, 
                                   email VARCHAR(50) NOT NULL,
                                   role VARCHAR(50) NOT NULL,
                                   address VARCHAR(50) NOT NULL, 
@@ -32,4 +33,15 @@ $database->createTable("CREATE TABLE Users (
                                   approved BOOLEAN NOT NULL, 
                                   reg_date TIMESTAMP
                                   )", "portal");
+
+$database->createTable("CREATE TABLE user_info (
+                                  id int(6) NOT NULL,
+                                  userId int(6) NOT NULL,
+                                  availability int(2) NOT NULL, 
+                                  skills varchar(255), 
+                                  region varchar(255),
+                                  other varchar(255), 
+                                  PRIMARY KEY (id),
+                                  FOREIGN KEY (userId) REFERENCES users(id)
+                                  );", "portal");
 ?>
