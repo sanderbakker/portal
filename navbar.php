@@ -43,6 +43,9 @@ if($role == 'admin') {
             <li class='nav-item'>
                 <a class='nav-link' href='#'>Activities</a>
             </li>
+            <li class='nav-item'>
+                <a class='nav-link' href='#'>Customers</a>
+            </li>
 
         </ul>
         <ul class='navbar-nav'>

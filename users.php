@@ -27,7 +27,7 @@ include "navbar.php";
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <a href="#" class="card-link mx-auto">Show</a>
+                        <a href="allUsers.php" class="card-link mx-auto">Show</a>
                     </li>
                 </ul>
 
@@ -44,7 +44,7 @@ include "navbar.php";
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <a href="#" class="card-link mx-auto">Show</a>
+                        <a href="newUser.php" class="card-link mx-auto">Show</a>
                     </li>
                 </ul>
             </div>

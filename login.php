@@ -66,9 +66,18 @@ else{
                                     $username = $_POST['username'];
                                     $password = $_POST['password'];
                                     if($database->check("SELECT * FROM users WHERE password='$password' AND username='$username'")){
-                                        $_SESSION['loggedIn'] = true;
-                                        $_SESSION['id'] = $database->getId($username);
-                                        header("location: dashboard.php");
+                                        if($database->check("SELECT * FROM users WHERE password='$password' AND username='$username' AND approved=true")) {
+                                            $_SESSION['loggedIn'] = true;
+                                            $_SESSION['id'] = $database->getId($username);
+                                            header("location: dashboard.php");
+                                        }
+                                        else{
+                                            echo "<div class='alerts'>
+                                                <div class='alert alert-danger' role='alert'>
+                                                    You're account is not approved yet.  
+                                                </div>
+                                          </div>";
+                                        }
                                     }
                                     else{
                                         echo "<div class='alerts'>

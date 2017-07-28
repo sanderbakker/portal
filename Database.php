@@ -90,5 +90,14 @@ class Database
         $userInfo = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM user_info WHERE userId='$id'"));
         return $userInfo;
     }
+    public function getUsers($myQuery){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $query = mysqli_query($this->connection, $myQuery);
+        $results = array();
+        while($line = mysqli_fetch_array($query)){
+            $results[] = $line;
+        }
+        return $results;
+    }
 
 }

@@ -24,7 +24,7 @@ $database->createTable("CREATE TABLE Users (
                                   surname VARCHAR(30) NOT NULL,
                                   password VARCHAR(30) NOT NULL, 
                                   username VARCHAR(30) NOT NULL, 
-                                  phonenumber INT(10) NOT NULL, 
+                                  phonenumber VARCHAR(255) NOT NULL, 
                                   email VARCHAR(50) NOT NULL,
                                   role VARCHAR(50) NOT NULL,
                                   address VARCHAR(50) NOT NULL, 
