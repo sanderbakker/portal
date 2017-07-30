@@ -6,6 +6,7 @@
  * Time: 20:55
  */
 include 'navbar.php';
+include "adminCheck.php";
 ?>
 <style>
     .container{

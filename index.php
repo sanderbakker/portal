@@ -13,8 +13,7 @@
         <a href="register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
     </div>
 <?php
-include 'Database.php';
-$database = new Database("localhost", "root", "");
+include 'includeDatabase.php';
 //Creates a database called portal if this doesn't exists
 $database->createDatabase("portal");
 //Create table in database
@@ -22,7 +21,7 @@ $database->createTable("CREATE TABLE Users (
                                   id INT(6) AUTO_INCREMENT PRIMARY KEY, 
                                   name VARCHAR(30) NOT NULL,
                                   surname VARCHAR(30) NOT NULL,
-                                  password VARCHAR(30) NOT NULL, 
+                                  password VARCHAR(255) NOT NULL, 
                                   username VARCHAR(30) NOT NULL, 
                                   phonenumber VARCHAR(255) NOT NULL, 
                                   email VARCHAR(50) NOT NULL,
@@ -31,7 +30,8 @@ $database->createTable("CREATE TABLE Users (
                                   zipcode VARCHAR (50) NOT NULL,
                                   city VARCHAR (50) NOT NULL, 
                                   approved BOOLEAN NOT NULL, 
-                                  reg_date TIMESTAMP
+                                  reg_date TIMESTAMP,
+                                  banned BOOLEAN
                                   )", "portal");
 
 $database->createTable("CREATE TABLE user_info (

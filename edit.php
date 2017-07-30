@@ -29,7 +29,6 @@ include "FormBuilder.php";
 
 $edit = $_GET['edit'];
 $id = $_SESSION['id'];
-$database = new Database('localhost', 'root', '');
 $formBuilder = new FormBuilder();
 
 $formBuilder->submitEditForm('editName', 'newName', "name");

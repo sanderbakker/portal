@@ -36,7 +36,7 @@
  * Time: 11:46
  */
 
-include 'Database.php';
+include "includeDatabase.php";
 if(isset($_POST['registerMe'])) {
     $username = $_POST['username'];
     $password = $_POST["password"];
@@ -47,13 +47,13 @@ if(isset($_POST['registerMe'])) {
     $name = $_POST['name'];
     $surname = $_POST['surname'];
     $street = $_POST['streetname'];
-    $database = new Database("localhost", "root", "");
 
     if(!empty($username) && !empty($password) && !empty($rpassword) && !empty($zipcode) && !empty($email) && !empty($name) && !empty($street) && !empty($surname) && !empty($city)) {
         if (($rpassword == $password)) {
             if (!$database->check("SELECT username FROM Users WHERE username='$username'")) {
-                $query = "INSERT INTO users (username, password, firstname, lastname, email, address, role, zipcode, city, approved)
-              VALUES ('$username', '$password', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";
+                $encryptedPassword = $database->encryptSSL($password);
+                $query = "INSERT INTO users (username, password, name, surname, email, address, role, zipcode, city, approved)
+              VALUES ('$username', '$encryptedPassword', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";
                 //$database->insertInTable("portal", $query);
                 if ($database->insertInTable("portal", $query)) {
                     echo "<div class='alerts'>
@@ -92,7 +92,7 @@ if(isset($_POST['registerMe'])) {
     }
 }
 ?>
-<div class="container"></div>
+<div class="container">
 <h2><!--<a href="../index.php" role="button" class="btn btn-info btn-circle"><i class="fa fa-home"></i></a>--><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
 </div>
 <div class="container">

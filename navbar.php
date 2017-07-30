@@ -3,7 +3,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css"/>
+
 <style>
     .navbar-collapse.collapsing,
     .navbar-collapse.in {
@@ -22,7 +23,7 @@
  */
 
 include 'includes.php';
-$database = new Database('localhost', 'root', '');
+include 'includeDatabase.php';
 $userData = $database->getUserById($_SESSION['id']);
 $role = $userData['role'];
 if($role == 'admin') {
@@ -54,7 +55,7 @@ if($role == 'admin') {
           Admin
         </a>
         <div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-          <a class='dropdown-item' href='users.php'>Users</a>
+          <a class='dropdown-item' href='admin.php'>Users</a>
         </div>
       </li>
             <li class='nav-item'>

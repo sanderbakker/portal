@@ -5,13 +5,12 @@
  * Date: 26-7-2017
  * Time: 21:49
  */
-
 class FormBuilder
 {
 
     public function __construct()
     {
-        $this->database = new Database('localhost', 'root', '');
+        $this->database = new Database('localhost', 'root', '', openssl_random_pseudo_bytes(16));
         $this->alertBuilder = new AlertBuilder();
     }
     public function buildCommentForm($title, $value, $placeholder, $name, $submitName){
@@ -27,7 +26,6 @@ class FormBuilder
                                 <div class='form-group'>
                                     <label>Old $title:</label>
                                     <textarea class='form-control' rows='5' id='comment' name='name' readonly >$value</textarea>
-                                    <!--<input class='form-control' placeholder='' name='name' type='text' readonly value='$value'>-->
                                 </div>
                                 <div class='form-group'>
                                     <label>New $title:</label>
@@ -118,7 +116,7 @@ class FormBuilder
     }
     public function submitUsername($submitValue, $fieldValue){
         $id = $_SESSION['id'];
-        $database = new Database('localhost', 'root', '');
+        $database = new Database('localhost', 'root', '', openssl_random_pseudo_bytes(16));
         $alertBuilder = new AlertBuilder();
         if(isset($_POST[$submitValue])){
             $newValue = $_POST[$fieldValue];

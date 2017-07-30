@@ -30,10 +30,7 @@ $_SESSION['loggedIn'] = false;
     }
 </script>
 <?php
-include 'Database.php';
-
-$database = new Database('localhost', 'root', '');
-
+include "includeDatabase.php";
 if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==true){
     header("location: dashboard.php");
 }
@@ -65,11 +62,25 @@ else{
                                 if(isset($_POST['login'])){
                                     $username = $_POST['username'];
                                     $password = $_POST['password'];
-                                    if($database->check("SELECT * FROM users WHERE password='$password' AND username='$username'")){
-                                        if($database->check("SELECT * FROM users WHERE password='$password' AND username='$username' AND approved=true")) {
-                                            $_SESSION['loggedIn'] = true;
-                                            $_SESSION['id'] = $database->getId($username);
-                                            header("location: dashboard.php");
+
+
+
+                                    if($database->check("SELECT * FROM users WHERE username='$username'")){
+                                        if($database->check("SELECT * FROM users WHERE username='$username' AND approved=true")) {
+                                            $encryptedPassword = explode(":",$database->getPassword("SELECT password FROM users WHERE username='$username'"));
+                                            $decryptedPassword = $database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
+                                            if($decryptedPassword = $password) {
+                                                $_SESSION['loggedIn'] = true;
+                                                $_SESSION['id'] = $database->getId($username);
+                                                header("location: dashboard.php");
+                                            }
+                                            else{
+                                                echo "<div class='alerts'>
+                                                <div class='alert alert-danger' role='alert'>
+                                                    Your username or password is incorrect.  
+                                                </div>
+                                                </div>";
+                                            }
                                         }
                                         else{
                                             echo "<div class='alerts'>

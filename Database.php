@@ -12,13 +12,16 @@ class Database
     private $dbUsername;
     private $dbPassword;
     private $connection;
-    public function __construct($host, $dbUsername, $dbPassword)
+    private $iv;
+    public function __construct($host, $dbUsername, $dbPassword, $iv)
     {
         $this->dbPassword = $dbPassword;
         $this->dbUsername = $dbUsername;
         $this->host = $host;
+        $this->iv = $iv;
 
     }
+
     public function createDatabase($dbName){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword);
         $query = "CREATE DATABASE IF NOT EXISTS $dbName";
@@ -98,6 +101,29 @@ class Database
             $results[] = $line;
         }
         return $results;
+    }
+
+    public function getUsersLastWeek($query){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $users = mysqli_fetch_array(mysqli_query($this->connection, $query));
+        return $users;
+    }
+    public function encryptSSL($data){
+        $encryptionMethod = "AES-256-CBC";
+        $secretHash = "25c6c7ff35b9979b151f2136cd13b0ff";
+        $encryptedMessage = openssl_encrypt($data, $encryptionMethod, $secretHash, 0, $this->iv);
+        return $encryptedMessage . ':' . $this->iv;
+    }
+    public function decryptSSL($data, $iv){
+        $encryptionMethod = "AES-256-CBC";
+        $secretHash = "25c6c7ff35b9979b151f2136cd13b0ff";
+        $decryptedMessage = openssl_decrypt($data, $encryptionMethod, $secretHash, 0,  $iv);
+        return $decryptedMessage;
+    }
+    public function getPassword($query){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $password = mysqli_fetch_array(mysqli_query($this->connection, $query));
+        return $password['password'];
     }
 
 }
