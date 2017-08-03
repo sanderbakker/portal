@@ -1,7 +1,8 @@
 <?php
 include "../includes/navbar.php";
-    $userData = $database->getUserById($_SESSION['id']);
-    $userInfo = $database->getUserInfoById($_SESSION['id']);
+    $id = $_SESSION['id'];
+    $userData = $database->getData("SELECT * FROM users WHERE id='$id'");
+    $userInfo = $database->getData("SELECT * FROM user_info WHERE userId='$id'");
     $_SESSION['other'] = $userInfo['other'];
     $_SESSION['availability'] = $userInfo['availability'];
     $_SESSION['skills'] = $userInfo['skills'];

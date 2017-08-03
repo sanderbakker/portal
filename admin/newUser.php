@@ -9,14 +9,14 @@ include '../includes/navbar.php';
 
 if(isset($_GET['approved']) && $_GET['approved'] == 'true' ){
     $userId = $_GET['id'];
-    $database->insertInTable('portal', "UPDATE Users 
+    $database->executeQuery('portal', "UPDATE Users 
                                                      SET approved=true
                                                      WHERE id='$userId'");
 
 }
 elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
     $userId = $_GET['id'];
-    $database->insertInTable('portal', "DELETE FROM Users
+    $database->executeQuery('portal', "DELETE FROM Users
                                                      WHERE id='$userId'");
 }
 ?>

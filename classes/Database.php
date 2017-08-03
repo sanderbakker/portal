@@ -33,6 +33,7 @@ class Database
         }
         $this->connection->close();
     }
+
     public function createTable($query, $dbName){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, $dbName);
         if(!$this->connection){
@@ -43,12 +44,13 @@ class Database
         }
         $this->connection->close();
     }
+
     public function getConnection(){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword);
         return $this->connection;
     }
 
-    public function insertInTable($dbname, $query){
+    public function executeQuery($dbname, $query){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, $dbname);
         if(!$this->connection){
             var_dump("Connection failed");
@@ -74,6 +76,7 @@ class Database
             return true;
         }
     }
+
     public function check($query){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, "portal");;
         $statement = $this->connection->prepare($query);
@@ -90,22 +93,25 @@ class Database
             return false;
         }
     }
+
     public function getId($username){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $id = mysqli_fetch_all(mysqli_query($this->connection, "SELECT id FROM users WHERE username='$username'"));
         $this->connection->close();
         return $id[0][0];
     }
-    public function getUserById($id){
+
+    public function getData($query, $name = null){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $userData = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM users WHERE id='$id'"));
-        return $userData;
+        $data = mysqli_fetch_array(mysqli_query($this->connection, $query));
+        if($name != null) {
+            return $data[$name];
+        }
+        else{
+            return $data;
+        }
     }
-    public function getUserInfoById($id){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $userInfo = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM user_info WHERE userId='$id'"));
-        return $userInfo;
-    }
+
     public function getUsers($myQuery){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $query = mysqli_query($this->connection, $myQuery);
@@ -116,16 +122,6 @@ class Database
         return $results;
     }
 
-    public function getUsersLastWeek($query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $users = mysqli_fetch_array(mysqli_query($this->connection, $query));
-        return $users;
-    }
-    public function getPlace(){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $results = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM users"));
-        return $results;
-    }
     public function encryptSSL($data){
         $encryptionMethod = "AES-256-CBC";
         $secretHash = "25c6c7ff35b9979b151f2136cd13b0ff";
@@ -138,19 +134,10 @@ class Database
         $decryptedMessage = openssl_decrypt($data, $encryptionMethod, $secretHash, 0,  $iv);
         return $decryptedMessage;
     }
+
     public function getPassword($query){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $password = mysqli_fetch_array(mysqli_query($this->connection, $query));
         return $password['password'];
-    }
-    public function getAddress($query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $address = mysqli_fetch_array(mysqli_query($this->connection, $query));
-        return $address['address'];
-    }
-    public function getCity($query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $city = mysqli_fetch_array(mysqli_query($this->connection, $query));
-        return $city['city'];
     }
 }

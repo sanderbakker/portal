@@ -39,7 +39,7 @@ include "../includes/adminCheck.php";
                     <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                     <?php
                     $date = date('d-m-y', strtotime("-1 week")); ?>
-                    <p class="card-text card-margin">New users since <?php echo $date . ': ' . $database->getUsersLastWeek("SELECT count(id) number FROM users WHERE reg_date >= $date")[0]?></p>
+                    <p class="card-text card-margin">New users since <?php echo $date . ': ' . $database->getData("SELECT count(id) number FROM users WHERE reg_date >= $date")[0]?></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -59,7 +59,7 @@ include "../includes/adminCheck.php";
                     <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                     <?php
                     $date = date('d-m-y', strtotime("-1 week")); ?>
-                    <p class="card-text">Users to approve: <?php echo $database->getUsersLastWeek("SELECT count(id) number FROM users WHERE approved = false")[0]?></p>
+                    <p class="card-text">Users to approve: <?php echo $database->getData("SELECT count(id) number FROM users WHERE approved = false")[0]?></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -119,7 +119,7 @@ include "../includes/adminCheck.php";
                         <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                         <?php
                         $date = date('d-m-y', strtotime("-1 week")); ?>
-                        <p class="card-text card-margin">New customers since <?php echo $date . ': ' . $database->getUsersLastWeek("SELECT count(id) number FROM customers WHERE reg_date >= $date")[0]?></p>
+                        <p class="card-text card-margin">New customers since <?php echo $date . ': ' . $database->getData("SELECT count(id) number FROM customers WHERE reg_date >= $date")[0]?></p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">

@@ -10,7 +10,7 @@ include "../includes/adminCheck.php";
 
 if(isset($_GET['action']) && $_GET['action'] == 'remove'){
     $id = $_GET['id'];
-    if($database->getUserInfoById($id) != null){
+    if($database->getData("SELECT * FROM user_info WHERE userId='$id'") != null){
         $database->deleteFromTable('portal', "DELETE FROM 'user_info' WHERE userId='$id'");
     }
     $database->deleteFromTable('portal', "DELETE FROM users WHERE id='$id'");
@@ -18,11 +18,11 @@ if(isset($_GET['action']) && $_GET['action'] == 'remove'){
 
 if(isset($_GET['action']) && $_GET['action'] == 'ban'){
     $id = $_GET['id'];
-    $database->insertInTable('portal', "UPDATE users SET banned='1' WHERE id='$id'");
+    $database->executeQuery('portal', "UPDATE users SET banned='1' WHERE id='$id'");
 }
 elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
     $id = $_GET['id'];
-    $database->insertInTable('portal', "UPDATE users SET banned='0' WHERE id='$id'");
+    $database->executeQuery('portal', "UPDATE users SET banned='0' WHERE id='$id'");
 }
 ?>
 <style>

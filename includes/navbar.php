@@ -24,7 +24,8 @@
 
 include 'includes.php';
 include 'includeDatabase.php';
-$userData = $database->getUserById($_SESSION['id']);
+$id = $_SESSION['id'];
+$userData = $database->getData("SELECT * FROM users WHERE id='$id'");
 $role = $userData['role'];
 if($role == 'admin') {
     echo "<nav class='navbar navbar-toggleable-md navbar-light' style='background-color: #5bc0de;'>

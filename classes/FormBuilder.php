@@ -79,7 +79,7 @@ class FormBuilder
                 $query = "INSERT INTO user_info
                           (userId, $name) VALUES ($id, '$newValue')";
             }
-            if($this->database->insertInTable("portal", $query)) {
+            if($this->database->executeQuery("portal", $query)) {
                 $_SESSION[$name]=$newValue;
 
                 echo $this->alertBuilder->createAlert( "Changed $name successfully in $newValue", 'success');
@@ -100,7 +100,7 @@ class FormBuilder
                 $query = "UPDATE Users
                           SET $name='$newValue'
                           WHERE id='$id'";
-                if($this->database->insertInTable("portal", $query)) {
+                if($this->database->executeQuery("portal", $query)) {
                     $_SESSION[$name]=$newValue;
 
                     echo $this->alertBuilder->createAlert( "Changed $name successfully in $newValue", 'success');
@@ -124,7 +124,7 @@ class FormBuilder
                 $query = "UPDATE Users
                           SET username='$newValue'
                           WHERE id='$id'";
-                if($database->insertInTable("portal", $query)) {
+                if($database->executeQuery("portal", $query)) {
                     $_SESSION['username'] = $newValue;
                     echo $alertBuilder->createAlert( "Changed username successfully in $newValue", 'success');
                 }
@@ -147,7 +147,7 @@ class FormBuilder
             if(!empty($_POST['oldPassword']) && !empty($_POST['newPassword']) && !empty($_POST['rNewPassword'])){
                 if($decryptedPassword == $_POST['oldPassword'] && $_POST['newPassword'] == $_POST['rNewPassword']){
                     $newEncryptedPassword = $this->database->encryptSSL($_POST['newPassword']);
-                    $this->database->insertInTable('portal', "UPDATE Users SET password='$newEncryptedPassword' WHERE id='$id'");
+                    $this->database->executeQuery('portal', "UPDATE Users SET password='$newEncryptedPassword' WHERE id='$id'");
                     echo $this->alertBuilder->createAlert("Changed password", "success");
                 }
                 else{

@@ -39,7 +39,7 @@ if(isset($_POST['createUser'])){
                                                              (name, surname, password, username, phone, email, role, address, zipcode, city, approved) VALUES 
                                                              ('$name', '$surname', '$encryptedPassword', '$username', '$phone'
                                                              , '$email', 'user', '$street', '$zipcode', '$city', true)";
-            if ($database->insertInTable("portal", $query))
+            if ($database->executeQuery("portal", $query))
             {
                 echo $alertBuilder->createAlert("User successfully added to the system", "success");
             }
