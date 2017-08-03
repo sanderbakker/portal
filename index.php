@@ -6,14 +6,14 @@
 <link rel="stylesheet" href="css/style.css" type="text/css">
 
 
-    <h2>Welcome to SPortal <button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
+<button onclick="location.href='#';" class="btn btn-info btn-circle btn-circle-float-left"><i class="fa fa-home"></i></button><h2>Welcome to SPortal <button class="btn btn-info btn-circle btn-circle-float-right"><i class="fa fa-info"></i></button></h2>
     <img class="mainPageLogo" src="assets/logo.png" alt="SB">
     <div class="buttons">
-        <a href="login.php" role="button" class="btn btn-info"><i class="fa fa-sign-in"></i> Login</a>
-        <a href="register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
+        <a href="login/login.php" role="button" class="btn btn-info"><i class="fa fa-sign-in"></i> Login</a>
+        <a href="login/register.php" role="button" class="btn btn-info"><i class="fa fa-envelope-o"></i> Register</a>
     </div>
 <?php
-include 'includeDatabase.php';
+include 'includes/includeDatabase.php';
 //Creates a database called portal if this doesn't exists
 $database->createDatabase("portal");
 //Create table in database
@@ -23,7 +23,7 @@ $database->createTable("CREATE TABLE Users (
                                   surname VARCHAR(30) NOT NULL,
                                   password VARCHAR(255) NOT NULL, 
                                   username VARCHAR(30) NOT NULL, 
-                                  phonenumber VARCHAR(255) NOT NULL, 
+                                  phone VARCHAR(255) NOT NULL, 
                                   email VARCHAR(50) NOT NULL,
                                   role VARCHAR(50) NOT NULL,
                                   address VARCHAR(50) NOT NULL, 
@@ -44,4 +44,33 @@ $database->createTable("CREATE TABLE user_info (
                                   PRIMARY KEY (id),
                                   FOREIGN KEY (userId) REFERENCES users(id)
                                   );", "portal");
+
+$database->createTable("CREATE TABLE customers (
+                                    id int(6) PRIMARY KEY NOT NULL,
+                                    name varchar(255) NOT NULL,
+                                    surname varchar(255) NOT NULL,
+                                    zipcode varchar(255) NOT NULL,
+                                    city varchar(255) NOT NULL,
+                                    address varchar(255) NOT NULL,
+                                    phone varchar(255) NOT NULL, 
+                                    company varchar(255),
+                                    reg_date TIMESTAMP,
+                                    email varchar(255) NOT NULL);", 'portal');
+
+$database->createTable("create table state ( id int(6) PRIMARY KEY, name varchar(255) )", 'portal');
+
+$database->createTable("CREATE table assignments (
+    id int(6) PRIMARY KEY,
+    userId int(6), 
+    customerId int(6),
+    description varchar(255),
+    time_added timestamp, 
+	stateId int(6), 
+    completed boolean,
+    closed boolean, 
+    deleted boolean, 
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY (stateId) REFERENCES state(id),
+    FOREIGN KEY (customerId) REFERENCES customers(id)
+	)", 'portal'); 
 ?>

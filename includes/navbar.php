@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="css/style.css" type="text/css"/>
+<link rel="stylesheet" href="../css/style.css" type="text/css"/>
 
 <style>
     .navbar-collapse.collapsing,
@@ -32,11 +32,11 @@ if($role == 'admin') {
         <span class='navbar-toggler-icon'></span>
     </button>
     <a class='navbar-brand' href='#'>
-        <img src='assets/logo.png' width='30' height='30' alt=''> SPortal
+        <img src='../assets/logo.png' width='30' height='30' alt=''> SPortal
     </a>    <div id='navbarNavDropdown' class='navbar-collapse collapse'>
         <ul class='navbar-nav mr-auto'>
             <li class='nav-item active'>
-                <a class='nav-link' href='dashboard.php'>Home<span class='sr-only'>(current)</span></a>
+                <a class='nav-link' href='../user/dashboard.php'>Home<span class='sr-only'>(current)</span></a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='#'>Assignments</a>
@@ -55,14 +55,16 @@ if($role == 'admin') {
           Admin
         </a>
         <div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-          <a class='dropdown-item' href='admin.php'>Users</a>
+          <a class='dropdown-item' href='../admin/admin.php#users'>Users</a>
+          <a class='dropdown-item' href='../admin/admin.php#customers'>Customers</a>  
+          <a class='dropdown-item' href='../admin/admin.php?#assignments'>Assignments</a>
         </div>
       </li>
             <li class='nav-item'>
-                <a class='nav-link' href='profile.php'>My Profile</a>
+                <a class='nav-link' href='../user/profile.php'>My Profile</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='logout.php'>Logout</a>
+                <a class='nav-link' href='../login/logout.php'>Logout</a>
             </li>
         </ul>
     </div>
@@ -74,12 +76,12 @@ else {
         <span class='navbar-toggler-icon'></span>
     </button>
     <a class='navbar-brand' href='#'>
-        <img src='assets/logo.png' width='30' height='30' alt=''> SPortal
+        <img src='../assets/logo.png' width='30' height='30' alt=''> SPortal
     </a>
     <div id='navbarNavDropdown' class='navbar-collapse collapse'>
         <ul class='navbar-nav mr-auto'>
             <li class='nav-item active'>
-                <a class='nav-link' href='dashboard.php'>Home<span class='sr-only'>(current)</span></a>
+                <a class='nav-link' href='../user/dashboard.php'>Home<span class='sr-only'>(current)</span></a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='#'>Assignments</a>
@@ -91,10 +93,10 @@ else {
         </ul>
         <ul class='navbar-nav'>
             <li class='nav-item'>
-                <a class='nav-link' href='profile.php'>My Profile</a>
+                <a class='nav-link' href='../user/profile.php'>My Profile</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='logout.php'>Logout</a>
+                <a class='nav-link' href='../login/logout.php'>Logout</a>
             </li>
         </ul>
     </div>

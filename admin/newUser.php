@@ -5,7 +5,7 @@
  * Date: 27-7-2017
  * Time: 22:37
  */
-include 'navbar.php';
+include '../includes/navbar.php';
 
 if(isset($_GET['approved']) && $_GET['approved'] == 'true' ){
     $userId = $_GET['id'];
@@ -43,7 +43,6 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
             <th>Zipcode</th>
             <th>City</th>
             <th>Role</th>
-            <th>Approved</th>
             <th>More</th>
 
         </tr>
@@ -55,18 +54,12 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
             $name = $user ['name'];
             $surname = $user['surname'];
             $email = $user['email'];
-            $phone = $user['phonenumber'];
+            $phone = $user['phone'];
             $address = $user['address'];
             $zipcode = $user['zipcode'];
             $city = $user['city'];
             $role = $user['role'];
             $id = $user['id'];
-            if($user['approved'] == 1){
-                $approved = "Yes";
-            }
-            else{
-                $approved = "No";
-            }
             echo "<tr>
                     <td>$name</td>
                     <td>$surname</td>
@@ -76,7 +69,6 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
                     <td>$zipcode</td>
                     <td>$city</td>
                     <td>$role</td>
-                    <td>$approved</td>
                     <td><a href='?id=$id&approved=true' class='btn btn-sm btn-success'><i class='fa fa-check'></i></a><a href='?id=$id&approved=false'class='btn btn-sm btn-danger'><i class='fa fa-minus'></i></a></td>
                     
                   </tr>";

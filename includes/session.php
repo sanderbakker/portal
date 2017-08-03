@@ -10,5 +10,5 @@ if(session_id() == '' || !isset($_SESSION)) {
     session_start();
 }
 if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==false){
-    header("location: login.php");
+    header("location: ../login/login.php");
 }

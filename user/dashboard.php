@@ -1,5 +1,5 @@
 <?php
-include "navbar.php";
+include "../includes/navbar.php";
     $userData = $database->getUserById($_SESSION['id']);
     $userInfo = $database->getUserInfoById($_SESSION['id']);
     $_SESSION['other'] = $userInfo['other'];
@@ -14,5 +14,6 @@ include "navbar.php";
     $_SESSION['address'] = $userData['address'];
     $_SESSION['zipcode'] = $userData['zipcode'];
     $_SESSION['city'] = $userData['city'];
+    $_SESSION['phone'] = $userData['phone'];
 
 ?>

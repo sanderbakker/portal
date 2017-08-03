@@ -5,9 +5,10 @@
  * Date: 29-7-2017
  * Time: 10:37
  */
-include "includes.php";
-include 'navbar.php';
-include "adminCheck.php";
+include "../includes/includes.php";
+include '../includes/navbar.php';
+include "../includes/adminCheck.php";
+include "../classes/alertBuilder.php";
 function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 {
     $str = '';
@@ -17,8 +18,48 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
     }
     return $str;
 }
+$alertBuilder = new AlertBuilder();
 $password = random_str(32);
+if(isset($_POST['createUser'])){
+    if(!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['zipcode']) && !empty($_POST['phone'])
+            &&!empty($_POST['email']) && !empty($_POST['username']) && !empty($_POST['city']) && !empty($_POST['password'])
+            && !empty($_POST['streetname'])){
+        $username = $_POST['username'];
+        $name= $_POST['name'];
+        $surname = $_POST['surname'];
+        $zipcode = $_POST[ 'zipcode'];
+        $phone = $_POST['phone'];
+        $city = $_POST['city'];
+        $email = $_POST['email'];
+        $newPassword = $_POST['password'];
+        $street = $_POST['streetname'];
+        if(!$database->check("SELECT * FROM users WHERE username='$username'")) {
+            $encryptedPassword = $database->encryptSSL($newPassword);
+            $query = "INSERT INTO Users 
+                                                             (name, surname, password, username, phone, email, role, address, zipcode, city, approved) VALUES 
+                                                             ('$name', '$surname', '$encryptedPassword', '$username', '$phone'
+                                                             , '$email', 'user', '$street', '$zipcode', '$city', true)";
+            if ($database->insertInTable("portal", $query))
+            {
+                echo $alertBuilder->createAlert("User successfully added to the system", "success");
+            }
+            else{
+                echo $alertBuilder->createAlert("An error occurred ", "danger");
+            }
+        }
+        else{
+            echo $alertBuilder->createAlert("Username already in use", "danger");
+        }
+
+    }
+    else{
+        echo $alertBuilder->createAlert("Not all fields are filled in", "danger");
+    }
+
+}
+
 ?>
+
 <style>
     h3{
         font-family: 'Roboto', sans-serif;
@@ -32,12 +73,13 @@ $password = random_str(32);
     <div class="row">
         <div class="col-md-6">
             <h3>Adding a user</h3>
-            <p>As admin you can a users in this section, keep the following in mind:</p>
+            <p>As admin you can create users in this section, keep the following in mind:</p>
                 <ul>
                 <li>All fields are required</li>
                 <li>When you create an account here, this account is automatically approved</li>
                 <li>Roles can be change in the section user actions and should not be defined here</li>
                 <li>Password is automatically generated, but can also be defined by the creator</li>
+                <li>After clicking create the password will be encrypted through OpenSSL</li>
                 </ul>
 
         </div>

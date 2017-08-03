@@ -5,21 +5,25 @@
  * Date: 28-7-2017
  * Time: 21:40
  */
-include 'navbar.php';
-include "adminCheck.php";
-//
-//if(isset($_GET['approved']) && $_GET['approved'] == 'true' ){
-//    $userId = $_GET['id'];
-//    $database->insertInTable('portal', "UPDATE Users
-//                                                     SET approved=true
-//                                                     WHERE id='$userId'");
-//
-//}
-//elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
-//    $userId = $_GET['id'];
-//    $database->insertInTable('portal', "DELETE FROM Users
-//                                                     WHERE id='$userId'");
-//}
+include '../includes/navbar.php';
+include "../includes/adminCheck.php";
+
+if(isset($_GET['action']) && $_GET['action'] == 'remove'){
+    $id = $_GET['id'];
+    if($database->getUserInfoById($id) != null){
+        $database->deleteFromTable('portal', "DELETE FROM 'user_info' WHERE userId='$id'");
+    }
+    $database->deleteFromTable('portal', "DELETE FROM users WHERE id='$id'");
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'ban'){
+    $id = $_GET['id'];
+    $database->insertInTable('portal', "UPDATE users SET banned='1' WHERE id='$id'");
+}
+elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
+    $id = $_GET['id'];
+    $database->insertInTable('portal', "UPDATE users SET banned='0' WHERE id='$id'");
+}
 ?>
 <style>
     .container{
@@ -37,7 +41,7 @@ include "adminCheck.php";
 </style>
 <div class="container mx-auto">
     <!--Add class table-responsive for responsive table -->
-    <a href="#" class="btn btn-sm btn-success a-btn">Add</a>
+    <a href="createUser.php" class="btn btn-sm btn-success a-btn">Add</a>
     <a href="#" class="btn btn-sm btn-info a-btn pull-right"><i class="fa fa-info"></i></a>
     <table class="table mx-auto">
         <thead>
@@ -60,7 +64,7 @@ include "adminCheck.php";
             $name = $user ['name'];
             $surname = $user['surname'];
             $email = $user['email'];
-            $phone = $user['phonenumber'];
+            $phone = $user['phone'];
             $role = $user['role'];
             $id = $user['id'];
             $status = $user['banned'];
@@ -85,10 +89,10 @@ include "adminCheck.php";
                     <td>$role</td>
                     <td>$approved</td>
                     <td>$status</td>
-                    <td><a href='#' class='btn btn-sm btn-warning ' onclick=\"return confirm('Are you sure to delete $name from SPortal');\">
+                    <td><a href='?id=$id&action=remove' class='btn btn-sm btn-warning ' onclick=\"return confirm('Are you sure to delete $name from SPortal');\">
                           <i class='fa fa-minus'></i>
                           </a>
-                        <a href='#'class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure to ban $name from SPortal');\">
+                        <a href='?id=$id&action=ban' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure to ban $name from SPortal');\">
                           <i class='fa fa-ban'></i>
                           </a>
                         <a href='#' class='btn btn-sm btn-primary '><i class='fa fa-user'></i></a>
@@ -105,10 +109,10 @@ include "adminCheck.php";
                     <td>$role</td>
                     <td>$approved</td>
                     <td>$status</td>
-                    <td><a href='#' class='btn btn-sm btn-warning ' onclick=\"return confirm('Are you sure to delete $name from SPortal');\">
+                    <td><a href='?id=$id&action=remove' class='btn btn-sm btn-warning ' onclick=\"return confirm('Are you sure to delete $name from SPortal');\">
                           <i class='fa fa-minus'></i>
                           </a>
-                        <a href='#'class='btn btn-sm btn-success' onclick=\"return confirm('Are you sure to ban $name from SPortal');\">
+                        <a href='?id=$id&action=unban' class='btn btn-sm btn-success' onclick=\"return confirm('Are you sure to unlock $name');\">
                           <i class='fa fa-unlock-alt'></i>
                           </a>
                     </td>

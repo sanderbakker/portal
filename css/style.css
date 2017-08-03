@@ -27,6 +27,13 @@ h2 > i {
     font-size: 12px;
     line-height: 1.428571429;
     border-radius: 15px;
-    float: right;
-    margin-right: 15px;
+
+}
+.btn-circle-float-left{
+    float:left;
+    margin-left: 15px; !important;
+}
+.btn-circle-float-right{
+    float:right;
+    margin-right: 15px; !important;
 }

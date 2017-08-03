@@ -13,7 +13,7 @@ class AlertBuilder
 
     }
     public function createAlert($text, $type){
-        if($type == 'succes'){
+        if($type == 'success'){
             return "<div class='alerts mx-auto alert-dismissable'>
                 <div class='alert alert-success' role='alert'>
                 <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>

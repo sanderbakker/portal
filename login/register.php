@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="../css/style.css" type="text/css">
 <style>
     img {
         display: block; !important;
@@ -36,7 +36,7 @@
  * Time: 11:46
  */
 
-include "includeDatabase.php";
+include "../includes/includeDatabase.php";
 if(isset($_POST['registerMe'])) {
     $username = $_POST['username'];
     $password = $_POST["password"];
@@ -47,13 +47,13 @@ if(isset($_POST['registerMe'])) {
     $name = $_POST['name'];
     $surname = $_POST['surname'];
     $street = $_POST['streetname'];
-
-    if(!empty($username) && !empty($password) && !empty($rpassword) && !empty($zipcode) && !empty($email) && !empty($name) && !empty($street) && !empty($surname) && !empty($city)) {
+    $phone = $_POST['phone'];
+    if(!empty($username) && !empty($password) && !empty($phone) && !empty($rpassword) && !empty($zipcode) && !empty($email) && !empty($name) && !empty($street) && !empty($surname) && !empty($city)) {
         if (($rpassword == $password)) {
             if (!$database->check("SELECT username FROM Users WHERE username='$username'")) {
                 $encryptedPassword = $database->encryptSSL($password);
-                $query = "INSERT INTO users (username, password, name, surname, email, address, role, zipcode, city, approved)
-              VALUES ('$username', '$encryptedPassword', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";
+                $query = "INSERT INTO users (phone, username, password, name, surname, email, address, role, zipcode, city, approved)
+              VALUES ('$phone', '$username', '$encryptedPassword', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";
                 //$database->insertInTable("portal", $query);
                 if ($database->insertInTable("portal", $query)) {
                     echo "<div class='alerts'>
@@ -92,14 +92,14 @@ if(isset($_POST['registerMe'])) {
     }
 }
 ?>
-<div class="container">
-<h2><!--<a href="../index.php" role="button" class="btn btn-info btn-circle"><i class="fa fa-home"></i></a>--><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
-</div>
+
+    <button onclick="location.href='../index.php';" class="btn btn-info btn-circle btn-circle-float-left"><i class="fa fa-home"></i></button><h2><button class="btn btn-info btn-circle btn-circle-float-right"><i class="fa fa-info"></i></button></h2>
+
 <div class="container">
     <div class="row">
         <div class="col-md-6 vertical-align">
             <div class="panel-heading">
-                <img src="assets/logo.png">
+                <img src="../assets/logo.png">
             </div>
         </div>
         <div class="col-md-6 vertical-align">
@@ -118,6 +118,9 @@ if(isset($_POST['registerMe'])) {
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Email" name="email" type="text">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Phone" name="phone" type="text">
                             </div>
                             <div class="form-group">
                                 <div class="row">

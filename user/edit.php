@@ -22,10 +22,10 @@
  * Date: 24-7-2017
  * Time: 21:46
  */
-include "includes.php";
-include "navbar.php";
-include "AlertBuilder.php";
-include "FormBuilder.php";
+include "../includes/includes.php";
+include "../includes/navbar.php";
+include "../classes/AlertBuilder.php";
+include "../classes/FormBuilder.php";
 
 $edit = $_GET['edit'];
 $id = $_SESSION['id'];
@@ -45,8 +45,14 @@ $formBuilder->submitUserInfo('editSkills', 'newSkills', 'skills');
 $formBuilder->submitUserInfo('editOther', 'newOther', 'other');
 $formBuilder->submitUserInfo('editAvailability', 'newAvailability', 'availability');
 $formBuilder->submitUserInfo('editRegion', 'newRegion', 'region');
+$formBuilder->submitEditForm('editPhone',  'newPhone', 'phone');
+
+$formBuilder->submitPassword();
 
 switch ($edit){
+    case 'phone':
+        echo $formBuilder->buildEditForm('phone', $_SESSION['phone'], "New Phone", "newPhone", "editPhone");
+        break;
     case 'name':
         echo $formBuilder->buildEditForm("name", $_SESSION['name'], "New Name", "newName", "editName");
         break;
@@ -79,6 +85,9 @@ switch ($edit){
         break;
     case 'region':
         echo $formBuilder->buildEditForm("region", $_SESSION['region'], "Enter one main region", "newRegion", "editRegion");
+        break;
+    case 'password':
+        echo $formBuilder->buildPasswordForm();
         break;
     default: {
         echo "404";

@@ -7,7 +7,7 @@ $_SESSION['loggedIn'] = false;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="../css/style.css" type="text/css">
 <style>
     img {
         display: block; !important;
@@ -30,15 +30,15 @@ $_SESSION['loggedIn'] = false;
     }
 </script>
 <?php
-include "includeDatabase.php";
+include "../includes/includeDatabase.php";
 if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==true){
-    header("location: dashboard.php");
+    header("location: ../user/dashboard.php");
 }
 else{
     $_SESSION['loggedIn'] = false;
 }
 ?>
-<h2><!--<a href="../index.php" role="button" class="btn btn-info btn-circle"><i class="fa fa-home"></i></a>--><button class="btn btn-info btn-circle"><i class="fa fa-info"></i></button></h2>
+<button onclick="location.href='../index.php';" class="btn btn-info btn-circle btn-circle-float-left"><i class="fa fa-home"></i></button><h2><button class="btn btn-info btn-circle btn-circle-float-right"><i class="fa fa-info"></i></button></h2>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
@@ -52,7 +52,7 @@ else{
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <img src="assets/logo.png">
+                    <img src="../assets/logo.png">
                 </div>
                 <div class="panel-body">
                     <form accept-charset="UTF-8" role="form" method="post">
@@ -67,12 +67,12 @@ else{
 
                                     if($database->check("SELECT * FROM users WHERE username='$username'")){
                                         if($database->check("SELECT * FROM users WHERE username='$username' AND approved=true")) {
-                                            $encryptedPassword = explode(":",$database->getPassword("SELECT password FROM users WHERE username='$username'"));
+                                            $encryptedPassword = explode("||",$database->getPassword("SELECT password FROM users WHERE username='$username'"));
                                             $decryptedPassword = $database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
-                                            if($decryptedPassword = $password) {
+                                            if($decryptedPassword == $password) {
                                                 $_SESSION['loggedIn'] = true;
                                                 $_SESSION['id'] = $database->getId($username);
-                                                header("location: dashboard.php");
+                                                header("location: ../user/dashboard.php");
                                             }
                                             else{
                                                 echo "<div class='alerts'>

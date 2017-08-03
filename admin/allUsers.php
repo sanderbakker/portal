@@ -5,8 +5,8 @@
  * Date: 27-7-2017
  * Time: 20:55
  */
-include 'navbar.php';
-include "adminCheck.php";
+include '../includes/navbar.php';
+include "../includes/adminCheck.php";
 ?>
 <style>
     .container{
@@ -42,7 +42,7 @@ include "adminCheck.php";
             $name = $user ['name'];
             $surname = $user['surname'];
             $email = $user['email'];
-            $phone = $user['phonenumber'];
+            $phone = $user['phone'];
             $address = $user['address'];
             $zipcode = $user['zipcode'];
             $city = $user['city'];
