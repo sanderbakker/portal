@@ -67,7 +67,7 @@ else{
 
                                     if($database->check("SELECT * FROM users WHERE username='$username'")){
                                         if($database->check("SELECT * FROM users WHERE username='$username' AND approved=true")) {
-                                            $encryptedPassword = explode("||",$database->getPassword("SELECT password FROM users WHERE username='$username'"));
+                                            $encryptedPassword = explode("||",$database->getData("SELECT password FROM users WHERE username='$username'", 'password'));
                                             $decryptedPassword = $database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
                                             if($decryptedPassword == $password) {
                                                 $_SESSION['loggedIn'] = true;

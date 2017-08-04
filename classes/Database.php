@@ -103,7 +103,9 @@ class Database
 
     public function getData($query, $name = null){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $data = mysqli_fetch_array(mysqli_query($this->connection, $query));
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+        $data = $statement->get_result()->fetch_array();
         if($name != null) {
             return $data[$name];
         }
@@ -134,10 +136,5 @@ class Database
         $decryptedMessage = openssl_decrypt($data, $encryptionMethod, $secretHash, 0,  $iv);
         return $decryptedMessage;
     }
-
-    public function getPassword($query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $password = mysqli_fetch_array(mysqli_query($this->connection, $query));
-        return $password['password'];
-    }
+    
 }

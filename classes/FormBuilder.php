@@ -141,7 +141,7 @@ class FormBuilder
     public function submitPassword(){
         $id = $_SESSION['id'];
         if(isset($_POST['submitPassword'])){
-            $getPassword = $this->database->getPassword("SELECT password FROM users WHERE id=$id");
+            $getPassword = $this->database->getData("SELECT password FROM users WHERE id=$id", 'password');
             $encryptedPassword = explode('||', $getPassword);
             $decryptedPassword = $this->database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
             if(!empty($_POST['oldPassword']) && !empty($_POST['newPassword']) && !empty($_POST['rNewPassword'])){

@@ -8,6 +8,7 @@
 include '../includes/navbar.php';
 include_once '../includes/includeDatabase.php';
 include '../includes/includes.php';
+include "../includes/adminCheck.php";
 
 function getCoordinates($address){
 
@@ -23,8 +24,8 @@ function getCoordinates($address){
 
 }
 $id = $_GET['id'];
-$userInfo = $database->getUserInfoById($id);
-$userData = $database->getUserById($id);
+$userInfo = $database->getData("SELECT * FROM user_info WHERE userId='$id'");
+$userData = $database->getData("SELECT * FROM users WHERE id='$id'");
 $address = $userData['address'];
 $city = $userData['city'];
 $lat = getCoordinates($address .  $city)['results'][0]['geometry']['location']['lat'];
@@ -95,7 +96,7 @@ $long = getCoordinates($address . $city)['results'][0]['geometry']['location']['
                             });
                             var marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(latitude, longitude),
-                                map: map,
+                                map: map
 
                             });
                             var contentString = '<div id="content">'+
