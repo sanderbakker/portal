@@ -9,6 +9,7 @@ include "../includes/includes.php";
 include '../includes/navbar.php';
 include "../includes/adminCheck.php";
 include "../classes/alertBuilder.php";
+
 function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 {
     $str = '';
@@ -68,6 +69,22 @@ if(isset($_POST['createUser'])){
     form{
         margin-top: 15px;
     }
+    table{
+        font-size: 14px;
+    }
+    .pagination{
+        font-size: 14px;
+    }
+    .mx-auto{
+        font-size: 14px;
+    }
+    form{
+        font-size: 14px;
+    }
+    input[type="text"] {
+        font-size:14px;
+    }
+
 </style>
 <div class="container">
     <div class="row">

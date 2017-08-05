@@ -12,8 +12,12 @@ include "../includes/adminCheck.php";
 ?>
 <style>
     .card{
-        margin-top: 25px;
         height: 35%;
+        margin-top: 15px; !important;
+        font-size: 14px; !important;
+    }
+    .card-block{
+        font-size: 14px;
     }
     p{
         margin: 0;
@@ -147,6 +151,25 @@ include "../includes/adminCheck.php";
 
                 </div>
             </div>
+        </div>
+        <div class="row" id="assignments">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-primary">
+                        States:
+                    </div>
+
+                    <div class="card-block">
+                        <h4 class="card-title">States</h4>
+                        <p class="card-text">States can be added or edited in this section</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="assignmentState.php" class="card-link mx-auto">Show</a>
+                        </li>
+                    </ul>
+
+                </div>
         </div>
 
     </div>

@@ -29,6 +29,18 @@ h2 > i {
     border-radius: 15px;
 
 }
+table{
+    font-size: 14px;
+}
+.pagination{
+    font-size: 14px;
+}
+.mx-auto{
+    font-size: 14px;
+}
+form{
+    font-size: 14px;
+}
 .btn-circle-float-left{
     float:left;
     margin-left: 15px; !important;

@@ -18,3 +18,31 @@ include "../includes/navbar.php";
     $_SESSION['phone'] = $userData['phone'];
 
 ?>
+<style>
+    .card{
+        margin-top: 15px;
+        font-size: 14px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Introduction
+                </div>
+                <div class="card-block">
+                    Welcome to SPortal <?php echo $_SESSION['name'];?>! In here you can find your assignment, upcoming salary and more.
+                    <br><br>
+                    Having trouble understanding how all of this works? Don't worry! There is comprehensive <a href="wiki.php">Wiki</a> which explains a lot about this portal.
+                    <br><br>
+                    Read it before asking questions?
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+</div>

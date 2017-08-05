@@ -27,6 +27,24 @@ $alertBuilder = new AlertBuilder();
     .lastCard{
         margin-bottom: 15px;
     }
+    table{
+        font-size: 14px;
+    }
+    .pagination{
+        font-size: 14px;
+    }
+    .mx-auto{
+        font-size: 14px;
+    }
+    form{
+        font-size: 14px;
+    }
+    input[type="text"] {
+        font-size:14px;
+    }
+    input[type="number"] {
+        font-size:14px;
+    }
 </style>
 <?php
 if(isset($_POST['submitState'])){
@@ -91,7 +109,7 @@ if(isset($_POST['submitState'])){
 
                         }
 
-                        $states = $database->getDataAsArray("SELECT * FROM state ORDER BY code LIMIT $start, $numberOfRecords");
+                        $states = $database->getDataAsArray("SELECT * FROM state ORDER BY id LIMIT $start, $numberOfRecords");
                         //$states = $database->getDataAsArray("SELECT * FROM state");
 
                         foreach ($states as $state){
@@ -160,7 +178,7 @@ if(isset($_POST['submitState'])){
                         <fieldset>
                             <div class="form-group">
                                 <label>State code</label>
-                                <input class="form-control" placeholder="State Code" name="stateCode" type="number">
+                                <input size="14" class="form-control" placeholder="State Code" name="stateCode" type="number">
                             </div>
                             <div class="form-group">
                                 <label>State name</label>

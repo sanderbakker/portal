@@ -14,7 +14,23 @@ include '../includes/adminCheck.php';?>
 
     a {
     color: black;
-}
+    }
+    table{
+        font-size: 14px;
+    }
+    .pagination{
+        font-size: 14px;
+    }
+    .mx-auto{
+        font-size: 14px;
+    }
+    form{
+        font-size: 14px;
+    }
+    input[type="text"] {
+        font-size:14px;
+    }
+
 </style>
 <div class="container mx-auto">
     <!--Add class table-responsive for responsive table -->
@@ -22,7 +38,7 @@ include '../includes/adminCheck.php';?>
         <div class="col-md-6">
             <form method="post">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for..." name="searchValue">
+                <input size='14' type="text" class="form-control" placeholder="Search for..." name="searchValue">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" name='search' type="submit"><i class="fa fa-search"></i></button>
                 </span>
