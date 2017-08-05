@@ -6,5 +6,5 @@
  * Time: 10:44
  */
 if($_SESSION['role'] != 'admin'){
-    header("location: ../user/dashboard.php");
+    header("location: ../user/index.php");
 }

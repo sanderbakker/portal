@@ -114,7 +114,7 @@ class Database
         }
     }
 
-    public function getUsers($myQuery){
+    public function getDataAsArray($myQuery){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $query = mysqli_query($this->connection, $myQuery);
         $results = array();
@@ -136,5 +136,5 @@ class Database
         $decryptedMessage = openssl_decrypt($data, $encryptionMethod, $secretHash, 0,  $iv);
         return $decryptedMessage;
     }
-    
+
 }

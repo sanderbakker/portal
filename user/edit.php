@@ -89,6 +89,9 @@ switch ($edit){
     case 'password':
         echo $formBuilder->buildPasswordForm();
         break;
+    case 'state':
+        echo 'just testing';
+        break;
     default: {
         echo "404";
     }

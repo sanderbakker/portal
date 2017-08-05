@@ -22,7 +22,7 @@ function getCoordinates($address){
     return $json;
 
 }
-$userAddresses = $database->getUsers("SELECT * FROM Users");
+$userAddresses = $database->getDataAsArray("SELECT * FROM Users");
 
 $address = array();
 foreach($userAddresses as $user){

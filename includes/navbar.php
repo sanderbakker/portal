@@ -23,7 +23,7 @@
  */
 
 include 'includes.php';
-include 'includeDatabase.php';
+include_once 'includeDatabase.php';
 $id = $_SESSION['id'];
 $userData = $database->getData("SELECT * FROM users WHERE id='$id'");
 $role = $userData['role'];
@@ -37,7 +37,7 @@ if($role == 'admin') {
     </a>    <div id='navbarNavDropdown' class='navbar-collapse collapse'>
         <ul class='navbar-nav mr-auto'>
             <li class='nav-item active'>
-                <a class='nav-link' href='../user/dashboard.php'>Home<span class='sr-only'>(current)</span></a>
+                <a class='nav-link' href='../user/index.php'>Home<span class='sr-only'>(current)</span></a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='#'>Assignments</a>
@@ -56,13 +56,16 @@ if($role == 'admin') {
           Admin
         </a>
         <div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-          <a class='dropdown-item' href='../admin/admin.php#users'>Users</a>
-          <a class='dropdown-item' href='../admin/admin.php#customers'>Customers</a>  
-          <a class='dropdown-item' href='../admin/admin.php?#assignments'>Assignments</a>
+          <a class='dropdown-item' href='../admin/index.php#users'>Users</a>
+          <a class='dropdown-item' href='../admin/index.php#customers'>Customers</a>  
+          <a class='dropdown-item' href='../admin/index.php?#assignments'>Assignments</a>
         </div>
       </li>
             <li class='nav-item'>
-                <a class='nav-link' href='../user/profile.php'>My Profile</a>
+                <a class='nav-link' href='../user/profile.php'>Profile</a>
+            </li>
+            <li class='nav-item'>
+                <a class='nav-link' href='../user/messages.php'>Messages</a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='../login/logout.php'>Logout</a>
@@ -82,7 +85,7 @@ else {
     <div id='navbarNavDropdown' class='navbar-collapse collapse'>
         <ul class='navbar-nav mr-auto'>
             <li class='nav-item active'>
-                <a class='nav-link' href='../user/dashboard.php'>Home<span class='sr-only'>(current)</span></a>
+                <a class='nav-link' href='../user/index.php'>Home<span class='sr-only'>(current)</span></a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='#'>Assignments</a>
@@ -94,7 +97,10 @@ else {
         </ul>
         <ul class='navbar-nav'>
             <li class='nav-item'>
-                <a class='nav-link' href='../user/profile.php'>My Profile</a>
+                <a class='nav-link' href='../user/profile.php'>Profile</a>
+            </li>
+            <li class='nav-item'>
+                <a class='nav-link' href='../user/messages.php'>Messages</a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='../login/logout.php'>Logout</a>

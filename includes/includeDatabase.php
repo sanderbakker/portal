@@ -8,3 +8,4 @@
 include '../classes/Database.php';
 
 $database = new Database("localhost", "root", "" , openssl_random_pseudo_bytes(16));
+

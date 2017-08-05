@@ -92,7 +92,7 @@ if(isset($_POST['registerMe'])) {
 }
 ?>
 
-    <button onclick="location.href='../index.php';" class="btn btn-info btn-circle btn-circle-float-left"><i class="fa fa-home"></i></button><h2><button class="btn btn-info btn-circle btn-circle-float-right"><i class="fa fa-info"></i></button></h2>
+    <button onclick="location.href='../login/index.php';" class="btn btn-info btn-circle btn-circle-float-left"><i class="fa fa-home"></i></button><h2><button class="btn btn-info btn-circle btn-circle-float-right"><i class="fa fa-info"></i></button></h2>
 
 <div class="container">
     <div class="row">

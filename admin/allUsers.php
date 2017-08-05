@@ -37,7 +37,7 @@ include "../includes/adminCheck.php";
         </thead>
         <tbody>
         <?php
-        $users = $database->getUsers("SELECT * FROM users");
+        $users = $database->getDataAsArray("SELECT * FROM users");
         foreach($users as $user){
             $name = $user ['name'];
             $surname = $user['surname'];
