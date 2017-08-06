@@ -26,29 +26,21 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
 }
 ?>
 <style>
-    table{
-        font-size: 14px;
-    }
-    .pagination{
-        font-size: 14px;
-    }
-    .mx-auto{
-        font-size: 14px;
-    }
-    form{
-        font-size: 14px;
-    }
     .container{
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
     a {
         color: black;
+
     }
+
     .a-btn{
         margin-bottom: 10px;
         margin-left: 10px;
+
     }
+
 
 </style>
 <div class="container mx-auto">

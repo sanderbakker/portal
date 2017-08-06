@@ -35,7 +35,7 @@ $long = getCoordinates($address . $city)['results'][0]['geometry']['location']['
 ?>
 <style>
     .card{
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
      #map {
@@ -49,7 +49,7 @@ $long = getCoordinates($address . $city)['results'][0]['geometry']['location']['
         border: none;
     }
     .table{
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
 </style>

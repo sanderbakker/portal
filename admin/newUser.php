@@ -22,25 +22,12 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
 ?>
 <style>
     .container{
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
     a {
         color: black;
     }
-    table{
-        font-size: 14px;
-    }
-    .pagination{
-        font-size: 14px;
-    }
-    .mx-auto{
-        font-size: 14px;
-    }
-    form{
-        font-size: 14px;
-    }
-
 </style>
 <div class="container mx-auto">
     <!--Add class table-responsive for responsive table -->

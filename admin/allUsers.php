@@ -10,7 +10,7 @@ include "../includes/adminCheck.php";
 ?>
 <style>
     .container{
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
     a {

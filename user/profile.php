@@ -22,22 +22,6 @@ include '../includes/navbar.php';
     .btn{
         color: black;
     }
-    table{
-        font-size: 14px;
-    }
-    .pagination{
-        font-size: 14px;
-    }
-    .mx-auto{
-        font-size: 14px;
-    }
-    form{
-        font-size: 14px;
-    }
-    input[type="text"] {
-        font-size:14px;
-    }
-
 
 </style>
 <div class="container">
