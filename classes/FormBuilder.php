@@ -78,6 +78,7 @@ class FormBuilder
             else{
                 $query = "INSERT INTO user_info
                           (userId, $name) VALUES ($id, '$newValue')";
+
             }
             if($this->database->executeQuery("portal", $query)) {
                 $_SESSION[$name]=$newValue;
@@ -191,6 +192,46 @@ class FormBuilder
         </div>";
 
     }
+    public function buildStateForm($stateName, $stateCode){
+
+        return "<div class='container'>
+            <div class='col-md-4 mx-auto'>
+                <div class='panel panel-default'>
+                    <div class='panel-header'>
+                        <h4>Change state</h4>
+                    </div>
+                    <div class='panel-body'>
+                        <form action='' method='post'>
+                            <fieldset>
+                                <div class='form-group'>
+                                    <label>Old state name</label>
+                                    <input class='form-control' value='$stateName' name='oldStateName'  readonly type='text'>
+                                </div>
+                                <div class='form-group'>
+                                    <label>Old state code</label>
+                                    <input class='form-control' value='$stateCode' name='oldStateCode' readonly type='text'>
+                                </div>
+                                
+                                <div class='form-group'>
+                                    <label>New state name:</label>
+                                    <input class='form-control' placeholder='New State Name' name='newStateName' type='text'>
+                                </div>
+                                
+                                <div class='form-group'>
+                                    <label>New state code:</label>
+                                    <input class='form-control' placeholder='New State Code' name='newStateCode' type='text'>
+                                </div>
+                                
+                                <input class='btn btn-info btn-block' name='submitState' type='submit' value='Change'>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>";
+
+    }
+
 
 
 }

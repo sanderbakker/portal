@@ -33,7 +33,7 @@ $database->createTable("CREATE TABLE Users (
 $database->createTable("CREATE TABLE user_info (
                                   id int(6) AUTO_INCREMENT NOT NULL,
                                   userId int(6) NOT NULL,
-                                  availability int(2) NOT NULL, 
+                                  availability int(2), 
                                   skills varchar(255), 
                                   region varchar(255),
                                   other varchar(255), 
@@ -42,7 +42,7 @@ $database->createTable("CREATE TABLE user_info (
                                   );", "portal");
 
 $database->createTable("CREATE TABLE customers (
-                                    id int(6) PRIMARY KEY NOT NULL,
+                                    id int(6)  AUTO_INCREMENT PRIMARY KEY NOT NULL,
                                     name varchar(255) NOT NULL,
                                     surname varchar(255) NOT NULL,
                                     zipcode varchar(255) NOT NULL,
@@ -56,15 +56,15 @@ $database->createTable("CREATE TABLE customers (
 $database->createTable("create table state ( id int(6) AUTO_INCREMENT NOT NULL PRIMARY KEY, name varchar(255), code int(3) )", 'portal');
 
 $database->createTable("CREATE table assignments (
-    id int(6) PRIMARY KEY,
+    id int(6)  AUTO_INCREMENT PRIMARY KEY,
     userId int(6), 
-    customerId int(6),
+    customerId int(6) NOT NULL,
     description varchar(255),
     time_added timestamp, 
-	stateId int(6), 
-    completed boolean,
-    closed boolean, 
-    deleted boolean, 
+	stateId int(6) NOT NULL, 
+    completed boolean NOT NULL,
+    closed boolean NOT NULL, 
+    requestClose boolean NOT NULL, 
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (stateId) REFERENCES state(id),
     FOREIGN KEY (customerId) REFERENCES customers(id)

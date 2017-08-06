@@ -44,6 +44,7 @@ $formBuilder->submitUserInfo('editSkills', 'newSkills', 'skills');
 $formBuilder->submitUserInfo('editOther', 'newOther', 'other');
 $formBuilder->submitUserInfo('editAvailability', 'newAvailability', 'availability');
 $formBuilder->submitUserInfo('editRegion', 'newRegion', 'region');
+
 $formBuilder->submitEditForm('editPhone',  'newPhone', 'phone');
 
 $formBuilder->submitPassword();
@@ -89,10 +90,18 @@ switch ($edit){
         echo $formBuilder->buildPasswordForm();
         break;
     case 'state':
-        echo 'just testing';
+        $id = $_GET['id'];
+        $name = $database->getData("SELECT name FROM state WHERE id =$id", 'name');
+        $code = $database->getData("SELECT code FROM state WHERE id =$id", 'code');
+        if($name != '' && $code != '') {
+            echo $formBuilder->buildStateForm($name, $code);
+        }
+        else{
+            header('location: ../404.php');
+        }
         break;
     default: {
-        echo "404";
+        header('location: ../404.php');
     }
 
     // QUERY SOON "SELECT * FROM user_info WHERE userId='$userId'"

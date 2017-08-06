@@ -9,6 +9,6 @@ if(session_id() == '' || !isset($_SESSION)) {
     // session isn't started
     session_start();
 }
-if(isset($_SESSION['loggedIn']) &&    $_SESSION['loggedIn']==false){
+if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']==false){
     header("location: ../login/login.php");
 }

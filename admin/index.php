@@ -156,6 +156,65 @@ include "../includes/adminCheck.php";
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header card-primary">
+                        All Assignments:
+                    </div>
+
+                    <div class="card-block">
+                        <h4 class="card-title">All Assignments</h4>
+                        <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
+                        <?php
+                        $date = date('d-m-y', strtotime("-1 week")); ?>
+                        <p class="card-text card-margin">New assignments since <?php echo $date . ': ' . $database->getData("SELECT count(id) number FROM assignments WHERE time_added >= $date")[0]?></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="allAssignments.php" class="card-link mx-auto">Show</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-primary">
+                        Assign Assignments:
+                    </div>
+
+                    <div class="card-block">
+                        <h4 class="card-title">Assign Assignments</h4>
+                        <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
+                        <p class="card-text card-margin">Assignments to assign: <?php echo $database->getData("SELECT count(id) FROM assignments WHERE userId IS NULL")[0]?></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="allAssignments.php" class="card-link mx-auto">Show</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-primary">
+                        Assignment Actions:
+                    </div>
+
+                    <div class="card-block">
+                        <h4 class="card-title">Assignment Actions</h4>
+                        <p class="card-text">Multiple actions can be excecuted here like: adding or closing a assignment.</p>
+
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="allAssignments.php" class="card-link mx-auto">Show</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-primary">
                         States:
                     </div>
 
@@ -170,7 +229,7 @@ include "../includes/adminCheck.php";
                     </ul>
 
                 </div>
-        </div>
+            </div>
 
     </div>
 </div>
