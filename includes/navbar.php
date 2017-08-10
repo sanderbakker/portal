@@ -46,7 +46,7 @@ if($role == 'admin') {
                 <a class='nav-link' href='#'>Activities</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='#'>Customers</a>
+                <a class='nav-link' href='../user/myCustomers.php'>Customers</a>
             </li>
 
         </ul>
@@ -92,6 +92,9 @@ else {
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='#'>Activities</a>
+            </li>
+            <li class='nav-item'>
+                <a class='nav-link' href='../user/myCustomers.php'>Customers</a>
             </li>
 
         </ul>
