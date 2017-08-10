@@ -6,6 +6,7 @@
  * Time: 11:15
  */
 include '../includes/navbar.php';
+
 ?>
 <style>
     .container {
@@ -44,22 +45,15 @@ include '../includes/navbar.php';
         </thead>
         <tbody>
         <?php
+        $pagination = new Pagination(7);
 
-        $page_max = 7;
-        $entriesInDatabase = $database->getData("SELECT count(id) FROM customers WHERE id = (SELECT customerId FROM assignments WHERE userId = $id) ");
-        $numberOfPages = ceil($entriesInDatabase['count(id)']/$page_max);
-        $numberOfRecords = $page_max;
-        if(isset($_GET['page'])) {
-            $page = $_GET['page'];
-            $start = $page * $page_max;
-        }
-        else{
-            $page = 0;
-            $start = $page * $page_max;
+        $page_max = $pagination->getPageMax();
 
-        }
+        $numberOfPages = $pagination->numberOfPages($database->getData("SELECT count(id) FROM customers WHERE id = (SELECT customerId FROM assignments WHERE userId = $id) "));
 
-        $customers = $database->getDataAsArray("SELECT * FROM customers WHERE id = (SELECT customerId FROM assignments WHERE userId = $id) LIMIT $start, $numberOfRecords");
+        $start = $pagination->getStart();
+
+        $customers = $database->getDataAsArray("SELECT * FROM customers WHERE id = (SELECT customerId FROM assignments WHERE userId = $id) LIMIT $start, $page_max");
 
         foreach($customers as $customer){
             $name = $customer ['name'];
@@ -74,7 +68,7 @@ include '../includes/navbar.php';
                     <td>$email</td>
                     <td>$phone</td>
                     <td>$company</td>
-                    <td><a href='customerInfo.php?id=$id' class='btn btn-sm btn-info'><i class='fa fa-info'></i></a></td>
+                    <td><a href='../admin/customerInfo.php?id=$id' class='btn btn-sm btn-info'><i class='fa fa-info'></i></a></td>
                   
 
                     
@@ -86,23 +80,13 @@ include '../includes/navbar.php';
     <ul class="pagination">
         <?php
 
-        if(isset($_GET['page']) && $_GET['page'] > 0){
-            $previous = $_GET['page'] - 1;
-            echo '<li class="page-item"><a class="page-link" href="?page='. $previous.'">Previous</a></li>';
-        }
-
+        echo $pagination->previous($numberOfPages);
 
         for($i = 0; $i < $numberOfPages; $i++){
             echo '<li class="page-item"><a class="page-link" href="?page='. $i . '">'. $i. '</a></li>';
         }
-        if(isset($_GET['page']) && $_GET['page'] < $numberOfPages - 1){
-            $page = $_GET['page'];
-            $next = $page + 1;
-            echo '<li class="page-item"><a class="page-link" href="?page='.$next.'">Next</a></li> ';
-        }
-        elseif(!isset($_GET['page'])){
-            echo '<li class="page-item"><a class="page-link" href="?page=1">Next</a></li> ';
-        }
-        ?>
 
+        echo $pagination->next($numberOfPages);
+        ?>
+    </ul>
 </div>

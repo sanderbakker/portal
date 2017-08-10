@@ -6,3 +6,4 @@
  * Time: 21:40
  */
 include "session.php";
+include_once "../classes/Pagination.php";
