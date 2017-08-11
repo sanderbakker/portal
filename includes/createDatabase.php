@@ -69,3 +69,15 @@ $database->createTable("CREATE table assignments (
     FOREIGN KEY (stateId) REFERENCES state(id),
     FOREIGN KEY (customerId) REFERENCES customers(id)
 	)", 'portal');
+
+$database->createTable("CREATE TABLE messages (
+	id int(6) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    userId int(6) NOT NULL,
+    message varchar(255) NOT NULL,
+    customerId int(6),
+    messageRead boolean,
+    messageDeleted boolean,
+    time_added TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY (customerId) REFERENCES customers(id)
+);", 'portal');
