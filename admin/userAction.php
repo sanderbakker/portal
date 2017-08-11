@@ -28,6 +28,7 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
 <style>
     .container{
         margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     a {
@@ -47,7 +48,7 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
     <!--Add class table-responsive for responsive table -->
     <a href="createUser.php" class="btn btn-sm btn-success a-btn">Add</a>
     <a href="#" class="btn btn-sm btn-info a-btn pull-right"><i class="fa fa-info"></i></a>
-    <table class="table mx-auto">
+    <table class="table mx-auto" id="table">
         <thead>
         <tr>
             <th>Name</th>
@@ -58,7 +59,6 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
             <th>Approved</th>
             <th>Banned</th>
             <th>More</th>
-
         </tr>
         </thead>
         <tbody>
@@ -144,4 +144,13 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
         ?>
         </tbody>
     </table>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable({
+                "pageLength" : 7,
+                "ordering": false,
+                "bLengthChange": false
+            });
+        } );
+    </script>
 </div>

@@ -65,33 +65,21 @@ if(isset($_POST['submitState'])){
                         Current available states
                     </div>
                     <div class="card-block">
-                        <table class="table">
+                        <table class="table" id="table">
                             <thead>
                             <tr>
                                 <th>Code</th>
                                 <th>Name</th>
-                                <th></th>
+                                <th>Edit</th>
 
                             </tr>
                             </thead>
                             <tbody>
 
                         <?php
-                        $page_max = 4;
-                        $entriesInDatabase = $database->getData("SELECT count(id) FROM state");
-                        $numberOfPages = ceil($entriesInDatabase['count(id)']/$page_max);
-                        $numberOfRecords = $page_max;
-                        if(isset($_GET['page'])) {
-                            $page = $_GET['page'];
-                            $start = $page * $page_max;
-                        }
-                        else{
-                            $page = 0;
-                            $start = $page * $page_max;
 
-                        }
 
-                        $states = $database->getDataAsArray("SELECT * FROM state ORDER BY id LIMIT $start, $numberOfRecords");
+                        $states = $database->getDataAsArray("SELECT * FROM state ORDER BY id");
                         //$states = $database->getDataAsArray("SELECT * FROM state");
 
                         foreach ($states as $state){
@@ -107,31 +95,18 @@ if(isset($_POST['submitState'])){
                         ?>
                             </tbody>
                         </table>
-                        <ul class="pagination">
-                            <?php
+                        <script>
+                            $(document).ready(function() {
+                                $('#table').DataTable( {
+                                    "pageLength" : 4,
+                                    "searching": false,
+                                    "ordering" : false,
+                                    "bLengthChange": false
+                                });
 
-                            if(isset($_GET['page']) && $_GET['page'] > 0){
-                                $previous = $_GET['page'] - 1;
-                                echo '<li class="page-item"><a class="page-link" href="?page='. $previous.'">Previous</a></li>';
-                            }
+                            } );
 
-
-                            for($i = 0; $i < $numberOfPages; $i++){
-                                echo '<li class="page-item"><a class="page-link" href="?page='. $i . '">'. $i. '</a></li>';
-                            }
-                            if(isset($_GET['page']) && $_GET['page'] < $numberOfPages - 1){
-                                $page = $_GET['page'];
-                                $next = $page + 1;
-                                echo '<li class="page-item"><a class="page-link" href="?page='.$next.'">Next</a></li> ';
-                            }
-                            elseif(!isset($_GET['page'])){
-                                echo '<li class="page-item"><a class="page-link" href="?page=1">Next</a></li> ';
-                            }
-                            ?>
-
-
-
-                        </ul>
+                        </script>
                     </div>
                 </div>
         </div>
@@ -167,6 +142,7 @@ if(isset($_POST['submitState'])){
                                 <input class="form-control" placeholder="State Name" name="stateName" type="text">
                             </div>
                             <div class="text-center">
+                         
                             <input class="btn btn-info" id="submitState" name="submitState" type="submit" value="Add">
                             </div>
                         </fieldset>

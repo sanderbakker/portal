@@ -23,6 +23,7 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
 <style>
     .container{
         margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     a {
@@ -31,7 +32,7 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
 </style>
 <div class="container mx-auto">
     <!--Add class table-responsive for responsive table -->
-    <table class="table mx-auto">
+    <table class="table mx-auto" id="table">
         <thead>
         <tr>
             <th>Name</th>
@@ -76,4 +77,12 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
         ?>
         </tbody>
     </table>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable({
+                "pageLength" : 7,
+                "bLengthChange": false
+            });
+        } );
+    </script>
 </div>

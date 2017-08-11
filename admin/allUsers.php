@@ -11,6 +11,7 @@ include "../includes/adminCheck.php";
 <style>
     .container{
         margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     a {
@@ -19,7 +20,7 @@ include "../includes/adminCheck.php";
 </style>
 <div class="container mx-auto">
     <!--Add class table-responsive for responsive table -->
-    <table class="table mx-auto">
+    <table class="table mx-auto" id="example">
         <thead>
         <tr>
             <th>Name</th>
@@ -71,4 +72,12 @@ include "../includes/adminCheck.php";
         ?>
         </tbody>
     </table>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "pageLength" : 7,
+                "bLengthChange": false
+            });
+        } );
+    </script>
 </div>
