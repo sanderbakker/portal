@@ -10,7 +10,7 @@ This portal is built to learn more about programming and securing databases.
 
 # Usage
 
-This portal can be use to manage:
+This portal can be used to manage:
 
 - Assignments
 - Customers
