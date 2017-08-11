@@ -6,7 +6,7 @@ Welcome to the repository of SPortal. This projects uses the following framework
 - DataTables (https://datatables.net)
 - Bootstrap v4 (https://v4-alpha.getbootstrap.com/)
 
-This portal is build to learn more about programming and securing databases. 
+This portal is built to learn more about programming and securing databases. 
 
 # Usage
 
