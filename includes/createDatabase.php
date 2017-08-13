@@ -77,6 +77,7 @@ $database->createTable("CREATE TABLE messages (
     customerId int(6),
     messageRead boolean,
     messageDeleted boolean,
+    subject varchar(255) NOT NULL, 
     time_added TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (customerId) REFERENCES customers(id)

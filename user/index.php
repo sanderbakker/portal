@@ -63,6 +63,16 @@ include "../includes/navbar.php";
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
+                    Latest messages
+                </div>
+                <div class="card-block">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
                     Upcoming appointments
                 </div>
                 <div class="card-block">
