@@ -110,7 +110,7 @@ else{
                 <?php
                 if(!isset($_GET['messages']) || $_GET['messages'] == 'inbox')
                     echo '<div class="card-header">
-                    Messages<button class="btn btn-sm btn-success pull-right" title="Mark all as read"><i class="fa fa-envelope"></i></button>
+                    Messages<button class="btn btn-sm btn-success pull-right" title="Mark all as read"><i class="fa fa-envelope-open"></i></button>
                     <button class="btn btn-sm btn-default pull-right" id="buttonAlignment" title="Mark all as unread"><i class="fa fa-envelope"></i></button>
                 </div>';
                 else{
