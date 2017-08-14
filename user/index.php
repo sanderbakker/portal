@@ -30,8 +30,8 @@ include "../includes/navbar.php";
              $messageSubject = 'Concerning assignment #' . $assignment['id'];
              if(!$database->check("SELECT * FROM messages WHERE subject='$messageSubject'")){
                  $message = 'Customer ' . $customerId . " (". $getCustomerName. ") is already waiting more than 24 hours for your responding";
-                 $database->executeQuery('portal', "INSERT into messages (userId, message, customerId, messageRead, messageDeleted, time_added, subject) VALUES(
-                                                            '$id', '$message', '$customerId', 0, 0, '$time_date', '$messageSubject')");
+                 $database->executeQuery('portal', "INSERT into messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject) VALUES(
+                                                            '$id', '$message', '$customerId', 0, 0, 0, '$time_date', '$messageSubject')");
              }
         }
 

@@ -13,13 +13,13 @@ if(isset($_GET['action']) && isset($_GET['id'])){
         $database->executeQuery('portal', "UPDATE messages SET messageRead=1 WHERE id='$id'");
     }
     elseif($action == 'trash'){
-        $database->executeQuery('portal', "UPDATE messages SET messageDeleted=1, messageRead = 1 WHERE id='$id'");
+        $database->executeQuery('portal', "UPDATE messages SET messageTrash=1, messageRead = 1 WHERE id='$id'");
     }
     elseif($action == 'unread'){
         $database->executeQuery('portal', "UPDATE messages SET messageRead=0 WHERE id='$id'");
     }
     elseif($action == 'inbox'){
-        $database->executeQuery('portal', "UPDATE messages SET messageDeleted=0 WHERE id='$id'");
+        $database->executeQuery('portal', "UPDATE messages SET messageTrash=0 WHERE id='$id'");
     }
     else{
         header('location: ../404.php');
@@ -27,11 +27,11 @@ if(isset($_GET['action']) && isset($_GET['id'])){
 }
 if((isset($_GET['messages']) && $_GET['messages'] == 'inbox') || !isset($_GET['messages'])) {
     $id = $_SESSION['id'];
-    $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageDeleted = 0 ORDER BY time_added DESC");
+    $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageTrash = 0 AND messageDeleted = 0 ORDER BY time_added DESC");
 }
 elseif (isset($_GET['messages']) && $_GET['messages'] == 'trash'){
     $id = $_SESSION['id'];
-    $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageDeleted = 1 ORDER BY time_added DESC");
+    $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageTrash = 1 AND messageDeleted = 0 ORDER BY time_added DESC");
 }
 else{
     $messages = null;
@@ -39,6 +39,7 @@ else{
 }
 ?>
 <style>
+
     .dropdown-menu{
 
     }
@@ -55,6 +56,14 @@ else{
     }
     .table{
         margin-bottom: 0; !important;
+    }
+
+    #table_wrapper{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .dropdown-item{
+        width: auto;
     }
     h5{
         font-size: 20px;
@@ -110,12 +119,12 @@ else{
                 <?php
                 if(!isset($_GET['messages']) || $_GET['messages'] == 'inbox')
                     echo '<div class="card-header">
-                    Messages<button class="btn btn-sm btn-success pull-right" title="Mark all as read"><i class="fa fa-envelope-open"></i></button>
-                    <button class="btn btn-sm btn-default pull-right" id="buttonAlignment" title="Mark all as unread"><i class="fa fa-envelope"></i></button>
+                    Messages<button class="btn btn-sm btn-success pull-right actionButton" title="Mark all as read" value="readAll"><i class="fa fa-envelope-open"></i></button>
+                    <button class="btn btn-sm btn-default pull-right actionButton" id="buttonAlignment" value="unreadAll" title="Mark all as unread"><i class="fa fa-envelope"></i></button>
                 </div>';
                 else{
                     echo '<div class="card-header">
-                    Messages<button class="btn btn-sm btn-danger pull-right" title="Remove all"><i class="fa fa-trash"></i></button>
+                    Messages<button class="btn btn-sm btn-danger pull-right actionButton" value="removeAll" title="Remove all"><i class="fa fa-trash"></i></button>
                 </div>';
                 }
                 ?>
@@ -252,6 +261,12 @@ else{
         </div>
     </div>
     <script>
+        $(document).ready(function() {
+            $('#table').DataTable({
+                "pageLength" : 7,
+                "bLengthChange": false
+            });
+        } );
 
         $('#messageModal').on('show.bs.modal', function(e) {
             var number = $(e.relatedTarget).data('number');
@@ -273,5 +288,22 @@ else{
                 }]
             });
         });
+
+        $('.actionButton').click(function(){
+            var buttonValue = $(this).val();
+            var userId = '<?php echo $_SESSION['id']; ?>';
+            console.log(userId);
+            $.ajax({
+                type: 'POST',
+                url: 'ajax.php',
+                data: {
+                    'action': buttonValue,
+                    'id' : userId
+                },
+                dataType: 'json',
+                success: [ location.reload()]
+            });
+        });
+
     </script>
 </div>
