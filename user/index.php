@@ -44,6 +44,10 @@ include "../includes/navbar.php";
         margin-top: 15px;
         font-size: 14px;
     }
+    .table{
+        margin-bottom: -20px; !important;
+        margin-top: -20px; !important;
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -87,7 +91,23 @@ include "../includes/navbar.php";
                     Latest messages
                 </div>
                 <div class="card-block">
-
+                    <table class='table' id="table">
+                        <?php
+                        $latestMessages= $database->getDataAsArray("SELECT * FROM messages WHERE userId='$id' AND messageDeleted = 0 AND messageTrash = 0 AND messageRead= 0 ORDER BY time_added LIMIT 3");
+                        if(!$latestMessages){
+                            echo "<tr><td colspan='2' style='text-align: center'>No new unread messages</td> </tr>";
+                        }
+                        foreach($latestMessages as $message){
+                            $time_added = $message['time_added'];
+                            $number = $message['id'];
+                            $subject = $message['subject'];
+                            echo "<tr>
+                                  <td><a href='showMessage.php?id=$number'>$subject</a></td>
+                                  <td>$time_added</td>
+                                  </tr>";
+                        }
+                        ?>
+                    </table>
                 </div>
             </div>
         </div>
@@ -114,3 +134,6 @@ include "../includes/navbar.php";
     </div>
 
 </div>
+<script>
+
+</script>

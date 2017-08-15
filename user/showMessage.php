@@ -14,6 +14,9 @@ else{
 }
 $connection = $database->getConnection();
 
+$database->executeQuery('portal',"UPDATE messages SET messageRead = 1 WHERE id='$id'");
+
+
 $id = mysqli_real_escape_string($connection, $id);
 
 $message = $database->getData("SELECT * FROM messages WHERE id=$id");

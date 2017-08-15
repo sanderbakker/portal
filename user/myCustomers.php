@@ -18,7 +18,7 @@ include '../includes/navbar.php';
 <div class="container">
     <h3>My Customers</h3>
 
-    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
         <tr>
             <th>Name</th>
@@ -53,7 +53,12 @@ include '../includes/navbar.php';
     </table>
     <script>
         $(document).ready(function() {
-            $('#example').DataTable();
+            $('#table').DataTable({
+                "pageLength" : 10,
+                "ordering" : false,
+                "bLengthChange": false,
+                "bInfo": false
+            });
         } );
     </script>
 </div>
