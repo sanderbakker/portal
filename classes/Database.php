@@ -45,6 +45,7 @@ class Database
         $this->connection->close();
     }
 
+
     public function getConnection(){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword);
         return $this->connection;
