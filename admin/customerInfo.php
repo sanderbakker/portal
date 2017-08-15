@@ -6,9 +6,8 @@
  * Time: 10:57
  */
 include '../includes/navbar.php';
-include_once '../includes/includeDatabase.php';
 include '../includes/includes.php';
-include "../includes/adminCheck.php";
+
 
 function getCoordinates($address){
 

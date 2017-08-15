@@ -8,7 +8,8 @@
 include '../includes/navbar.php';
 if(isset($_GET['action']) && isset($_GET['id'])){
     $action = $_GET['action'];
-    $id = $_GET['id'];
+    $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
+
     if($action == 'read') {
         $database->executeQuery('portal', "UPDATE messages SET messageRead=1 WHERE id='$id'");
     }
@@ -21,16 +22,21 @@ if(isset($_GET['action']) && isset($_GET['id'])){
     elseif($action == 'inbox'){
         $database->executeQuery('portal', "UPDATE messages SET messageTrash=0 WHERE id='$id'");
     }
+    elseif($action == 'remove'){
+        $database->executeQuery('portal', "UPDATE messages SET messageDeleted = 1 WHERE id='$id'");
+    }
     else{
         header('location: ../404.php');
     }
 }
+
+
 if((isset($_GET['messages']) && $_GET['messages'] == 'inbox') || !isset($_GET['messages'])) {
-    $id = $_SESSION['id'];
+    $id = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
     $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageTrash = 0 AND messageDeleted = 0 ORDER BY time_added DESC");
 }
 elseif (isset($_GET['messages']) && $_GET['messages'] == 'trash'){
-    $id = $_SESSION['id'];
+    $id = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
     $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageTrash = 1 AND messageDeleted = 0 ORDER BY time_added DESC");
 }
 else{
@@ -40,16 +46,12 @@ else{
 ?>
 <style>
 
-    .dropdown-menu{
-
-    }
-    a {
-        color: black;
+    .table-link{
         text-decoration: none;
+        color: red;
     }
-    a:hover{
-        color:black;
-        text-decoration: none;
+    a, a:hover, a:active, a:visited, a:focus {
+        text-decoration:none;
     }
     .card-block{
         padding: 0; !important;
@@ -117,15 +119,26 @@ else{
         <div class="col-md-9">
             <div class="card">
                 <?php
-                if(!isset($_GET['messages']) || $_GET['messages'] == 'inbox')
-                    echo '<div class="card-header">
+                if((!isset($_GET['messages']) || $_GET['messages'] == 'inbox'))
+                    if($messages != null) {
+                        echo '<div class="card-header">
                     Messages<button class="btn btn-sm btn-success pull-right actionButton" title="Mark all as read" value="readAll"><i class="fa fa-envelope-open"></i></button>
                     <button class="btn btn-sm btn-default pull-right actionButton" id="buttonAlignment" value="unreadAll" title="Mark all as unread"><i class="fa fa-envelope"></i></button>
                 </div>';
+                    }
+                    else{
+                        echo '<div class="card-header">
+                    Messages</div>';
+                    }
                 else{
+                    if($messages != null){
                     echo '<div class="card-header">
                     Messages<button class="btn btn-sm btn-danger pull-right actionButton" value="removeAll" title="Remove all"><i class="fa fa-trash"></i></button>
-                </div>';
+                </div>';}
+                    else{
+                        echo '<div class="card-header">
+                    Messages</div>'; 
+                    }
                 }
                 ?>
 
@@ -186,15 +199,16 @@ else{
                         $time_added = $message['time_added'];
                         if($message['messageRead'] == 0){
                             echo "<tr class='table-active'>
-                                  <td>$number</td>
+                                  <td><a href='showMessage.php?id=$number' class='table-link'>$number</a></td>
                                   <td>$subject</td>
                                   <td>$time_added</td>
                                   $dropdownUnread
+                                 
                                   </tr>";
                         }
                         else{
                             echo "<tr>
-                              <td>$number</td>
+                              <td><a href='showMessage.php?id=$number' class='table-link'>$number</a></td>
                               <td>$subject</td>
                               <td>$time_added</td>
                               $dropdownRead
@@ -217,6 +231,7 @@ else{
                                             <div class='dropdown-menu dropdown-menu-left' aria-labelledby='dropdownMenu2'>
                                                 <button class='dropdown-item' data-toggle='modal' data-number='$number' data-target='#messageModal'>Preview</button> 
                                                 <a class='dropdown-item' href='?messages=$messageType&action=inbox&id=$number'>Move to inbox</a>
+                                                <a class='dropdown-item' href='?messages=$messageType&action=remove&id=$number'>Remove</a>
                                             </div>
                                         </div>
                                       </td>";
@@ -229,7 +244,7 @@ else{
                             $dropdown = null;
                         }
                         echo "<tr>
-                                <td>$number</td>
+                                <td><a href='showMessage.php?id=$number' class='table-link'>$number</a></td>
                                 <td>$subject</td>
                                 <td>$time_added</td>
                                 $dropdown 

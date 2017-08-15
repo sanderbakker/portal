@@ -73,6 +73,7 @@ $database->createTable("CREATE table assignments (
 $database->createTable("CREATE TABLE messages (
 	id int(6) AUTO_INCREMENT PRIMARY KEY NOT NULL,
     userId int(6) NOT NULL,
+    assignmentId int(6),
     message varchar(255) NOT NULL,
     customerId int(6),
     messageRead boolean,
@@ -80,6 +81,7 @@ $database->createTable("CREATE TABLE messages (
     messageDeleted boolean, 
     subject varchar(255) NOT NULL, 
     time_added TIMESTAMP,
+    FOREIGN KEY (assignmentId) REFERENCES assignments(id), 
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (customerId) REFERENCES customers(id)
 );", 'portal');

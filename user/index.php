@@ -27,11 +27,12 @@ include "../includes/navbar.php";
              $time_date = date('Y-m-d H:i:s', strtotime($assignment['time_added']) + 86400);
              $customerId = $assignment['customerId'];
              $getCustomerName = $database->getData("SELECT customers.name FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE customerId = $customerId")['name'];
-             $messageSubject = 'Concerning assignment #' . $assignment['id'];
+             $assignmentId = $assignment['id'];
+             $messageSubject = 'Concerning assignment #' . $assignment['id'] . ' (' . $assignment['description'] . ')';
              if(!$database->check("SELECT * FROM messages WHERE subject='$messageSubject'")){
                  $message = 'Customer ' . $customerId . " (". $getCustomerName. ") is already waiting more than 24 hours for your responding";
-                 $database->executeQuery('portal', "INSERT into messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject) VALUES(
-                                                            '$id', '$message', '$customerId', 0, 0, 0, '$time_date', '$messageSubject')");
+                 $database->executeQuery('portal', "INSERT into messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
+                                                            '$id', '$message', '$customerId', 0, 0, 0, '$time_date', '$messageSubject', '$assignmentId')");
              }
         }
 
