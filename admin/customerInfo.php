@@ -8,6 +8,15 @@
 include '../includes/navbar.php';
 include '../includes/includes.php';
 
+if(isset($_GET['id'])){
+    $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
+    $userId = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
+    if($_SESSION['role'] != 'admin'){
+        if(!$database->check("SELECT * FROM assignments WHERE userId ='$userId' AND customerId='$id'")){
+            header('location: ../404.php');
+        }
+    }
+}
 
 function getCoordinates($address){
 
@@ -67,7 +76,7 @@ else{
         <div class="card-block">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Cusotmer Information | <?php echo $customerInfo['name'] . ' ' . $customerInfo['surname']  ?></h3>
+                    <h3>Customer Information | <?php echo $customerInfo['name'] . ' ' . $customerInfo['surname']  ?></h3>
                     <table class="table">
                         <tr>
                             <th scope="row">Address:</th>

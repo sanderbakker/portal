@@ -137,7 +137,7 @@ else{
                 </div>';}
                     else{
                         echo '<div class="card-header">
-                    Messages</div>'; 
+                    Messages</div>';
                     }
                 }
                 ?>
