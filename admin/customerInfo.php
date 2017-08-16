@@ -8,7 +8,7 @@
 include '../includes/navbar.php';
 include '../includes/includes.php';
 
-if(isset($_GET['id'])){
+if(isset($_GET['id']) && $_GET['id'] != ''){
     $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
     $userId = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
     if($_SESSION['role'] != 'admin'){
@@ -16,6 +16,9 @@ if(isset($_GET['id'])){
             header('location: ../404.php');
         }
     }
+}
+else{
+    header('location: ../404.php');
 }
 
 function getCoordinates($address){
@@ -76,7 +79,7 @@ else{
         <div class="card-block">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Customer Information | <?php echo $customerInfo['name'] . ' ' . $customerInfo['surname']  ?></h3>
+                    <h5>Customer Information | <?php echo $customerInfo['name'] . ' ' . $customerInfo['surname']  ?></h5>
                     <table class="table">
                         <tr>
                             <th scope="row">Address:</th>
@@ -90,7 +93,7 @@ else{
                     </table>
                 </div>
                 <div class="col-md-6">
-                    <h3>Location</h3>
+                    <h5>Location</h5>
                     <div id="map"></div>
                     <script type="text/javascript">
                         var latitude = "<?php echo $lat ?>";

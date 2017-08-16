@@ -64,7 +64,8 @@ $database->createTable("CREATE table assignments (
 	stateId int(6) NOT NULL, 
     completed boolean NOT NULL,
     closed boolean NOT NULL, 
-    requestClose boolean NOT NULL, 
+    requestClose int(6),
+    FOREIGN KEY (requestClose) REFERENCES assignments(id), 
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (stateId) REFERENCES state(id),
     FOREIGN KEY (customerId) REFERENCES customers(id)
@@ -85,3 +86,12 @@ $database->createTable("CREATE TABLE messages (
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (customerId) REFERENCES customers(id)
 );", 'portal');
+
+$database->createTable("CREATE TABLE closeRequests 
+	(
+        id int (6) AUTO_INCREMENT PRIMARY KEY,
+        assignmentId int(6) NOT NULL, 
+       	reason varchar(255) NOT NULL,
+        accepted boolean, 
+    	FOREIGN KEY (assignmentId) REFERENCES assignments(id)
+    )", 'portal');

@@ -13,10 +13,16 @@ include '../includes/navbar.php';
         margin-top: 15px;
         margin-bottom: 15px;
     }
+    .pull-right{
+        margin-right: 15px;
+    }
+    h3{
+        margin-left: 15px;
+    }
 
 </style>
 <div class="container">
-    <h3>My Customers</h3>
+    <h3>My Customers<a class="btn btn-sm btn-success pull-right" href="#">Add</a></h3>
 
     <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
