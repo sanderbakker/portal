@@ -17,7 +17,7 @@ if(isset($_GET['id']) && $_GET['id'] != ''){
     $customerId = $assignment['customerId'];
     $customerInfo = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
     if($_SESSION['role'] != 'admin'){
-        if(!$database->check("SELECT * FROM assignments WHERE userId ='$userId' AND customerId= $customerId")){
+        if(!$database->check("SELECT * FROM assignments WHERE userId ='$userId' AND customerId= '$customerId' AND completed = 0 AND closed =0" )){
             header('location: ../404.php');
         }
     }
@@ -114,9 +114,33 @@ else{
                         <tr>
                             <th scope="row">Actions:</th>
                             <td>
-                                <a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>
-                                <a title='Register hours' href='#' class='btn btn-sm btn-success'><i class='fa fa-money'></i></a>
-                                <a  title='Close assignment'  href='#' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>
+                                <?php
+                                $stateCode = $state['code'];
+                                if($stateCode == '120'){
+                                    $salary = "<a title='Register hours' href='#' class='btn btn-sm btn-success'><i class='fa fa-money'></i></a>";
+                                    $close = "<a  title='Close assignment'  href='../user/closeAssignment.php?id=$id' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>";
+                                    $update = "<a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
+                                }
+                                elseif ($stateCode == '300'){
+                                    $salary = '';
+                                    $close = '';
+                                    $update = '';
+                                }
+                                else{
+                                    $close = "<a  title='Close assignment'  href='../user/closeAssignment.php?id=$id' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>";
+                                    $salary = '';
+                                    $update =  "<a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
+                                }
+                                if($update == '' && $close == '' && $salary == ''){
+                                    echo "No actions to execute, assignment is pending for closure or already closed";
+                                }
+                                else{
+                                    echo "
+                                        $update
+                                        $salary
+                                        $close";
+                                }
+                                ?>
                             </td>
                         </tr>
                     </table>

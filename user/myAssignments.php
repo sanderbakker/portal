@@ -38,25 +38,44 @@ include '../includes/navbar.php';
         <?php
         
         $id = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
-        $assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE userId = $id");
+        $assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE userId = $id AND closed = 0 AND completed = 0");
         foreach($assignments as $assignment){
             $description = $assignment ['description'];
             $time_added = $assignment['time_added'];
             $stateId = mysqli_real_escape_string($database->getConnection(), $assignment['stateId']);
-            $state = $database->getData("SELECT * FROM state WHERE id='$stateId'")['name'];
+            $state = $database->getData("SELECT * FROM state WHERE id='$stateId'");
+
+            $stateName = $state['name'];
+            $stateCode = $state['code'];
+
             $id = $assignment['id'];
             $customerId = mysqli_real_escape_string($database->getConnection(), $assignment['customerId']);
             $customer = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
             $customerName = $customer['name'] . ' ' . $customer['surname'];
+            if($stateCode == '120'){
+                $salary = "<a title='Register hours' href='#' class='btn btn-sm btn-success'><i class='fa fa-money'></i></a>";
+                $close = "<a  title='Close assignment'  href='closeAssignment.php?id=$id' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>";
+                $update = "<a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
+            }
+            elseif ($stateCode == '300'){
+                $salary = '';
+                $close = '';
+                $update = '';
+            }
+            else{
+                $close = "<a  title='Close assignment'  href='closeAssignment.php?id=$id' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>";
+                $salary = '';
+                $update =  "<a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
+            }
+
             echo "<tr>
                     <td>$description</td>
                     <td>$time_added</td>
-                    <td>$state</td>
+                    <td>$stateName</td>
                     <td><a href='../admin/customerInfo.php?id=$customerId'>$customerName</a></td>
-                    <td><a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>
-                        <a title='Register hours' href='#' class='btn btn-sm btn-success'><i class='fa fa-money'></i></a>
-                        <a  title='Close assignment'  href='#' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>
-                       
+                    <td>$update
+                        $salary           
+                        $close
                         <a title='Overview' href='../admin/assignmentInfo.php?id=$id' class='btn btn-sm btn-info'><i class='fa fa-info'></i></a>
                     
                     </td>

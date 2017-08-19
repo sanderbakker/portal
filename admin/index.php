@@ -196,12 +196,31 @@ include "../includes/adminCheck.php";
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header card-primary">
+                        Assignments pending for closure:
+                    </div>
+
+                    <div class="card-block">
+                        <h4 class="card-title">New assignments to close</h4>
+                        <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
+                        <p class="card-text card-margin">Assignments to close: <?php echo $database->getData("SELECT count(id) FROM assignments WHERE requestClose IS NOT NULL AND closed = 0")[0]?></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="assignmentClose.php" class="card-link mx-auto">Show</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-primary">
                         Assignment Actions:
                     </div>
 
                     <div class="card-block">
-                        <h4 class="card-title">Assignment Actions</h4>
-                        <p class="card-text">Multiple actions can be excecuted here like: adding or closing a assignment.</p>
+                        <h4 class="card-title">Add Assignments</h4>
+                        <p class="card-text">Creating an assignment can be done here!</p>
 
                     </div>
                     <ul class="list-group list-group-flush">

@@ -37,7 +37,7 @@ include '../includes/navbar.php';
         </thead>
         <tbody>
         <?php
-        $customers = $database->getDataAsArray("SELECT * FROM customers WHERE id = (SELECT customerId FROM assignments WHERE userId = $id)");
+        $customers = $database->getDataAsArray("SELECT customers.* FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE userId = '$id'");
         foreach($customers as $customer){
             $name = $customer ['name'];
             $surname = $customer['surname'];
