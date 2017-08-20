@@ -122,7 +122,6 @@ include '../includes/adminCheck.php';?>
         $('.actionButton').click(function(e){
             var assignmentId = $('#assignmentId').val();
             var buttonValue = $(this).val();
-            console.log(assignmentId);
             $.ajax({
                 type: 'POST',
                 url: '../user/ajax.php',

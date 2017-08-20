@@ -57,10 +57,41 @@ function accept($db, $id){
     /* @var $db Database */
     $db->executeQuery('portal', "UPDATE closerequests SET accepted = 1 WHERE assignmentId = '$id'");
     $db->executeQuery('portal', "UPDATE assignments SET closed = 1, stateId = 8 WHERE id='$id'");
+
+    $assignment = $db->getData("SELECT * FROM assignments WHERE id=$id");
+    $user = $assignment['userId'];
+    $customer = $assignment['customerId'];
+    $assignmentId = $assignment['id'];
+    $assignmentName = $assignment['description'];
+
+    $currentDate = date('Y-m-d H:i:s');
+
+    $subject = 'Close request for assignment #' . $assignmentId . ' has been accepted';
+    $message = 'The close request for assignment #' . $assignmentId . ' ('. $assignmentName. ') is accepted. 
+                Please do not pay any attention to this assignment anymore';
+
+    $db->executeQuery('portal', "INSERT INTO messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
+                                                            '$user', '$message', '$customer', 0, 0, 0, '$currentDate', '$subject', '$assignmentId')");
+
 }
 function reject($db, $id){
     /* @var $db Database */
     $db->executeQuery('portal', "UPDATE closerequests SET accepted = 0 WHERE assignmentId = '$id'");
     $db->executeQuery('portal', "UPDATE assignments SET requestClose = null, stateId = 1 WHERE id='$id'");
+
+    $assignment = $db->getData("SELECT * FROM assignments WHERE id=$id");
+    $user = $assignment['userId'];
+    $customer = $assignment['customerId'];
+    $assignmentId = $assignment['id'];
+    $assignmentName = $assignment['description'];
+
+    $currentDate = date('Y-m-d H:i:s');
+
+    $subject = 'Close request for assignment #' . $assignmentId . ' has been rejected';
+    $message = 'The close request for assignment #' . $assignmentId . ' ('. $assignmentName. ') is rejected. 
+                Try to get in contact with the customer to make an appointment';
+
+    $db->executeQuery('portal', "INSERT INTO messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
+                                                            '$user', '$message', '$customer', 0, 0, 0, '$currentDate', '$subject', '$assignmentId')");
 
 }

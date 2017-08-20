@@ -46,8 +46,7 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
 </style>
 <div class="container mx-auto">
     <!--Add class table-responsive for responsive table -->
-    <a href="createUser.php" class="btn btn-sm btn-success a-btn">Add</a>
-    <a href="#" class="btn btn-sm btn-info a-btn pull-right"><i class="fa fa-info"></i></a>
+    <h3>User actions</h3>
     <table class="table mx-auto" id="table">
         <thead>
         <tr>

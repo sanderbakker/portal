@@ -93,6 +93,22 @@ include "../includes/adminCheck.php";
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header card-warning">
+                    Add Users:
+                </div>
+                <div class="card-block">
+                    <h4 class="card-title">Add users</h4>
+                    <p class="card-text">A new user can be added here</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="createUser.php" class="card-link mx-auto">Show</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header card-warning">
                     Locations Users:
                 </div>
                 <div class="card-block">
