@@ -86,22 +86,47 @@ if($message['userId'] != $_SESSION['id']){
                                     <th>Waiting since:</th>
                                     <td id="waitingTime"><?php echo $assignment['time_added'] . ' (' . $time . ' days)'  ;?></td>
                                 </tr>
-                                <tr>
+                                <script>
+                                    function call(){
+                                        location.href='tel:' + '<?php echo $customer['phone'];?>';
+                                    }
+                                    function mail(){
+                                        location.href='mailto:' + '<?php echo $customer['email'];?>';
+                                    }
+                                    function update(){
+                                        location.href='updateAssignment.php?id=<?php echo $assignment['id'];?>';
+                                    }
+                                    function close(){
+                                        location.href='updateAssignment.php?id=<?php echo $assignment['id'];?>';
+                                    }
+                                </script>
+                                <?php
+                                $stateId = $assignment['stateId'];
+
+                                $stateCode = $database->getData("SELECT code FROM state WHERE id='$stateId'")['code'];
+
+                                if($stateCode != '500' && $stateCode != '300'){
+                                    echo '<tr>
                                     <th>Take action!</th>
-                                    <td><button title='Call customer' onclick="location.href='tel:' + '<?php echo $customer['phone'];?>';" class="btn btn-sm btn-success">
+                                    <td><button title="Call customer" onclick="call()" class="btn btn-sm btn-success">
                                             <i class="fa fa-phone"></i>
                                         </button>
-                                        <button title="Mail customer" onclick="location.href='mailto:' + '<?php echo $customer['email'];?>';" class="btn btn-sm btn-success margin-button">
+                                        <button title="Mail customer" onclick="mail()" class="btn btn-sm btn-success margin-button">
                                             <i class="fa fa-envelope"></i>
                                         </button>
-                                        <button title="Update state" onclick="location.href='updateAssignment.php?id=<?php echo $assignment['id'];?>';" class="btn btn-sm btn-success margin-button">
+                                        <button title="Update state" onclick="update()" class="btn btn-sm btn-success margin-button">
                                             <i class="fa fa-flag"></i>
                                         </button>
-                                        <button title="Close assignment" onclick="location.href='updateAssignment.php?id=<?php echo $assignment['id'];?>';" class="btn btn-sm btn-danger margin-button">
+                                        <button title="Close assignment" onclick="close()" class="btn btn-sm btn-danger margin-button">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     </td>
-                                </tr>
+                                </tr>';
+                                }
+                                ?>
+
+
+
                             </table>
                         </div>
                     </div>
