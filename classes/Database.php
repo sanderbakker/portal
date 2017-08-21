@@ -117,9 +117,11 @@ class Database
 
     public function getDataAsArray($myQuery){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $query = mysqli_query($this->connection, $myQuery);
+        $statement = $this->connection->prepare($myQuery);
+        $statement->execute();
+        $result = $statement->get_result();
         $results = array();
-        while($line = mysqli_fetch_array($query)){
+        while($line = $result->fetch_array()){
             $results[] = $line;
         }
         return $results;
