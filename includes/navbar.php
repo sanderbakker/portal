@@ -10,8 +10,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css"/>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-
-
+<link rel="stylesheet" href="../css/bootstrap-select.css" type="text/css">
 
 <style>
     .navbar-collapse.collapsing,

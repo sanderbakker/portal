@@ -22,7 +22,7 @@ include '../includes/navbar.php';
 
 </style>
 <div class="container">
-    <h3>My Customers<a class="btn btn-sm btn-success pull-right" href="#">Add</a></h3>
+    <h3>My Customers<a class="btn btn-sm btn-success pull-right" href="../admin/createCustomers.php">Add</a></h3>
 
     <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
