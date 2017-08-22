@@ -28,9 +28,9 @@ if(isset($_POST['createCustomer'])){
         if(!$database->check("SELECT * FROM customers WHERE email='$email'")) {
 
             $query = "INSERT INTO customers 
-                                                             (name, surname, company, phone, email, address, zipcode, city) VALUES 
-                                                             ('$name', '$surname', '$company', '$phone'
-                                                             , '$email', '$street', '$zipcode', '$city')";
+                        (name, surname, company, phone, email, address, zipcode, city) VALUES 
+                        ('$name', '$surname', '$company', '$phone'
+                        ,'$email', '$street', '$zipcode', '$city')";
             if ($database->executeQuery("portal", $query))
             {
                 echo $alertBuilder->createAlert("Customer successfully added to the system", "success");

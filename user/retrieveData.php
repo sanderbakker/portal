@@ -9,6 +9,8 @@ include '../includes/includeDatabase.php';
 
 if(isset($_POST['id'])){
     $id = $_POST['id'];
-    $data =  $database->getDataAsArray("SELECT * FROM messages WHERE id=$id");
+    $statement = $database->getConnection()->prepare("SELECT * FROM messages WHERE id=?");
+    $statement->bind_param('i', $id);
+    $data =  $database->getDataAsArray($statement);
     echo json_encode($data);
 }

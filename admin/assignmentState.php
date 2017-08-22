@@ -78,9 +78,8 @@ if(isset($_POST['submitState'])){
 
                         <?php
 
-
-                        $states = $database->getDataAsArray("SELECT * FROM state ORDER BY id");
-                        //$states = $database->getDataAsArray("SELECT * FROM state");
+                        $statement = $database->getConnection()->prepare('SELECT * FROM state ORDER BY id');
+                        $states = $database->getDataAsArray($statement);
 
                         foreach ($states as $state){
                             $id = $state['id'];

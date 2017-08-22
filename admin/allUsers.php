@@ -38,7 +38,8 @@ include "../includes/adminCheck.php";
         </thead>
         <tbody>
         <?php
-        $users = $database->getDataAsArray("SELECT * FROM users");
+        $statement = $database->getConnection()->prepare("SELECT * FROM users");
+        $users = $database->getDataAsArray($statement);
         foreach($users as $user){
             $name = $user ['name'];
             $surname = $user['surname'];

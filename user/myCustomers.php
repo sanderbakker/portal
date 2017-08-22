@@ -37,7 +37,9 @@ include '../includes/navbar.php';
         </thead>
         <tbody>
         <?php
-        $customers = $database->getDataAsArray("SELECT customers.* FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE userId = '$id'");
+        $statement = $database->getConnection()->prepare("SELECT customers.* FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE userId = ?");
+        $statement->bind_param('i', $id);
+        $customers = $database->getDataAsArray($statement);
         foreach($customers as $customer){
             $name = $customer ['name'];
             $surname = $customer['surname'];

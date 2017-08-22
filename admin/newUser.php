@@ -49,7 +49,8 @@ elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
         </thead>
         <tbody>
         <?php
-        $users = $database->getDataAsArray("SELECT * FROM users WHERE approved = 0");
+        $statement = $database->getConnection()->prepare("SELECT * FROM users WHERE approved = 0");
+        $users = $database->getDataAsArray($statement);
         foreach($users as $user){
             $name = $user ['name'];
             $surname = $user['surname'];

@@ -33,11 +33,15 @@ if(isset($_GET['action']) && isset($_GET['id'])){
 
 if((isset($_GET['messages']) && $_GET['messages'] == 'inbox') || !isset($_GET['messages'])) {
     $id = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
-    $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageTrash = 0 AND messageDeleted = 0 ORDER BY time_added DESC");
+    $statement = $database->getConnection()->prepare("SELECT * FROM messages WHERE userId = ? AND messageTrash = 0 AND messageDeleted = 0 ORDER BY time_added DESC");
+    $statement->bind_param('i', $id);
+    $messages = $database->getDataAsArray($statement);
 }
 elseif (isset($_GET['messages']) && $_GET['messages'] == 'trash'){
     $id = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
-    $messages = $database->getDataAsArray("SELECT * FROM messages WHERE userId = $id AND messageTrash = 1 AND messageDeleted = 0 ORDER BY time_added DESC");
+    $statement = $database->getConnection()->prepare("SELECT * FROM messages WHERE userId = ? AND messageTrash = 1 AND messageDeleted = 0 ORDER BY time_added DESC");
+    $statement->bind_param('i', $id);
+    $messages = $database->getDataAsArray($statement);
 }
 else{
     $messages = null;

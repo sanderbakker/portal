@@ -37,7 +37,8 @@ include '../includes/adminCheck.php';?>
         </thead>
         <tbody>
         <?php
-        $assignments = $database->getDataAsArray("SELECT * FROM assignments");
+        $statement = $database->getConnection()->prepare("SELECT * FROM assignments");
+        $assignments = $database->getDataAsArray($statement);
         foreach($assignments as $assignment){
             $description = $assignment['description'];
             $timeAdded = $assignment['time_added'];

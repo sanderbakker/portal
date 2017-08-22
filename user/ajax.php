@@ -47,9 +47,11 @@ function unreadAll($db, $id){
 }
 function retrieveData($db, $id){
     /* @var $db Database */
-    $data = $db->getDataAsArray("SELECT  count(closerequests.id) as requests, closerequests.reason, users.surname, users.name, assignments.description, assignments.id FROM closerequests LEFT JOIN assignments ON assignments.id = closerequests.assignmentId 
+    $statement = $db->getConnection()->prepare("SELECT  count(closerequests.id) as requests, closerequests.reason, users.surname, users.name, assignments.description, assignments.id FROM closerequests LEFT JOIN assignments ON assignments.id = closerequests.assignmentId 
                                                                      LEFT JOIN users ON assignments.userId = users.id  
-WHERE closerequests.assignmentId = '$id' and closerequests.accepted IS NULL");
+WHERE closerequests.assignmentId = ? and closerequests.accepted IS NULL");
+    $statement->bind_param('i', $id);
+    $data = $db->getDataAsArray($statement);
     echo json_encode($data);
 }
 

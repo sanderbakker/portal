@@ -17,7 +17,11 @@ include "../includes/navbar.php";
     $_SESSION['city'] = $userData['city'];
     $_SESSION['phone'] = $userData['phone'];
 
-    $assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE userId = '$id'");
+    //$assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE userId = '$id'");
+    $statement = $database->getConnection()->prepare("SELECT * FROM assignments WHERE userId = ?");
+    $statement->bind_param('i', $id);
+    $assignments = $database->getDataAsArray($statement);
+
     $currentDate = date('Y-m-d H:i:s');
     foreach ($assignments as $assignment){
         $assignmentAdded = $assignment['time_added'];
@@ -93,7 +97,13 @@ include "../includes/navbar.php";
                 <div class="card-block">
                     <table class='table' id="table">
                         <?php
-                        $latestMessages= $database->getDataAsArray("SELECT * FROM messages WHERE userId='$id' AND messageDeleted = 0 AND messageTrash = 0 AND messageRead= 0 ORDER BY time_added LIMIT 3");
+
+                        $messageStatement = $database->getConnection()->prepare("SELECT * FROM messages WHERE userId=? AND messageDeleted = 0 AND messageTrash = 0 AND messageRead= 0 ORDER BY time_added LIMIT 3");
+
+                        $messageStatement->bind_param('i', $id );
+
+                        $latestMessages= $database->getDataAsArray($messageStatement);
+
                         if(!$latestMessages){
                             echo "<tr><td colspan='2' style='text-align: center'>No new unread messages</td> </tr>";
                         }

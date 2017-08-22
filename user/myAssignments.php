@@ -37,8 +37,12 @@ include '../includes/navbar.php';
         <tbody>
         <?php
         
-        $id = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
-        $assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE userId = $id AND closed = 0 AND completed = 0");
+        $id = $_SESSION['id'];
+
+        $assignmentStatement = $database->getConnection()->prepare("SELECT * FROM assignments WHERE userId = ? AND closed = 0 AND completed = 0");
+        $assignmentStatement->bind_param('i', $id);
+
+        $assignments = $database->getDataAsArray($assignmentStatement);
         foreach($assignments as $assignment){
             $description = $assignment ['description'];
             $time_added = $assignment['time_added'];

@@ -38,7 +38,8 @@ include '../includes/adminCheck.php';?>
         </thead>
         <tbody>
         <?php
-        $assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE requestClose IS NOT NULL AND closed = 0");
+        $statement = $database->getConnection()->prepare("SELECT * FROM assignments WHERE requestClose IS NOT NULL AND closed = 0");
+        $assignments = $database->getDataAsArray($statement);
         foreach($assignments as $assignment){
             $description = $assignment['description'];
             $timeAdded = $assignment['time_added'];

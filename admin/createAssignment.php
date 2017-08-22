@@ -78,11 +78,14 @@ if(isset($_POST['createAssignment'])){
                             <option value="">-- Select a customer --</option>
                             <?php
                             if($_SESSION['role'] == 'admin'){
-                                $customers = $database->getDataAsArray('SELECT * FROM customers ORDER BY name ASC');
+                                $statement = $database->getConnection()->prepare("SELECT * FROM customers ORDER BY name ASC");
+                                $customers = $database->getDataAsArray($statement);
                             }
                             else{
                                 $id = $_SESSION['id'];
-                                $customers = $database->getDataAsArray("SELECT customers.* FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE userId = '$id'");
+                                $statement = $database->getConnection()->prepare("SELECT customers.* FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE userId = ?");
+                                $statement->bind_param('i', $id);
+                                $customers = $database->getDataAsArray($statement);
                             }
                             foreach($customers as $customer){
                                 $id = $customer['id'];

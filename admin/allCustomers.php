@@ -33,7 +33,8 @@ include '../includes/adminCheck.php';?>
         </thead>
         <tbody>
         <?php
-        $customers = $database->getDataAsArray("SELECT * FROM customers");
+        $statement = $database->getConnection()->prepare('SELECT * FROM customers');
+        $customers = $database->getDataAsArray($statement);
         foreach($customers as $customer){
             $name = $customer ['name'];
             $surname = $customer['surname'];

@@ -47,7 +47,7 @@ class Database
 
 
     public function getConnection(){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword);
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         return $this->connection;
     }
 
@@ -63,19 +63,6 @@ class Database
             return true;
         }
 
-    }
-
-    public function deleteFromTable($dbname, $query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, $dbname);
-        if(!$this->connection){
-            var_dump("Connection failed");
-            return false;
-        }
-        else{
-            $this->connection->prepare($query)->execute();
-            $this->connection->close();
-            return true;
-        }
     }
 
     public function check($query){
@@ -115,11 +102,9 @@ class Database
         }
     }
 
-    public function getDataAsArray($myQuery){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $statement = $this->connection->prepare($myQuery);
-        $statement->execute();
-        $result = $statement->get_result();
+    public function getDataAsArray($preparedQuery){
+        $preparedQuery->execute();
+        $result = $preparedQuery->get_result();
         $results = array();
         while($line = $result->fetch_array()){
             $results[] = $line;

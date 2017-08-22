@@ -62,7 +62,8 @@ elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
         </thead>
         <tbody>
         <?php
-        $users = $database->getDataAsArray("SELECT * FROM users");
+        $statement = $database->getConnection()->prepare("SELECT * FROM Users");
+        $users = $database->getDataAsArray($statement);
         foreach($users as $user) {
             $name = $user ['name'];
             $surname = $user['surname'];
