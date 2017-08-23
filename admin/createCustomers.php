@@ -25,7 +25,11 @@ if(isset($_POST['createCustomer'])){
         $email = $_POST['email'];
         $street = $_POST['streetname'];
         $company = $_POST['company'];
-        if(!$database->check("SELECT * FROM customers WHERE email='$email'")) {
+
+        $checkCustomer = $database->getConnection()->prepare("SELECT * FROM customers WHERE email = ?");
+        $checkCustomer->bind_param('s', $email);
+
+        if(!$database->check($checkCustomer)) {
 
             $query = "INSERT INTO customers 
                         (name, surname, company, phone, email, address, zipcode, city) VALUES 

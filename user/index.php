@@ -33,7 +33,11 @@ include "../includes/navbar.php";
              $getCustomerName = $database->getData("SELECT customers.name FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE customerId = $customerId")['name'];
              $assignmentId = $assignment['id'];
              $messageSubject = 'Concerning assignment #' . $assignment['id'] . ' (' . $assignment['description'] . ')';
-             if(!$database->check("SELECT * FROM messages WHERE subject='$messageSubject'")){
+
+             $checkMessageStatement = $database->getConnection()->prepare('SELECT * FROM messages WHERE subject = ?');
+             $checkMessageStatement->bind_param('s', $messageSubject);
+
+             if(!$database->check($checkMessageStatement)){
                  $message = 'Customer ' . $customerId . " (". $getCustomerName. ") is already waiting more than 24 hours for your responding";
                  $database->executeQuery('portal', "INSERT into messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
                                                             '$id', '$message', '$customerId', 0, 0, 0, '$time_date', '$messageSubject', '$assignmentId')");

@@ -63,10 +63,16 @@ else{
                                     $username = $_POST['username'];
                                     $password = $_POST['password'];
 
+                                    $checkUserStatement = $database->getConnection()->prepare("SELECT * FROM users WHERE username=?");
+                                    $checkUserStatement->bind_param('s', $username);
 
 
-                                    if($database->check("SELECT * FROM users WHERE username='$username'")){
-                                        if($database->check("SELECT * FROM users WHERE username='$username' AND approved=true")) {
+                                    if($database->check($checkUserStatement)){
+
+                                        $checkApprovedStatement = $database->getConnection()->prepare("SELECT * FROM users WHERE username = ? AND approved = true");
+                                        $checkApprovedStatement->bind_param('s', $username);
+
+                                        if($database->check($checkApprovedStatement)) {
                                             $encryptedPassword = explode("||",$database->getData("SELECT password FROM users WHERE username='$username'", 'password'));
                                             $decryptedPassword = $database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
                                             if($decryptedPassword == $password) {

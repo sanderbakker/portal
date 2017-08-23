@@ -17,7 +17,10 @@ if(isset($_GET['id']) && $_GET['id'] != ''){
     $customerId = $assignment['customerId'];
     $customerInfo = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
     if($_SESSION['role'] != 'admin'){
-        if(!$database->check("SELECT * FROM assignments WHERE userId ='$userId' AND customerId= '$customerId' AND completed = 0 AND closed =0" )){
+        $checkAssignment = $database->getConnection()->prepare('SELECT * FROM assignments WHERE userId = ? AND customerId = ? AND completed = 0 AND closed = 0');
+        $checkAssignment->bind_param('ii', $userId, $customerId);
+
+        if(!$database->check($checkAssignment)){
             header('location: ../404.php');
         }
     }

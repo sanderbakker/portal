@@ -5,6 +5,7 @@
  * Date: 26-7-2017
  * Time: 21:49
  */
+
 class FormBuilder
 {
 
@@ -70,7 +71,10 @@ class FormBuilder
         $id = $_SESSION['id'];
         if(isset($_POST[$submitValue])) {
             $newValue = $_POST[$fieldValue];
-            if($this->database->check("SELECT * FROM user_info WHERE userId = $id")){
+
+            $checkUserInfoStatement = $this->database->getConnection()->prepare('SELECT * FROM user_info WHERE userId = ?');
+            $checkUserInfoStatement->bind_param('i', $id);
+            if($this->database->check($checkUserInfoStatement)){
                 $query = "UPDATE user_info
                           SET $name='$newValue'
                           WHERE userId=$id";
@@ -121,7 +125,11 @@ class FormBuilder
         $alertBuilder = new AlertBuilder();
         if(isset($_POST[$submitValue])){
             $newValue = $_POST[$fieldValue];
-            if(!empty($newValue) && !$database->check("SELECT username FROM Users WHERE username='$newValue'")) {
+
+            $checkUsernameStatement = $database->getConnection()->prepare('SELECT username FROM users WHERE username ?');
+            $checkUsernameStatement->bind_param('s', $newValue);
+
+            if(!empty($newValue) && !$database->check($checkUsernameStatement)) {
                 $query = "UPDATE Users
                           SET username='$newValue'
                           WHERE id='$id'";

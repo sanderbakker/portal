@@ -50,7 +50,11 @@ if(isset($_POST['registerMe'])) {
     $phone = $_POST['phone'];
     if(!empty($username) && !empty($password) && !empty($phone) && !empty($rpassword) && !empty($zipcode) && !empty($email) && !empty($name) && !empty($street) && !empty($surname) && !empty($city)) {
         if (($rpassword == $password)) {
-            if (!$database->check("SELECT username FROM Users WHERE username='$username'")) {
+
+            $checkUsernameStatement = $database->getConnection()->prepare("SELECT username FROM Users WHERE username = ? ");
+            $checkUsernameStatement->bind_param('s', $username);
+
+            if (!$database->check($checkUsernameStatement)) {
                 $encryptedPassword = $database->encryptSSL($password);
                 $query = "INSERT INTO users (phone, username, password, name, surname, email, address, role, zipcode, city, approved)
               VALUES ('$phone', '$username', '$encryptedPassword', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";

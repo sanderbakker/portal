@@ -65,23 +65,6 @@ class Database
 
     }
 
-    public function check($query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, "portal");;
-        $statement = $this->connection->prepare($query);
-        $statement->execute();
-        $statement->store_result();
-        if($statement->num_rows != 0){
-            $this->connection->close();
-            return true;
-        }
-
-        else
-        {
-            $this->connection->close();
-            return false;
-        }
-    }
-
     public function getId($username){
         $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $id = mysqli_fetch_all(mysqli_query($this->connection, "SELECT id FROM users WHERE username='$username'"));
@@ -99,6 +82,21 @@ class Database
         }
         else{
             return $data;
+        }
+    }
+
+    public function check($preparedQuery){
+        $preparedQuery->execute();
+        $preparedQuery->store_result();
+        if($preparedQuery->num_rows != 0){
+            $this->connection->close();
+            return true;
+        }
+
+        else
+        {
+            $this->connection->close();
+            return false;
         }
     }
 

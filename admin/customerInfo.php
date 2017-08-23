@@ -12,7 +12,10 @@ if(isset($_GET['id']) && $_GET['id'] != ''){
     $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
     $userId = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
     if($_SESSION['role'] != 'admin'){
-        if(!$database->check("SELECT * FROM assignments WHERE userId ='$userId' AND customerId='$id'")){
+        $checkCustomerStatement = $database->getConnection()->prepare("SELECT * FROM assignments WHERE userId= ? AND customerId = ?");
+        $checkCustomerStatement->bind_param('ii', $userId, $id);
+
+        if(!$database->check($checkCustomerStatement)){
             header('location: ../404.php');
         }
     }

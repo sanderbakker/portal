@@ -34,7 +34,11 @@ if(isset($_POST['createUser'])){
         $email = $_POST['email'];
         $newPassword = $_POST['password'];
         $street = $_POST['streetname'];
-        if(!$database->check("SELECT * FROM users WHERE username='$username'")) {
+
+        $checkUsernameStatement = $database->getConnection()->prepare("SELECT * FROM users WHERE username = ?");
+        $checkUsernameStatement->bind_param('s', $username);
+
+        if(!$database->check($checkUsernameStatement)) {
             $encryptedPassword = $database->encryptSSL($newPassword);
             $query = "INSERT INTO Users 
                                                              (name, surname, password, username, phone, email, role, address, zipcode, city, approved) VALUES 

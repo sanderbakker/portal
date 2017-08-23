@@ -14,7 +14,10 @@ if(isset($_GET['id']) && $_GET['id'] != ''){
     $customerId = $assignment['customerId'];
     $customerInfo = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
 
-    if(!$database->check("SELECT * FROM assignments WHERE userId ='$userId' AND customerId= $customerId")){
+    $checkUserAssignment = $database->getConnection()->prepare("SELECT * FROM assignments WHERE userId = ? AND customerId = ?");
+    $checkUserAssignment->bind_param('ii', $userId, $customerId);
+
+    if(!$database->check($checkUserAssignment)){
         header('location: ../404.php');
     }
 

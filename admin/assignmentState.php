@@ -33,7 +33,10 @@ if(isset($_POST['submitState'])){
     $name = $_POST['stateName'];
     $code = $_POST['stateCode'];
     if($name != '' && $code != '') {
-        if(!$database->check("SELECT code FROM state WHERE code='$code'")) {
+        $checkState = $database->getConnection()->prepare('SELECT * FROM state WHERE code = ?');
+        $checkState->bind_param('i', $code);
+
+        if(!$database->check($checkState)) {
             $database->executeQuery('portal', "INSERT INTO state (name, code) VALUES('$name','$code' )");
             echo $alertBuilder->createAlert("Added state " . $name, "success");
         }
