@@ -46,15 +46,24 @@ include '../includes/navbar.php';
         foreach($assignments as $assignment){
             $description = $assignment ['description'];
             $time_added = $assignment['time_added'];
-            $stateId = mysqli_real_escape_string($database->getConnection(), $assignment['stateId']);
-            $state = $database->getData("SELECT * FROM state WHERE id='$stateId'");
+
+            $stateStatement = $database->getConnection()->prepare("SELECT * FROM state WHERE id= ?");
+            $stateStatement->bind_param('i', $stateId);
+
+            $stateId = $assignment['stateId'];
+            $state = $database->getData($stateStatement);
 
             $stateName = $state['name'];
             $stateCode = $state['code'];
 
             $id = $assignment['id'];
-            $customerId = mysqli_real_escape_string($database->getConnection(), $assignment['customerId']);
-            $customer = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
+
+            $customerId = $assignment['customerId'];
+
+            $customerStatement = $database->getConnection()->prepare('SELECT * FROM customers WHERE id = ?');
+            $customerStatement->bind_param('i', $customerId);
+
+            $customer = $database->getData($customerStatement);
             $customerName = $customer['name'] . ' ' . $customer['surname'];
             if($stateCode == '120'){
                 $salary = "<a title='Register hours' href='#' class='btn btn-sm btn-success'><i class='fa fa-money'></i></a>";

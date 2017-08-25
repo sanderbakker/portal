@@ -75,16 +75,17 @@ class FormBuilder
             $checkUserInfoStatement = $this->database->getConnection()->prepare('SELECT * FROM user_info WHERE userId = ?');
             $checkUserInfoStatement->bind_param('i', $id);
             if($this->database->check($checkUserInfoStatement)){
-                $query = "UPDATE user_info
-                          SET $name='$newValue'
-                          WHERE userId=$id";
+                $query = $this->database->getConnection()->prepare("UPDATE user_info
+                          SET $name = ?
+                          WHERE userId=?");
+                $query->bind_param('si', $newValue, $id);
             }
             else{
-                $query = "INSERT INTO user_info
-                          (userId, $name) VALUES ($id, '$newValue')";
-
+                $query = $this->database->getConnection()->prepare("INSERT INTO user_info
+                          (userId, $name) VALUES (?, ?)");
+                $query->bind_param('is', $id, $newValue);
             }
-            if($this->database->executeQuery("portal", $query)) {
+            if($this->database->executeQuery($query)) {
                 $_SESSION[$name]=$newValue;
 
                 echo $this->alertBuilder->createAlert( "Changed $name successfully in $newValue", 'success');
@@ -95,19 +96,22 @@ class FormBuilder
         }
 
     }
-    public function submitEditForm($submitValue, $fieldValue, $name){
+    public function submitEditForm($submitValue, $fieldValue, $name, $values = null){
         $id = $_SESSION['id'];
 
 
         if(isset($_POST[$submitValue])){
             $newValue = $_POST[$fieldValue];
             if(!empty($newValue)) {
-                $query = "UPDATE Users
-                          SET $name='$newValue'
-                          WHERE id='$id'";
-                if($this->database->executeQuery("portal", $query)) {
-                    $_SESSION[$name]=$newValue;
+                $query = $this->database->getConnection()->prepare("UPDATE Users
+                          SET $name=?
+                          WHERE id=?");
+                if($values = null) {
+                    $query->bind_param('si', $newValue, $id);
+                }
 
+                if($this->database->executeQuery($query)) {
+                    $_SESSION[$name]=$newValue;
                     echo $this->alertBuilder->createAlert( "Changed $name successfully in $newValue", 'success');
                 }
                 else{
@@ -130,10 +134,11 @@ class FormBuilder
             $checkUsernameStatement->bind_param('s', $newValue);
 
             if(!empty($newValue) && !$database->check($checkUsernameStatement)) {
-                $query = "UPDATE Users
-                          SET username='$newValue'
-                          WHERE id='$id'";
-                if($database->executeQuery("portal", $query)) {
+                $query = $this->database->getConnection()->prepare("UPDATE Users
+                          SET username=?
+                          WHERE id=?");
+                $query->bind_param('si', $newValue, $id);
+                if($database->executeQuery($query)) {
                     $_SESSION['username'] = $newValue;
                     echo $alertBuilder->createAlert( "Changed username successfully in $newValue", 'success');
                 }
@@ -150,13 +155,17 @@ class FormBuilder
     public function submitPassword(){
         $id = $_SESSION['id'];
         if(isset($_POST['submitPassword'])){
-            $getPassword = $this->database->getData("SELECT password FROM users WHERE id=$id", 'password');
+
+            $getPassword = $this->database->getUserById($id)['password'];
             $encryptedPassword = explode('||', $getPassword);
             $decryptedPassword = $this->database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
             if(!empty($_POST['oldPassword']) && !empty($_POST['newPassword']) && !empty($_POST['rNewPassword'])){
                 if($decryptedPassword == $_POST['oldPassword'] && $_POST['newPassword'] == $_POST['rNewPassword']){
                     $newEncryptedPassword = $this->database->encryptSSL($_POST['newPassword']);
-                    $this->database->executeQuery('portal', "UPDATE Users SET password='$newEncryptedPassword' WHERE id='$id'");
+
+                    $query = $this->database->getConnection()->prepare("UPDATE Users SET password=? WHERE id=?");
+                    $query->prepare('si', $newEncryptedPassword, $id);
+                    $this->database->executeQuery($query);
                     echo $this->alertBuilder->createAlert("Changed password", "success");
                 }
                 else{

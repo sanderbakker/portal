@@ -29,7 +29,10 @@ if(isset($_POST['createAssignment'])){
         else{
             $id = $_SESSION['id'];
         }
-        $database->executeQuery('portal', "INSERT INTO assignments (customerId, description, stateId, completed, closed, requestClose, userId) VALUES ($customerId, '$description', 1, 0, 0, NULL, $id)");
+        $createAssignment = $database->getConnection()->prepare("INSERT INTO assignments (customerId, description, stateId, completed, closed, requestClose, userId) 
+                                                                      VALUES (?, ?, 1, 0, 0, NULL, ?)");
+        $createAssignment->bind_param('isi', $customerId, $description, $id);
+        $database->executeQuery($createAssignment);
         echo $alertBuilder->createAlert('Created assignment for customer #' . $customerId, 'success');
     }
     else{
@@ -90,7 +93,8 @@ if(isset($_POST['createAssignment'])){
                             foreach($customers as $customer){
                                 $id = $customer['id'];
                                 $name = $customer['name'];
-                                echo "<option value=$id>$name</option>";
+                                $surname = $customer['surname'];
+                                echo "<option value=$id>$name $surname</option>";
                             }
                             ?>
                         </select>

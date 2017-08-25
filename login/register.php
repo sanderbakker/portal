@@ -56,9 +56,13 @@ if(isset($_POST['registerMe'])) {
 
             if (!$database->check($checkUsernameStatement)) {
                 $encryptedPassword = $database->encryptSSL($password);
-                $query = "INSERT INTO users (phone, username, password, name, surname, email, address, role, zipcode, city, approved)
-              VALUES ('$phone', '$username', '$encryptedPassword', '$name', '$surname', '$email', '$street', 'user', '$zipcode', '$city', false)";
-                if ($database->executeQuery("portal", $query)) {
+
+                $query = $database->getConnection()->prepare("INSERT INTO users (phone, username, password, name, surname, email, address, role, zipcode, city, approved)
+              VALUES (?, ?, ?, ?, ?, ?, ?, 'user', ?, ?, false)");
+
+                $query->bind_param('sssssssss', $phone, $username, $encryptedPassword, $name, $surname, $email, $street, $zipcode, $city);
+
+                if ($database->executeQuery( $query)) {
                     echo "<div class='alerts'>
                 <div class='alert alert-success' role='alert'>
                     <strong>Success</strong> Regisitration completed.

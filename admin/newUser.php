@@ -9,15 +9,20 @@ include '../includes/navbar.php';
 
 if(isset($_GET['approved']) && $_GET['approved'] == 'true' ){
     $userId = $_GET['id'];
-    $database->executeQuery('portal', "UPDATE Users 
+    $userQuery = $database->getConnection()->prepare("UPDATE Users 
                                                      SET approved=true
-                                                     WHERE id='$userId'");
+                                                     WHERE id=?");
+    $userQuery->bind_param('i', $userId);
+    $database->executeQuery($userQuery);
 
 }
 elseif(isset($_GET['approved']) && $_GET['approved'] == 'false'){
     $userId = $_GET['id'];
-    $database->executeQuery('portal', "DELETE FROM Users
-                                                     WHERE id='$userId'");
+    $userQuery = $database->getConnection()->prepare("UPDATE Users 
+                                                     SET approved=false
+                                                     WHERE id=?");
+    $userQuery->bind_param('i', $userId);
+    $database->executeQuery( $userQuery);
 }
 ?>
 <style>

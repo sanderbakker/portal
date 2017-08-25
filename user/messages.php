@@ -8,22 +8,32 @@
 include '../includes/navbar.php';
 if(isset($_GET['action']) && isset($_GET['id'])){
     $action = $_GET['action'];
-    $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
-
+    $id = $_GET['id'];
+    $conn = $database->getConnection();
     if($action == 'read') {
-        $database->executeQuery('portal', "UPDATE messages SET messageRead=1 WHERE id='$id'");
+        $query = $conn->prepare("UPDATE messages SET messageRead=1 WHERE id=?");
+        $query->bind_param('i', $id);
+        $database->executeQuery($query);
     }
     elseif($action == 'trash'){
-        $database->executeQuery('portal', "UPDATE messages SET messageTrash=1, messageRead = 1 WHERE id='$id'");
+        $query = $conn->prepare("UPDATE messages SET messageTrash=1, messageRead = 1 WHERE id=?");
+        $query->bind_param('i', $id);
+        $database->executeQuery($query);
     }
     elseif($action == 'unread'){
-        $database->executeQuery('portal', "UPDATE messages SET messageRead=0 WHERE id='$id'");
+        $query = $conn->prepare("UPDATE messages SET messageRead=0 WHERE id=?");
+        $query->bind_param('i', $id);
+        $database->executeQuery($query);
     }
     elseif($action == 'inbox'){
-        $database->executeQuery('portal', "UPDATE messages SET messageTrash=0 WHERE id='$id'");
+        $query = $conn->prepare("UPDATE messages SET messageTrash=0 WHERE id=?");
+        $query->bind_param('i', $id);
+        $database->executeQuery($query);
     }
     elseif($action == 'remove'){
-        $database->executeQuery('portal', "UPDATE messages SET messageDeleted = 1 WHERE id='$id'");
+        $query = $conn->prepare("UPDATE messages SET messageDeleted = 1 WHERE id=?");
+        $query->bind_param('i', $id);
+        $database->executeQuery($query);
     }
     else{
         header('location: ../404.php');
@@ -282,7 +292,7 @@ else{
     <script>
         $(document).ready(function() {
             $('#table').DataTable({
-                "pageLength" : 7,
+                "pageLength" : 6,
                 "bLengthChange": false
             });
         } );

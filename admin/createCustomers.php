@@ -31,11 +31,12 @@ if(isset($_POST['createCustomer'])){
 
         if(!$database->check($checkCustomer)) {
 
-            $query = "INSERT INTO customers 
+            $query = $database->getConnection()->prepare("INSERT INTO customers 
                         (name, surname, company, phone, email, address, zipcode, city) VALUES 
-                        ('$name', '$surname', '$company', '$phone'
-                        ,'$email', '$street', '$zipcode', '$city')";
-            if ($database->executeQuery("portal", $query))
+                        (?, ?, ?, ?, ?, ?, ?, ?)");
+            $query->bind_param('ssssssss', $name, $surname, $company, $phone, $email, $street, $zipcode, $city);
+
+            if ($database->executeQuery( $query))
             {
                 echo $alertBuilder->createAlert("Customer successfully added to the system", "success");
             }

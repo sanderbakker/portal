@@ -8,11 +8,12 @@
 include '../includes/navbar.php';
 include '../classes/AlertBuilder.php';
 if(isset($_GET['id']) && $_GET['id'] != ''){
-    $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
-    $userId = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
-    $assignment = $database->getData("SELECT * FROM assignments WHERE id=$id");
+    $id = $_GET['id'];
+    $userId = $_SESSION['id'];
+    $assignment = $database->getAssignment($id, 'id');
+
     $customerId = $assignment['customerId'];
-    $customerInfo = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
+    $customerInfo = $database->getCustomer($customerId, 'id');
 
     $checkUserAssignment = $database->getConnection()->prepare("SELECT * FROM assignments WHERE userId = ? AND customerId = ?");
     $checkUserAssignment->bind_param('ii', $userId, $customerId);
@@ -32,13 +33,26 @@ if(isset($_POST['requestClosing'])){
         if($assignment['requestClose'] == null){
             $assignmentId = $assignment['id'];
             $reason = $_POST['reason'];
-            $database->executeQuery('portal', "INSERT into closerequests (assignmentId, reason, accepted) VALUES ('$assignmentId' , '$reason', NULL)");
 
-            $closeState = $database->getData('SELECT * FROM state WHERE code=300')['id'];
+            $closeQuery = $database->getConnection()->prepare("INSERT into closerequests (assignmentId, reason, accepted) 
+                                                                    VALUES (?, ?, NULL)");
+            $closeQuery->bind_param('is', $assignmentId, $reason);
 
-            $requestClose = $database->getData("SELECT * FROM closerequests WHERE assignmentId = $assignmentId")['id'];
+            $database->executeQuery($closeQuery);
 
-            $database->executeQuery('portal', "UPDATE assignments SET stateId = $closeState, requestClose = $requestClose WHERE id=$assignmentId");
+            $getStateQuery = $database->getConnection()->prepare('SELECT * FROM state WHERE code=300');
+
+            $closeState = $database->getData($getStateQuery)['id'];
+
+            $statement = $database->getConnection()->prepare('SELECT * FROM closerequests WHERE assignmentId = ?');
+            $statement->bind_param('i', $assignmentId);
+
+            $requestClose = $database->getData($statement, 'id');
+
+            $updateAssignmentQuery = $database->getConnection()->prepare("UPDATE assignments SET stateId = ?, requestClose = ? WHERE id=?");
+            $updateAssignmentQuery->bind_param('iii', $closeState, $requestClose, $assignmentId);
+
+            $database->executeQuery($updateAssignmentQuery);
             echo $alertBuilder->createAlert('Added close request', 'success');
         }
         else{

@@ -32,7 +32,10 @@
 include 'includes.php';
 include_once 'includeDatabase.php';
 $id = $_SESSION['id'];
-$userData = $database->getData("SELECT * FROM users WHERE id='$id'");
+
+$userDataStatement = $database->getConnection()->prepare('SELECT * FROM users WHERE id =  ?');
+$userDataStatement->bind_param('i', $id);
+$userData = $database->getData($userDataStatement);
 $role = $userData['role'];
 if($role == 'admin') {
     echo "<nav class='navbar navbar-toggleable-md navbar-light' style='background-color: #5bc0de;'>

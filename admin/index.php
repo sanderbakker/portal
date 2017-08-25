@@ -42,8 +42,11 @@ include "../includes/adminCheck.php";
                     <h4 class="card-title">All Users</h4>
                     <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                     <?php
-                    $date = date('d-m-y', strtotime("-1 week")); ?>
-                    <p class="card-text card-margin">New users since <?php echo $date . ': ' . $database->getData("SELECT count(id) number FROM users WHERE reg_date >= $date")[0]?></p>
+                    $date = date('d-m-y', strtotime("-1 week"));
+
+                    $userStatement = $database->getConnection()->prepare("SELECT count(id) number FROM users WHERE reg_date >= $date");
+                    ?>
+                    <p class="card-text card-margin">New users since <?php echo $date . ': ' . $database->getData($userStatement)[0]?></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -62,8 +65,9 @@ include "../includes/adminCheck.php";
                     <h4 class="card-title">New users to approve</h4>
                     <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                     <?php
-                    $date = date('d-m-y', strtotime("-1 week")); ?>
-                    <p class="card-text">Users to approve: <?php echo $database->getData("SELECT count(id) number FROM users WHERE approved = false")[0]?></p>
+                    $date = date('d-m-y', strtotime("-1 week"));
+                    $statement = $database->getConnection()->prepare("SELECT count(id) number FROM users WHERE approved = false")?>
+                    <p class="card-text">Users to approve: <?php echo $database->getData($statement)[0]?></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -138,8 +142,9 @@ include "../includes/adminCheck.php";
                         <h4 class="card-title">All Customers</h4>
                         <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                         <?php
-                        $date = date('d-m-y', strtotime("-1 week")); ?>
-                        <p class="card-text card-margin">New customers since <?php echo $date . ': ' . $database->getData("SELECT count(id) number FROM customers WHERE reg_date >= $date")[0]?></p>
+                        $date = date('d-m-y', strtotime("-1 week"));
+                        $customerStatement = $database->getConnection()->prepare("SELECT count(id) number FROM customers WHERE reg_date >= $date");?>
+                        <p class="card-text card-margin">New customers since <?php echo $date . ': ' . $database->getData($customerStatement)[0]?></p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -179,8 +184,10 @@ include "../includes/adminCheck.php";
                         <h4 class="card-title">All Assignments</h4>
                         <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                         <?php
-                        $date = date('d-m-y', strtotime("-1 week")); ?>
-                        <p class="card-text card-margin">New assignments since <?php echo $date . ': ' . $database->getData("SELECT count(id) number FROM assignments WHERE time_added >= $date")[0]?></p>
+                        $date = date('d-m-y', strtotime("-1 week"));
+                        $statementAssignment = $database->getConnection()->prepare("SELECT count(id) number FROM assignments WHERE time_added >= $date");
+                        ?>
+                        <p class="card-text card-margin">New assignments since <?php echo $date . ': ' . $database->getData($statementAssignment)[0]?></p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -199,7 +206,10 @@ include "../includes/adminCheck.php";
                     <div class="card-block">
                         <h4 class="card-title">Assign Assignments</h4>
                         <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
-                        <p class="card-text card-margin">Assignments to assign: <?php echo $database->getData("SELECT count(id) FROM assignments WHERE userId IS NULL")[0]?></p>
+                        <p class="card-text card-margin">Assignments to assign: <?php
+                            $assignAssignmentStatement = $database->getConnection()->prepare("SELECT count(id) FROM assignments WHERE userId IS NULL");
+
+                            echo $database->getData($assignAssignmentStatement)[0]?></p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -218,7 +228,10 @@ include "../includes/adminCheck.php";
                     <div class="card-block">
                         <h4 class="card-title">New assignments to close</h4>
                         <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
-                        <p class="card-text card-margin">Assignments to close: <?php echo $database->getData("SELECT count(id) FROM assignments WHERE requestClose IS NOT NULL AND closed = 0")[0]?></p>
+                        <p class="card-text card-margin">Assignments to close: <?php
+                            $closeStatement = $database->getConnection()->prepare("SELECT count(id) FROM assignments WHERE requestClose IS NOT NULL AND closed = 0");
+
+                            echo $database->getData($closeStatement)[0]?></p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">

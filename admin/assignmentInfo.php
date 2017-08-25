@@ -13,9 +13,10 @@ include '../includes/includes.php';
 if(isset($_GET['id']) && $_GET['id'] != ''){
     $id = mysqli_real_escape_string($database->getConnection(), $_GET['id']);
     $userId = mysqli_real_escape_string($database->getConnection(), $_SESSION['id']);
-    $assignment = $database->getData("SELECT * FROM assignments WHERE id=$id");
+    $assignment = $database->getAssignment($id, 'id');
+
     $customerId = $assignment['customerId'];
-    $customerInfo = $database->getData("SELECT * FROM customers WHERE id='$customerId'");
+    $customerInfo = $database->getCustomer($customerId, "id");
     if($_SESSION['role'] != 'admin'){
         $checkAssignment = $database->getConnection()->prepare('SELECT * FROM assignments WHERE userId = ? AND customerId = ? AND completed = 0 AND closed = 0');
         $checkAssignment->bind_param('ii', $userId, $customerId);
@@ -45,7 +46,7 @@ function getCoordinates($address){
 
 }
 $stateId = $assignment['stateId'];
-$state = $database->getData("SELECT * FROM state WHERE id='$stateId'");
+$state = $database->getState($stateId, 'id');
 
 $address = $customerInfo['address'];
 $city = $customerInfo['city'];

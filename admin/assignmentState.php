@@ -37,7 +37,10 @@ if(isset($_POST['submitState'])){
         $checkState->bind_param('i', $code);
 
         if(!$database->check($checkState)) {
-            $database->executeQuery('portal', "INSERT INTO state (name, code) VALUES('$name','$code' )");
+            $createState = $database->getConnection()->prepare("INSERT INTO state (name, code) VALUES(?, ? )");
+            $createState->bind_param('si', $name, $code);
+
+            $database->executeQuery($createState);
             echo $alertBuilder->createAlert("Added state " . $name, "success");
         }
         else{

@@ -91,8 +91,14 @@ switch ($edit){
         break;
     case 'state':
         $id = $_GET['id'];
-        $name = $database->getData("SELECT name FROM state WHERE id =$id", 'name');
-        $code = $database->getData("SELECT code FROM state WHERE id =$id", 'code');
+
+        $statement = $database->getConnection()->prepare("SELECT * FROM state WHERE id=?");
+        $statement->bind_param('i', $id);
+        $state = $database->getData($statement);
+
+        $name = $state['name'];
+        $code = $state['code'];
+
         if($name != '' && $code != '') {
             echo $formBuilder->buildStateForm($name, $code);
         }

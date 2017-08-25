@@ -18,6 +18,7 @@ class Database
         $this->dbPassword = $dbPassword;
         $this->dbUsername = $dbUsername;
         $this->host = $host;
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
         $this->iv = $iv;
 
     }
@@ -51,14 +52,12 @@ class Database
         return $this->connection;
     }
 
-    public function executeQuery($dbname, $query){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, $dbname);
+    public function executeQuery($preparedQuery){
         if(!$this->connection){
-            var_dump("Connection failed");
             return false;
         }
         else{
-            $this->connection->prepare($query)->execute();
+            $preparedQuery->execute();
             $this->connection->close();
             return true;
         }
@@ -72,11 +71,9 @@ class Database
         return $id[0][0];
     }
 
-    public function getData($query, $name = null){
-        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
-        $statement = $this->connection->prepare($query);
-        $statement->execute();
-        $data = $statement->get_result()->fetch_array();
+    public function getData($preparedQuery, $name = null){
+        $preparedQuery->execute();
+        $data = $preparedQuery->get_result()->fetch_array();
         if($name != null) {
             return $data[$name];
         }
@@ -122,5 +119,32 @@ class Database
         $decryptedMessage = openssl_decrypt($data, $encryptionMethod, $secretHash, 0,  $iv);
         return $decryptedMessage;
     }
+    public function getCustomer($id, $attribute){
+        $statement = $this->connection->prepare("SELECT * FROM customers WHERE $attribute = ?");
+        $statement->bind_param('i', $id);
+        return $this->getData($statement);
 
+    }
+    public function getAssignment($id, $attribute){
+        $this->connection = mysqli_connect($this->host, $this->dbUsername, $this->dbPassword, 'portal');
+        $statement = $this->connection->prepare("SELECT * FROM assignments WHERE $attribute = ?");
+        $statement->bind_param('i', $id);
+        return $this->getData($statement);
+    }
+
+    public function getState($id, $attribute){
+        $statement = $this->connection->prepare("SELECT * FROM state WHERE $attribute = ?");
+        $statement->bind_param('i', $id);
+        return $this->getData($statement);
+    }
+    public function getUserById($id){
+        $statement = $this->getConnection()->prepare("SELECT * FROM users WHERE id = ?");
+        $statement->bind_param('i', $id);
+        return $this->getData($statement);
+    }
+    public function getUserInfoById($id){
+        $statement = $this->getConnection()->prepare("SELECT * FROM user_info WHERE userId =?");
+        $statement->bind_param('i', $id);
+        return $this->getData($statement);
+    }
 }

@@ -73,7 +73,10 @@ else{
                                         $checkApprovedStatement->bind_param('s', $username);
 
                                         if($database->check($checkApprovedStatement)) {
-                                            $encryptedPassword = explode("||",$database->getData("SELECT password FROM users WHERE username='$username'", 'password'));
+
+                                            $passwordStatement = $database->getConnection()->prepare("SELECT password FROM users WHERE username= ?");
+                                            $passwordStatement->bind_param('s', $username);
+                                            $encryptedPassword = explode("||",$database->getData($passwordStatement, 'password'));
                                             $decryptedPassword = $database->decryptSSL($encryptedPassword[0], $encryptedPassword[1]);
                                             if($decryptedPassword == $password) {
                                                 $_SESSION['loggedIn'] = true;

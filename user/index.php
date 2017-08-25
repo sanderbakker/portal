@@ -1,8 +1,17 @@
 <?php
 include "../includes/navbar.php";
     $id = $_SESSION['id'];
-    $userData = $database->getData("SELECT * FROM users WHERE id='$id'");
-    $userInfo = $database->getData("SELECT * FROM user_info WHERE userId='$id'");
+
+    $userDataStatement = $database->getConnection()->prepare('SELECT * FROM users WHERE id =? ');
+    $userDataStatement->bind_param('i', $id);
+
+    $userData = $database->getData($userDataStatement);
+
+    $userInfoStatement = $database->getConnection()->prepare('SELECT * FROM user_info WHERE userId = ?');
+    $userInfoStatement->bind_param('i', $id);
+
+    $userInfo = $database->getData($userInfoStatement);
+
     $_SESSION['other'] = $userInfo['other'];
     $_SESSION['availability'] = $userInfo['availability'];
     $_SESSION['skills'] = $userInfo['skills'];
@@ -30,7 +39,11 @@ include "../includes/navbar.php";
         if($days >= 1 && $assignment['stateId'] == 1){
              $time_date = date('Y-m-d H:i:s', strtotime($assignment['time_added']) + 86400);
              $customerId = $assignment['customerId'];
-             $getCustomerName = $database->getData("SELECT customers.name FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE customerId = $customerId")['name'];
+
+             $customerNameStatement = $database->getConnection()->prepare("SELECT customers.name FROM assignments LEFT JOIN customers ON assignments.customerId = customers.id WHERE customerId = ?");
+             $customerNameStatement->bind_param('i', $customerId);
+
+             $getCustomerName = $database->getData($customerNameStatement, 'name');
              $assignmentId = $assignment['id'];
              $messageSubject = 'Concerning assignment #' . $assignment['id'] . ' (' . $assignment['description'] . ')';
 
@@ -39,8 +52,11 @@ include "../includes/navbar.php";
 
              if(!$database->check($checkMessageStatement)){
                  $message = 'Customer ' . $customerId . " (". $getCustomerName. ") is already waiting more than 24 hours for your responding";
-                 $database->executeQuery('portal', "INSERT into messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
-                                                            '$id', '$message', '$customerId', 0, 0, 0, '$time_date', '$messageSubject', '$assignmentId')");
+
+                 $messageQuery = $database->getConnection()->prepare("INSERT into messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) 
+            VALUES(?, ?, ?, 0, 0, 0, ?, ?, ?)");
+                 $messageQuery->bind_param('isissi', $id, $message, $customerId, $time_date, $messageSubject, $assignmentId);
+                 $database->executeQuery($messageQuery);
              }
         }
 
@@ -97,6 +113,15 @@ include "../includes/navbar.php";
             <div class="card">
                 <div class="card-header">
                     Latest messages
+                    <?php
+                    $query = $database->getConnection()->prepare('SELECT count(id) FROM messages WHERE messageRead = 0 AND messageTrash = 0 AND userId = ?');
+                    $query->bind_param('i', $id);
+                    if($database->getData($query)[0] > 0){
+                        $messageNumber = $database->getData($query)[0];
+                        echo "<span class='badge badge-danger badge-pill pull-right'>$messageNumber</span>";
+                    }
+                    ?>
+
                 </div>
                 <div class="card-block">
                     <table class='table' id="table">

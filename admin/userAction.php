@@ -7,22 +7,26 @@
  */
 include '../includes/navbar.php';
 include "../includes/adminCheck.php";
-
+//THIS SHOULD NOT BE POSSIBLE --> CREATE A DELETED FIELD FOR EACH USER OTHERWISE YOU GET IN WAR WITH FOREIGN KEY CONSTRAINTS
 if(isset($_GET['action']) && $_GET['action'] == 'remove'){
     $id = $_GET['id'];
-    if($database->getData("SELECT * FROM user_info WHERE userId='$id'") != null){
-        $database->deleteFromTable('portal', "DELETE FROM 'user_info' WHERE userId='$id'");
-    }
-    $database->deleteFromTable('portal', "DELETE FROM users WHERE id='$id'");
+//    if($database->getUserInfoById($id) != null){
+//        $database->executeQuery('portal', "DELETE FROM 'user_info' WHERE userId='$id'");
+//    }
+//    $database->executeQuery('portal', "DELETE FROM users WHERE id='$id'");
 }
 
 if(isset($_GET['action']) && $_GET['action'] == 'ban'){
     $id = $_GET['id'];
-    $database->executeQuery('portal', "UPDATE users SET banned='1' WHERE id='$id'");
+    $statement = $database->getConnection()->prepare("UPDATE users SET banned='1' WHERE id=?");
+    $statement->bind_param('i', $id);
+    $database->executeQuery($statement);
 }
 elseif(isset($_GET['action']) && $_GET['action'] == 'unban'){
     $id = $_GET['id'];
-    $database->executeQuery('portal', "UPDATE users SET banned='0' WHERE id='$id'");
+    $statement = $database->getConnection()->prepare("UPDATE users SET banned='0' WHERE id=?");
+    $statement->bind_param('i', $id);
+    $database->executeQuery($statement);
 }
 ?>
 <style>

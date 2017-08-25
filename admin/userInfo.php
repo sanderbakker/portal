@@ -24,8 +24,8 @@ function getCoordinates($address){
 
 }
 $id = $_GET['id'];
-$userInfo = $database->getData("SELECT * FROM user_info WHERE userId='$id'");
-$userData = $database->getData("SELECT * FROM users WHERE id='$id'");
+$userInfo = $database->getUserInfoById($id);
+$userData = $database->getUserById($id);
 $address = $userData['address'];
 $city = $userData['city'];
 $lat = getCoordinates($address .  $city)['results'][0]['geometry']['location']['lat'];

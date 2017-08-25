@@ -14,20 +14,26 @@ else{
 }
 $connection = $database->getConnection();
 
-$database->executeQuery('portal',"UPDATE messages SET messageRead = 1 WHERE id='$id'");
+$query = $database->getConnection()->prepare("UPDATE messages SET messageRead = 1 WHERE id=?");
+$query->bind_param('i', $id);
+$database->executeQuery($query);
 
 
-$id = mysqli_real_escape_string($connection, $id);
+$messageStatement = $database->getConnection()->prepare('SELECT * FROM messages WHERE id=?');
+$messageStatement->bind_param('i', $id);
 
-$message = $database->getData("SELECT * FROM messages WHERE id=$id");
+$message = $database->getData($messageStatement);
 
-$assignmentId = mysqli_real_escape_string($connection, $message['assignmentId']);
+$assignmentId = $message['assignmentId'];
 
-$assignment = $database->getData("SELECT * FROM assignments WHERE id=$assignmentId");
+$assignment = $database->getAssignment($assignmentId, 'id');
 
-$customerId = mysqli_real_escape_string($connection, $message['customerId']);
+$customerId = $message['customerId'];
 
-$customer = $database->getData("SELECT * FROM customers WHERE id=$customerId");
+$customerStatement = $database->getConnection()->prepare('SELECT * FROM customers WHERE id = ?');
+$customerStatement->bind_param('i', $customerId);
+
+$customer = $database->getData($customerStatement);
 
 $waitingTime = strtotime(date('Y-m-d H:i:s')) - strtotime($assignment['time_added']);
 $time = (round($waitingTime/86400, 1));
@@ -102,8 +108,10 @@ if($message['userId'] != $_SESSION['id']){
                                 </script>
                                 <?php
                                 $stateId = $assignment['stateId'];
+                                $stateStatement = $database->getConnection()->prepare("SELECT code FROM state WHERE id= ?");
+                                $stateStatement->bind_param('i', $stateId);
 
-                                $stateCode = $database->getData("SELECT code FROM state WHERE id='$stateId'")['code'];
+                                $stateCode = $database->getData($stateStatement, 'code');
 
                                 if($stateCode != '500' && $stateCode != '300'){
                                     echo '<tr>

@@ -35,15 +35,21 @@ if(isset($_POST['action'])){
 
 function removeAll($db, $id){
     /* @var $db Database */
-    $db->executeQuery('portal', "UPDATE messages SET messageDeleted = 1 WHERE userId = $id AND messageTrash = 1");
+    $preparedQuery = $db->getConnection()->prepare("UPDATE messages SET messageDeleted = 1 WHERE userId = ? AND messageTrash = 1");
+    $preparedQuery->bind_param('i', $id);
+    $db->executeQuery( $preparedQuery);
 }
 function readAll($db, $id){
     /* @var $db Database */
-    $db->executeQuery('portal', "UPDATE messages SET messageRead = 1 WHERE userId = '$id'");
+    $preparedQuery = $db->getConnection()->prepare("UPDATE messages SET messageRead = 1 WHERE userId = ?");
+    $preparedQuery->bind_param('i', $id);
+    $db->executeQuery($preparedQuery);
 }
 function unreadAll($db, $id){
     /* @var $db Database */
-    $db->executeQuery('portal', "UPDATE messages SET messageRead = 0 WHERE userId = '$id'");
+    $preparedQuery = $db->getConnection()->prepare("UPDATE messages SET messageRead = 0 WHERE userId = ?");
+    $preparedQuery->bind_param('i', $id);
+    $db->executeQuery($preparedQuery);
 }
 function retrieveData($db, $id){
     /* @var $db Database */
@@ -57,10 +63,16 @@ WHERE closerequests.assignmentId = ? and closerequests.accepted IS NULL");
 
 function accept($db, $id){
     /* @var $db Database */
-    $db->executeQuery('portal', "UPDATE closerequests SET accepted = 1 WHERE assignmentId = '$id'");
-    $db->executeQuery('portal', "UPDATE assignments SET closed = 1, stateId = 8 WHERE id='$id'");
+    $closeRequestQuery = $db->getConnection()->prepare("UPDATE closerequests SET accepted = 1 WHERE assignmentId = ?");
+    $closeRequestQuery->bind_param('i', $id);
+    $assignmentQuery = $db->getConnection()->prepare("UPDATE assignments SET closed = 1, stateId = 8 WHERE id= ?");
+    $assignmentQuery->bind_param('i', $id);
 
-    $assignment = $db->getData("SELECT * FROM assignments WHERE id=$id");
+    $db->executeQuery($assignmentQuery);
+    $db->executeQuery($closeRequestQuery);
+
+
+    $assignment = $db->getAssignment($id, 'id');
     $user = $assignment['userId'];
     $customer = $assignment['customerId'];
     $assignmentId = $assignment['id'];
@@ -72,16 +84,28 @@ function accept($db, $id){
     $message = 'The close request for assignment #' . $assignmentId . ' ('. $assignmentName. ') is accepted. 
                 Please do not pay any attention to this assignment anymore';
 
-    $db->executeQuery('portal', "INSERT INTO messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
-                                                            '$user', '$message', '$customer', 0, 0, 0, '$currentDate', '$subject', '$assignmentId')");
+    $createMessage = $db->getConnection()->prepare("INSERT INTO messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) 
+                        VALUES(?, ?, ?, 0, 0, 0, ?, ?, ?)");
+    $createMessage->bind_param('isissi', $user, $message, $customer, $currentDate, $subject, $assignmentId);
+    $db->executeQuery($createMessage);
 
 }
 function reject($db, $id){
     /* @var $db Database */
-    $db->executeQuery('portal', "UPDATE closerequests SET accepted = 0 WHERE assignmentId = '$id'");
-    $db->executeQuery('portal', "UPDATE assignments SET requestClose = null, stateId = 1 WHERE id='$id'");
 
-    $assignment = $db->getData("SELECT * FROM assignments WHERE id=$id");
+    $closeRequestQuery = $db->getConnection()->prepare("UPDATE closerequests SET accepted = 0 WHERE assignmentId = ?");
+    $closeRequestQuery->bind_param('i', $id);
+
+    $assignmentQuery = $db->getConnection()->prepare("UPDATE assignments SET requestClose = null, stateId = 1 WHERE id= ?");
+    $assignmentQuery->bind_param('i', $id);
+
+    //First this one
+    $db->executeQuery($assignmentQuery);
+    //Then this one otherwise it won't work
+    $db->executeQuery($closeRequestQuery);
+
+
+    $assignment = $db->getAssignment($id, 'id');
     $user = $assignment['userId'];
     $customer = $assignment['customerId'];
     $assignmentId = $assignment['id'];
@@ -93,7 +117,8 @@ function reject($db, $id){
     $message = 'The close request for assignment #' . $assignmentId . ' ('. $assignmentName. ') is rejected. 
                 Try to get in contact with the customer to make an appointment';
 
-    $db->executeQuery('portal', "INSERT INTO messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) VALUES(
-                                                            '$user', '$message', '$customer', 0, 0, 0, '$currentDate', '$subject', '$assignmentId')");
-
+    $createMessage = $db->getConnection()->prepare("INSERT INTO messages (userId, message, customerId, messageRead, messageTrash, messageDeleted, time_added, subject, assignmentId) 
+                        VALUES(?, ?, ?, 0, 0, 0, ?, ?, ?)");
+    $createMessage->bind_param('isissi', $user, $message, $customer, $currentDate, $subject, $assignmentId);
+    $db->executeQuery($createMessage);
 }

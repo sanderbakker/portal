@@ -40,11 +40,12 @@ if(isset($_POST['createUser'])){
 
         if(!$database->check($checkUsernameStatement)) {
             $encryptedPassword = $database->encryptSSL($newPassword);
-            $query = "INSERT INTO Users 
+            $query = $database->getConnection()->prepare("INSERT INTO Users 
                                                              (name, surname, password, username, phone, email, role, address, zipcode, city, approved) VALUES 
-                                                             ('$name', '$surname', '$encryptedPassword', '$username', '$phone'
-                                                             , '$email', 'user', '$street', '$zipcode', '$city', true)";
-            if ($database->executeQuery("portal", $query))
+                                                             (?, ?, ?, ?,?
+                                                             , ?, 'user', ?, ?, ?, true)");
+            $query->bind_param('sssssssss', $name, $surname, $encryptedPassword, $username, $phone, $email, $street, $zipcode, $city);
+            if ($database->executeQuery($query))
             {
                 echo $alertBuilder->createAlert("User successfully added to the system", "success");
             }

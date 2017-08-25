@@ -39,8 +39,12 @@ function getCoordinates($address){
 
 }
 $id = $_GET['id'];
-$customerInfo = $database->getData("SELECT * FROM customers WHERE id='$id'");
-$numberOfAssignments = $database->getData("SELECT count(id) assignments FROM assignments WHERE customerId = $id");
+$customerInfo = $database->getCustomer($id, 'id');
+
+$statement = $database->getConnection()->prepare("SELECT count(id) assignments FROM assignments WHERE customerId = ?");
+$statement->bind_param('i', $id);
+
+$numberOfAssignments = $database->getData($statement);
 $address = $customerInfo['address'];
 $city = $customerInfo['city'];
 

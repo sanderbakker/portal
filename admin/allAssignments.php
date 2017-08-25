@@ -44,7 +44,7 @@ include '../includes/adminCheck.php';?>
             $timeAdded = $assignment['time_added'];
             $completed = $assignment['completed'];
             $stateId = $assignment['stateId'];
-            $state= $database->getData("SELECT * FROM state WHERE id= $stateId", 'name');
+            $state= $database->getState($stateId, 'id')['name'];
             $closed = $assignment['closed'];
             $id = $assignment['id'];
             echo "<tr>
