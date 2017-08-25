@@ -301,9 +301,11 @@ else{
             var number = $(e.relatedTarget).data('number');
             $.ajax({
                 type: 'POST',
-                url: 'retrieveData.php',
+                url: 'ajax.php',
                 data: {
-                    'id': number
+                    'id': number,
+                    'action': 'messageData'
+
                 },
                 dataType: 'json',
                 success: [ function(data){

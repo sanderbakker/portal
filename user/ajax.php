@@ -28,6 +28,9 @@ if(isset($_POST['action'])){
         case 'reject':
             reject($database, $id);
             break;
+        case 'messageData':
+            messageData($database, $id);
+            break;
         default:
             break;
     }
@@ -121,4 +124,11 @@ function reject($db, $id){
                         VALUES(?, ?, ?, 0, 0, 0, ?, ?, ?)");
     $createMessage->bind_param('isissi', $user, $message, $customer, $currentDate, $subject, $assignmentId);
     $db->executeQuery($createMessage);
+}
+
+function messageData($db, $id){
+    $statement = $db->getConnection()->prepare("SELECT * FROM messages WHERE id=?");
+    $statement->bind_param('i', $id);
+    $data =  $db->getDataAsArray($statement);
+    echo json_encode($data);
 }
