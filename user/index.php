@@ -183,7 +183,34 @@ include "../includes/navbar.php";
                     Upcoming appointments
                 </div>
                 <div class="card-block">
+                    <table class='table' id="table">
+                        <?php
+                            $assignmentsQuery = $database->getConnection()->prepare('SELECT assignments.customerId, customers.name, appointments.time FROM assignments LEFT JOIN appointments ON appointments.assignmentId = assignments.id 
+                                                                                           LEFT JOIN customers ON customers.id = assignments.customerId 
+                                                                                           WHERE assignments.userId = ? AND appointments.deleted = 0 AND assignments.completed = 0 and assignments.closed = 0; ');
+                            $assignmentsQuery->bind_param('i', $_SESSION['id']);
+                            $assignmentIds = array();
 
+
+
+
+                            $appointments = $database->getDataAsArray($assignmentsQuery);
+
+
+                            if(!$appointments){
+                                echo "<tr><td colspan='2' style='text-align: center'>No appointments</td> </tr>";
+                            }
+                            foreach($appointments as $appointment){
+                                $time_added = $appointment['time'];
+                                $id = $appointment['customerId'];
+                                $name = $appointment['name'];
+                                echo "<tr>
+                                      <td><a href='../admin/customerInfo.php?id=$id'>$name</a></td>
+                                      <td>$time_added</td>
+                                        </tr>";
+                            }
+                        ?>
+                    </table>
                 </div>
             </div>
         </div>
