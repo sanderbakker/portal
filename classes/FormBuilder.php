@@ -164,7 +164,7 @@ class FormBuilder
                     $newEncryptedPassword = $this->database->encryptSSL($_POST['newPassword']);
 
                     $query = $this->database->getConnection()->prepare("UPDATE Users SET password=? WHERE id=?");
-                    $query->prepare('si', $newEncryptedPassword, $id);
+                    $query->bind_param('si', $newEncryptedPassword, $id);
                     $this->database->executeQuery($query);
                     echo $this->alertBuilder->createAlert("Changed password", "success");
                 }

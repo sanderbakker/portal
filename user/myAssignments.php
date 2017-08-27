@@ -68,7 +68,7 @@ include '../includes/navbar.php';
             if($stateCode == '120'){
                 $salary = "<a title='Register hours' href='#' class='btn btn-sm btn-success'><i class='fa fa-money'></i></a>";
                 $close = "<a  title='Close assignment'  href='closeAssignment.php?id=$id' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>";
-                $update = "<a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
+                $update = "<a title='Update assignment' href='updateAssignment.php?id=$id' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
             }
             elseif ($stateCode == '300'){
                 $salary = '';
@@ -78,7 +78,7 @@ include '../includes/navbar.php';
             else{
                 $close = "<a  title='Close assignment'  href='closeAssignment.php?id=$id' class='btn btn-sm btn-danger'><i class='fa fa-times'></i></a>";
                 $salary = '';
-                $update =  "<a title='Update assignment' href='#' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
+                $update =  "<a title='Update assignment' href='updateAssignment.php?id=$id' class='btn btn-sm btn-info'><i class='fa fa-refresh'></i></a>";
             }
 
             echo "<tr>

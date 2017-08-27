@@ -10,7 +10,12 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css"/>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/nl.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../css/jquery.datetimepicker.min.css"/ >
+<script src="../js/jquery.datetimepicker.full.min.js"></script>
 <link rel="stylesheet" href="../css/bootstrap-select.css" type="text/css">
+
 
 <style>
     .navbar-collapse.collapsing,
@@ -62,8 +67,8 @@ if($role == 'admin') {
         </ul>
         <ul class='navbar-nav'>
             <li class='nav-item dropdown'>
-        <a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-          Admin
+        <a class='nav-link ' title='Admin' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+          <i class='fa fa-lock'></i> <br>
         </a>
         <div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
           <a class='dropdown-item' href='../admin/index.php#users'>Users</a>
@@ -72,13 +77,16 @@ if($role == 'admin') {
         </div>
       </li>
             <li class='nav-item'>
-                <a class='nav-link' href='../user/profile.php'>Profile</a>
+                <a class='nav-link' title='Profile' href='../user/profile.php'><i class='fa fa-user'></i> <br></a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='../user/messages.php'>Messages</a>
+                <a class='nav-link' title='Messages' href='../user/messages.php'><i class='fa fa-envelope'></i> <br></a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='../login/logout.php'>Logout</a>
+                <a class='nav-link' title='Settings' href='../user/settings.php'><i class='fa fa-cog'></i> <br></a>
+            </li>
+            <li class='nav-item'>
+                <a class='nav-link' title='Logout' href='../login/logout.php'><i class='fa fa-sign-out'></i> <br></a>
             </li>
         </ul>
     </div>
@@ -110,13 +118,16 @@ else {
         </ul>
         <ul class='navbar-nav'>
             <li class='nav-item'>
-                <a class='nav-link' href='../user/profile.php'>Profile</a>
+                <a class='nav-link' title='Profile' href='../user/profile.php'><i class='fa fa-user'></i> <br></a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='../user/messages.php'>Messages</a>
+                <a class='nav-link' title='Messages' href='../user/messages.php'><i class='fa fa-envelope'></i> <br></a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='../login/logout.php'>Logout</a>
+                <a class='nav-link' title='Settings' href='../user/settings.php'><i class='fa fa-cog'></i> <br></a>
+            </li>
+            <li class='nav-item'>
+                <a class='nav-link' title='Logout' href='../login/logout.php'><i class='fa fa-sign-out'></i> <br></a>
             </li>
         </ul>
     </div>

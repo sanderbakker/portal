@@ -21,7 +21,6 @@ if(isset($_GET['id']) && $_GET['id'] != ''){
     if(!$database->check($checkUserAssignment)){
         header('location: ../404.php');
     }
-
 }
 else{
     $assignment = null;

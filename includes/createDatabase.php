@@ -55,6 +55,28 @@ $database->createTable("CREATE TABLE customers (
 
 $database->createTable("create table state ( id int(6) AUTO_INCREMENT NOT NULL PRIMARY KEY, name varchar(255), code int(3) )", 'portal');
 
+$database->createTable("CREATE TABLE stateUpdates (
+  	stateId int(6) NOT NULL,
+    assignmentId int(6) NOT NULL, 
+    id int(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    note varchar(255),
+    time_added datetime,
+    FOREIGN KEY (stateId) REFERENCES state(id),
+    FOREIGN KEY (assignmentId) REFERENCES assignments(id)
+);
+    ", 'portal');
+
+
+$database->createTable("CREATE TABLE appointments (
+    id int(6) PRIMARY KEY AUTO_INCREMENT NOT NULL, 
+    assignmentId int(6) NOT NULL,
+    time datetime,
+    time_added datetime, 
+    deleted boolean, 
+    FOREIGN KEY (assignmentId) REFERENCES assignments(id)
+	); ", 'portal');
+
+
 $database->createTable("CREATE table assignments (
     id int(6)  AUTO_INCREMENT PRIMARY KEY,
     userId int(6), 
@@ -65,6 +87,8 @@ $database->createTable("CREATE table assignments (
     completed boolean NOT NULL,
     closed boolean NOT NULL, 
     requestClose int(6),
+    appointment int(6), 
+    FOREIGN KEY (appointment) REFERENCES appointments(id), 
     FOREIGN KEY (requestClose) REFERENCES assignments(id), 
     FOREIGN KEY (userId) REFERENCES users(id),
     FOREIGN KEY (stateId) REFERENCES state(id),
@@ -95,3 +119,16 @@ $database->createTable("CREATE TABLE closeRequests
         accepted boolean, 
     	FOREIGN KEY (assignmentId) REFERENCES assignments(id)
     )", 'portal');
+
+$database->createTable("CREATE TABLE settings (
+    id int(6) PRIMARY KEY AUTO_INCREMENT,
+    userId int(6),
+    salary_widget boolean,
+	intro_widget boolean,
+    profile_widget boolean,
+    contact_widget boolean,
+    appointments_widget boolean,
+    messages_widget boolean,
+    FOREIGN KEY (userId) REFERENCES users(id))", 'portal');
+
+

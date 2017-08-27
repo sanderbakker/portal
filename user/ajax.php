@@ -99,7 +99,7 @@ function reject($db, $id){
     $closeRequestQuery = $db->getConnection()->prepare("UPDATE closerequests SET accepted = 0 WHERE assignmentId = ?");
     $closeRequestQuery->bind_param('i', $id);
 
-    $assignmentQuery = $db->getConnection()->prepare("UPDATE assignments SET requestClose = null, stateId = 1 WHERE id= ?");
+    $assignmentQuery = $db->getConnection()->prepare("UPDATE assignments SET appointment = null, requestClose = null, stateId = 1 WHERE id= ?");
     $assignmentQuery->bind_param('i', $id);
 
     //First this one
