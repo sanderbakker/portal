@@ -16,6 +16,8 @@
 <script src="../js/jquery.datetimepicker.full.min.js"></script>
 <link rel="stylesheet" href="../css/bootstrap-select.css" type="text/css">
 
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 <style>
     .navbar-collapse.collapsing,
@@ -47,8 +49,8 @@ if($role == 'admin') {
    <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
         <span class='navbar-toggler-icon'></span>
     </button>
-    <a class='navbar-brand' href='#'>
-        <img src='../assets/logo.png' width='30' height='30' alt=''> SPortal
+    <a class='navbar-brand' href='../user/index.php'>
+        <img src='../assets/logo.png' width='30' height='30' alt=''>
     </a>    <div id='navbarNavDropdown' class='navbar-collapse collapse'>
         <ul class='navbar-nav mr-auto'>
             <li class='nav-item active'>
@@ -97,8 +99,8 @@ else {
     <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
         <span class='navbar-toggler-icon'></span>
     </button>
-    <a class='navbar-brand' href='#'>
-        <img src='../assets/logo.png' width='30' height='30' alt=''> SPortal
+    <a class='navbar-brand' href='../user/index.php'>
+        <img src='../assets/logo.png' width='30' height='30' alt=''>
     </a>
     <div id='navbarNavDropdown' class='navbar-collapse collapse'>
         <ul class='navbar-nav mr-auto'>

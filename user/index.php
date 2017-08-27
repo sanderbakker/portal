@@ -85,6 +85,9 @@ include "../includes/navbar.php";
         margin-top: -20px; !important;
     }
 
+
+
+
 </style>
 <div class="container">
     <div class="row">
@@ -112,7 +115,36 @@ include "../includes/navbar.php";
                     Profile overview
                 </div>
                 <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="http://via.placeholder.com/150x150" width="150px" height="175px">
+                        </div>
 
+                        <div class="col-md-6">
+                            <table >
+                                <tr>
+                                    <td>
+                                        <?php echo $_SESSION['name'] . ' ' . $_SESSION['surname'];?>
+                                    </td>
+                                </tr>
+                                <tr class="marginTr">
+                                    <td>
+                                        <?php echo $_SESSION['availability'] . ' hours a week'?>
+                                    </td>
+                                </tr>
+                                <tr class="marginTr">
+                                    <td>
+                                        <?php echo $_SESSION['region']?>
+                                    </td>
+                                </tr>
+                                <tr class="marginTr">
+                                    <td>
+                                        <?php echo $_SESSION['phone']?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,17 +217,13 @@ include "../includes/navbar.php";
                 <div class="card-block">
                     <table class='table' id="table">
                         <?php
-                            $assignmentsQuery = $database->getConnection()->prepare('SELECT assignments.customerId, customers.name, appointments.time FROM assignments LEFT JOIN appointments ON appointments.assignmentId = assignments.id 
+                            $assignmentsQuery = $database->getConnection()->prepare('SELECT assignments.customerId, customers.name, customers.surname, appointments.time FROM assignments LEFT JOIN appointments ON appointments.assignmentId = assignments.id 
                                                                                            LEFT JOIN customers ON customers.id = assignments.customerId 
                                                                                            WHERE assignments.userId = ? AND appointments.deleted = 0 AND assignments.completed = 0 and assignments.closed = 0; ');
                             $assignmentsQuery->bind_param('i', $_SESSION['id']);
                             $assignmentIds = array();
 
-
-
-
                             $appointments = $database->getDataAsArray($assignmentsQuery);
-
 
                             if(!$appointments){
                                 echo "<tr><td colspan='2' style='text-align: center'>No appointments</td> </tr>";
@@ -204,8 +232,9 @@ include "../includes/navbar.php";
                                 $time_added = $appointment['time'];
                                 $id = $appointment['customerId'];
                                 $name = $appointment['name'];
+                                $surname = $appointment['surname'];
                                 echo "<tr>
-                                      <td><a href='../admin/customerInfo.php?id=$id'>$name</a></td>
+                                      <td><a href='../admin/customerInfo.php?id=$id'>$name $surname</a></td>
                                       <td>$time_added</td>
                                         </tr>";
                             }

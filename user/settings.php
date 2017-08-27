@@ -84,7 +84,7 @@ include '../includes/navbar.php';
                     <table class="table">
                         <tr>
                             <td><b>Widgets</b><br><div style="font-size: 10px">Dashboard widgets can be selected here, these are widget like <b>salary, appointments, messages etc.</b></div></td>
-                            <td style="float:right; margin-top:6px"><button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button> <br></td>
+                            <td style="float:right; margin-top:6px"><button class="btn btn-sm btn-warning actionButton" value='widgets' onclick="location.href='updateSettings.php?edit=widgets';"><i class="fa fa-edit"></i></button> <br></td>
                         </tr>
 
                     </table>
@@ -93,3 +93,4 @@ include '../includes/navbar.php';
         </div>
     </div>
 </div>
+
