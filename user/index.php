@@ -26,6 +26,18 @@ include "../includes/navbar.php";
     $_SESSION['city'] = $userData['city'];
     $_SESSION['phone'] = $userData['phone'];
 
+
+    $query = $database->getConnection()->prepare('SELECT * FROM settings WHERE userId = ? ');
+    $query->bind_param('i', $_SESSION['id']);
+    $settings = $database->getData($query);
+
+    if(!$settings){
+        $createSettings = $database->getConnection()->prepare('INSERT INTO settings (userId, salary_widget, appointments_widget, intro_widget, profile_widget, messages_widget, contact_widget)
+                                                                    VALUES (?, 1, 1, 1, 1, 1, 1)');
+        $createSettings->bind_param('i', $_SESSION['id']);
+        $database->executeQuery($createSettings);
+    }
+
     //$assignments = $database->getDataAsArray("SELECT * FROM assignments WHERE userId = '$id'");
     $statement = $database->getConnection()->prepare("SELECT * FROM assignments WHERE userId = ?");
     $statement->bind_param('i', $id);
@@ -72,10 +84,12 @@ include "../includes/navbar.php";
         margin-bottom: -20px; !important;
         margin-top: -20px; !important;
     }
+
 </style>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <?php if ($settings['intro_widget']): ?>
+        <div class="col-md-4" id="intro_widget">
             <div class="card">
                 <div class="card-header">
                     Introduction
@@ -89,7 +103,10 @@ include "../includes/navbar.php";
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <?php endif;
+        if($settings['profile_widget']):
+        ?>
+        <div class="col-md-4" id="profile_widget">
             <div class="card">
                 <div class="card-header">
                     Profile overview
@@ -99,7 +116,10 @@ include "../includes/navbar.php";
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <?php endif;
+        if($settings['salary_widget']):
+        ?>
+        <div class="col-md-4" id="salary_widget">
             <div class="card">
                 <div class="card-header">
                     Salary
@@ -109,7 +129,10 @@ include "../includes/navbar.php";
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <?php
+        endif;
+        if($settings['messages_widget']): ?>
+        <div class="col-md-4" id="message_widget">
             <div class="card">
                 <div class="card-header">
                     Latest messages
@@ -150,7 +173,11 @@ include "../includes/navbar.php";
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <?php endif;
+        if($settings['appointments_widget']):
+        ?>
+
+        <div class="col-md-4" id="appoint_widget">
             <div class="card">
                 <div class="card-header">
                     Upcoming appointments
@@ -160,7 +187,10 @@ include "../includes/navbar.php";
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <?php endif;
+        if($settings['contact_widget']):
+        ?>
+        <div class="col-md-4" id="contact_widget">
             <div class="card">
                 <div class="card-header">
                     Contact
@@ -170,6 +200,7 @@ include "../includes/navbar.php";
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 
 </div>

@@ -7,16 +7,6 @@
  */
 
 include '../includes/navbar.php';
-$query = $database->getConnection()->prepare('SELECT * FROM settings WHERE userId = ? ');
-$query->bind_param('i', $_SESSION['id']);
-$settings = $database->getData($query);
-
-if(!$settings){
-    $createSettings = $database->getConnection()->prepare('INSERT INTO settings (userId, salary_widget, appointments_widget, intro_widget, profile_widget, messages_widget, contact_widget)
-                                                                VALUES (?, 1, 1, 1, 1, 1, 1)');
-    $createSettings->bind_param('i', $_SESSION['id']);
-    $database->executeQuery($createSettings);
-}
 
 ?>
 <style>
@@ -49,6 +39,9 @@ if(!$settings){
     a:visited{
         color:black;
         text-decoration: none;
+    }
+    .table td{
+        border-top: none;
     }
 
 </style>
@@ -88,7 +81,13 @@ if(!$settings){
                     Settings
                 </div>
                 <div class="card-block">
+                    <table class="table">
+                        <tr>
+                            <td><b>Widgets</b><br><div style="font-size: 10px">Dashboard widgets can be selected here, these are widget like <b>salary, appointments, messages etc.</b></div></td>
+                            <td style="float:right; margin-top:6px"><button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button> <br></td>
+                        </tr>
 
+                    </table>
                 </div>
             </div>
         </div>
