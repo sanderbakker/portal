@@ -60,7 +60,7 @@ if($role == 'admin') {
                 <a class='nav-link' href='../user/myAssignments.php'>Assignments</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='#'>Activities</a>
+                <a class='nav-link' href='../user/myActivities.php'>Activities</a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='../user/myCustomers.php'>Customers</a>
@@ -111,7 +111,7 @@ else {
                 <a class='nav-link' href='../user/myAssignments.php'>Assignments</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='#'>Activities</a>
+                <a class='nav-link' href='../user/myActivities.php'>Activities</a>
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='../user/myCustomers.php'>Customers</a>
