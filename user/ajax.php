@@ -68,7 +68,7 @@ function accept($db, $id){
     /* @var $db Database */
     $closeRequestQuery = $db->getConnection()->prepare("UPDATE closerequests SET accepted = 1 WHERE assignmentId = ?");
     $closeRequestQuery->bind_param('i', $id);
-    $assignmentQuery = $db->getConnection()->prepare("UPDATE assignments SET closed = 1, stateId = 8 WHERE id= ?");
+    $assignmentQuery = $db->getConnection()->prepare("UPDATE assignments SET closed = 1, stateId = 5 WHERE id= ?");
     $assignmentQuery->bind_param('i', $id);
 
     $db->executeQuery($assignmentQuery);

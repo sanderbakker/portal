@@ -6,6 +6,7 @@
  * Time: 16:45
  */
 include '../includes/navbar.php';
+include '../classes/AlertBuilder.php';
 
 if(isset($_GET['edit'])){
     switch($_GET['edit']) {
@@ -19,6 +20,9 @@ if(isset($_GET['edit'])){
 else{
     header('location: index.php');
 }
+
+
+
 if(isset($_POST['save'])){
     $profile = false;
     $contact = false;
@@ -50,6 +54,8 @@ if(isset($_POST['save'])){
                                                                  profile_widget = ? WHERE userId = ?');
     $updateSettings->bind_param('iiiiiii', $contact, $salary, $message, $appointment, $intro, $profile, $_SESSION['id']);
     $database->executeQuery($updateSettings);
+    $alertBuilder = new AlertBuilder();
+    echo $alertBuilder->createAlert('Successfully saved new widget data', 'success');
 }
 ?>
 
@@ -70,27 +76,89 @@ if(isset($_POST['save'])){
                             <fieldset>
                                 <div class='form-group'>
                                     <h5>Select the widgets you want on your dashboard</h5><br>
-
+                                    <?php
+                                    $settingsQuery = $database->getConnection()->prepare('SELECT * FROM settings WHERE userId = ?');
+                                    $settingsQuery->bind_param('i', $_SESSION['id']);
+                                    $settings = $database->getData($settingsQuery);
+                                    ?>
                                     <ul class="list-group ">
                                         <li class="list-group-item">
-                                            <label><input type="checkbox" name="profile" >Profile widget</label>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label><input type="checkbox" name="salary" >Salary widget</label>
+                                            <label>
+                                            <?php
+                                            if($settings['profile_widget']){
+                                               echo '<input type="checkbox" name="profile" checked>';
+                                            }
+                                            else{
+                                                echo '<input type="checkbox" name="profile">';
+                                            }
+                                            ?>
+                                                Profile widget</label>
                                         </li>
                                         <li class="list-group-item">
                                             <label>
-                                                <input type="checkbox" name="intro">Introduction widget
+                                            <?php
+                                            if($settings['salary_widget']){
+                                                echo '<input type="checkbox" name="salary" checked>';
+                                            }
+                                            else{
+                                                echo '<input type="checkbox" name="salary" >';
+                                            }
+                                            ?>
+                                                Salary widget
                                             </label>
                                         </li>
                                         <li class="list-group-item">
-                                            <label><input type="checkbox" name="appointment">Appointment widget</label>
+                                            <label>
+                                            <?php
+                                            if($settings['intro_widget']){
+                                                echo '<input type="checkbox" name="intro" checked>';
+                                            }
+                                            else{
+                                                echo '<input type="checkbox" name="intro">';
+                                            }
+                                            ?>
+                                            Introduction widget
+                                            </label>
                                         </li>
                                         <li class="list-group-item">
-                                            <label><input type="checkbox" name="message">Message widget</label>
+                                            <label>
+                                            <?php
+                                              if($settings['appointments_widget']){
+                                                  echo '<input type="checkbox" name="appointment" checked>';
+                                              }
+                                              else{
+                                                  echo '<input type="checkbox" name="appointment">';
+                                              }
+                                            ?>
+                                                Appointment widget
+                                            </label>
                                         </li>
                                         <li class="list-group-item">
-                                            <label><input type="checkbox" name="contact">Contact widget</label>
+                                            <label>
+                                                <?php
+                                                if($settings['messages_widget']){
+                                                    echo '<input type="checkbox" name="message" checked>';
+                                                }
+                                                else{
+                                                    echo '<input type="checkbox" name="message">';
+                                                }
+                                                ?>
+
+                                                Message widget
+                                            </label>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label>
+                                            <?php
+                                                if($settings['contact_widget']) {
+                                                    echo '<input type="checkbox" name="contact" checked>';
+                                                }
+                                                else{
+                                                    echo '<input type="checkbox" name="contact">';
+                                                }
+                                            ?>
+                                                Contact widget
+                                            </label>
                                         </li>
                                     </ul>
                                 </div>

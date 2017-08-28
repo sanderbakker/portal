@@ -234,9 +234,9 @@ include "../includes/navbar.php";
                                 $name = $appointment['name'];
                                 $surname = $appointment['surname'];
                                 echo "<tr>
-                                      <td><a href='../admin/customerInfo.php?id=$id'>$name $surname</a></td>
-                                      <td>$time_added</td>
-                                        </tr>";
+                                        <td><a href='../admin/customerInfo.php?id=$id'>$name $surname</a></td>
+                                        <td>$time_added</td>
+                                      </tr>";
                             }
                         ?>
                     </table>
@@ -252,6 +252,14 @@ include "../includes/navbar.php";
                     Contact
                 </div>
                 <div class="card-block">
+                    We from SPortal are always available to contact. You can contact the <a href="#">admins</a> by our own message system.
+                    <br><br>
+                    Besides that you can contact us by:
+                    <ul>
+                        <li>Mail &#8594; info@sportal.com</li>
+                        <li>Phone &#8594; 0643807229</li>
+                    </ul>
+
 
                 </div>
             </div>

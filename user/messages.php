@@ -11,7 +11,7 @@ if(isset($_GET['action']) && isset($_GET['id'])){
     $id = $_GET['id'];
     $conn = $database->getConnection();
     if($action == 'read') {
-        $query = $conn->prepare("UPDATE messages SET messageRead=1 WHERE id=?");
+        $query = $conn->prepare("UPDATE messages SET messageRead=1 WHERE id=? ");
         $query->bind_param('i', $id);
         $database->executeQuery($query);
     }
@@ -293,7 +293,8 @@ else{
         $(document).ready(function() {
             $('#table').DataTable({
                 "pageLength" : 6,
-                "bLengthChange": false
+                "bLengthChange": false,
+                "order": [[ 2, "desc" ]]
             });
         } );
 
