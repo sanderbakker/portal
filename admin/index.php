@@ -23,9 +23,7 @@ include "../includes/adminCheck.php";
         margin: 0;
     }
 </style>
-<script type="text/javascript">
 
-</script>
 <head>
     <meta http-equiv="refresh" content="300">
 </head>
@@ -205,7 +203,7 @@ include "../includes/adminCheck.php";
 
                     <div class="card-block">
                         <h4 class="card-title">Assign Assignments</h4>
-                        <p class="card-text">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
+                        <p class="card-text" id="updateAssignment">Last update: <?php echo date('d-m-Y H:i:s')?> <a href="?update=true"><i class="fa fa-refresh"></i></a></p>
                         <p class="card-text card-margin">Assignments to assign: <?php
                             $assignAssignmentStatement = $database->getConnection()->prepare("SELECT count(id) FROM assignments WHERE userId IS NULL");
 
@@ -213,7 +211,7 @@ include "../includes/adminCheck.php";
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a href="allAssignments.php" class="card-link mx-auto">Show</a>
+                            <a href="assignmentAssign.php" class="card-link mx-auto">Show</a>
                         </li>
                     </ul>
 
@@ -281,4 +279,5 @@ include "../includes/adminCheck.php";
 
     </div>
 </div>
+
 

@@ -37,6 +37,17 @@
  */
 
 include "../includes/includeDatabase.php";
+
+function checkIfAddress($from, $to){
+    $from = urlencode($from);
+    $to = urlencode($to);
+    $data = file_get_contents("http://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&language=en-EN&sensor=false");
+    $data = json_decode($data);
+    return $data->rows[0]->elements[0]->status;
+}
+
+
+
 if(isset($_POST['registerMe'])) {
     $username = $_POST['username'];
     $password = $_POST["password"];
@@ -48,44 +59,57 @@ if(isset($_POST['registerMe'])) {
     $surname = $_POST['surname'];
     $street = $_POST['streetname'];
     $phone = $_POST['phone'];
+
+    $address = $street . ', ' . $city;
+
+    $status = checkIfAddress($address, $address);
     if(!empty($username) && !empty($password) && !empty($phone) && !empty($rpassword) && !empty($zipcode) && !empty($email) && !empty($name) && !empty($street) && !empty($surname) && !empty($city)) {
-        if (($rpassword == $password)) {
+        if($status == 'OK') {
+            if (($rpassword == $password)) {
 
-            $checkUsernameStatement = $database->getConnection()->prepare("SELECT username FROM Users WHERE username = ? ");
-            $checkUsernameStatement->bind_param('s', $username);
+                $checkUsernameStatement = $database->getConnection()->prepare("SELECT username FROM Users WHERE username = ? ");
+                $checkUsernameStatement->bind_param('s', $username);
 
-            if (!$database->check($checkUsernameStatement)) {
-                $encryptedPassword = $database->encryptSSL($password);
+                if (!$database->check($checkUsernameStatement)) {
+                    $encryptedPassword = $database->encryptSSL($password);
 
-                $query = $database->getConnection()->prepare("INSERT INTO users (phone, username, password, name, surname, email, address, role, zipcode, city, approved)
+                    $query = $database->getConnection()->prepare("INSERT INTO users (phone, username, password, name, surname, email, address, role, zipcode, city, approved)
               VALUES (?, ?, ?, ?, ?, ?, ?, 'user', ?, ?, false)");
 
-                $query->bind_param('sssssssss', $phone, $username, $encryptedPassword, $name, $surname, $email, $street, $zipcode, $city);
+                    $query->bind_param('sssssssss', $phone, $username, $encryptedPassword, $name, $surname, $email, $street, $zipcode, $city);
 
-                if ($database->executeQuery( $query)) {
-                    echo "<div class='alerts'>
+                    if ($database->executeQuery($query)) {
+                        echo "<div class='alerts'>
                 <div class='alert alert-success' role='alert'>
                     <strong>Success</strong> Regisitration completed.
                 </div>
               </div>";
+                    } else {
+                        echo "<div class='alerts'>
+                <div class='alert alert-danger' role='alert'>
+                    <strong>Error</strong> Regisitration failed (Database Error).
+                </div>
+              </div>";
+                    }
                 } else {
                     echo "<div class='alerts'>
                 <div class='alert alert-danger' role='alert'>
-                    <strong>Error</strong> Regisitration failed (Database Error).
+                    <strong>Error</strong> Username already exists.
                 </div>
               </div>";
                 }
             } else {
                 echo "<div class='alerts'>
                 <div class='alert alert-danger' role='alert'>
-                    <strong>Error</strong> Username already exists.
+                    <strong>Error</strong> Passwords don't match.
                 </div>
               </div>";
             }
-        } else {
+        }
+        else{
             echo "<div class='alerts'>
                 <div class='alert alert-danger' role='alert'>
-                    <strong>Error</strong> Passwords don't match.
+                    <strong>Error</strong> Address doesn't exists.
                 </div>
               </div>";
         }
